@@ -1,0 +1,14 @@
+\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\Poker.csprojResolveAssemblyReference.cache
+\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\Poker.csproj.GenerateResource.Cache
+\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\Poker\bin\Debug\WindowsFormsApplication1.exe.config
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\Poker\obj\Debug\WindowsFormsApplication1.exe
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\Poker\obj\Debug\WindowsFormsApplication1.pdb
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\bin\Debug\WindowsFormsApplication1.exe.config
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\obj\Debug\WindowsFormsApplication1.exe
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\obj\Debug\WindowsFormsApplication1.pdb
