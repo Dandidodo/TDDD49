@@ -12,15 +12,23 @@ namespace Poker
 
         public Deck()
         {
+            this.cards = initDeck();
+        }
+
+        public List<Card> initDeck()
+        {
+            List<Card> temp_cards = new List<Card>();
             var suits = Enum.GetValues(typeof(Card.Suit));
 
             foreach (Card.Suit suit in suits)
             {
                 for (int i = 2; i < 15; i++)
                 {
-                    cards.Add(new Card(suit, i));
+                    temp_cards.Add(new Card(suit, i));
+                    Console.WriteLine(temp_cards.Last().getRank().ToString() + temp_cards.Last().getSuit());
                 }
             }
+            return temp_cards;
         }
 
 

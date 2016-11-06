@@ -23,6 +23,7 @@ namespace Poker
         public MainWindow()
         {
             InitializeComponent();
+            new Deck();
         }
     }
 }

@@ -10,6 +10,12 @@ namespace Poker
     {
         public TexasHoldemRules()
         {
+
+        }
+
+        public void start()
+        {
+            throw new NotImplementedException();
         }
     }
 }

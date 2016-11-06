@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-    class Player
+    class Chips
     {
-        public Player()
-        {
-        }
-
-
     }
 }

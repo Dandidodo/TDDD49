@@ -1,9 +1,0 @@
-\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\PokerTest\bin\Debug\PokerTest.dll
-\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\PokerTest\bin\Debug\PokerTest.pdb
-\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\PokerTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\PokerTest\bin\Debug\WindowsFormsApplication1.exe
-\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\PokerTest\bin\Debug\WindowsFormsApplication1.pdb
-\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\PokerTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
-\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\PokerTest\obj\Debug\PokerTest.csprojResolveAssemblyReference.cache
-\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\PokerTest\obj\Debug\PokerTest.dll
-\\obelix.helix.ida.liu.se\users-6\marlu642\documents\visual studio 2015\Projects\WindowsFormsApplication1\PokerTest\obj\Debug\PokerTest.pdb
