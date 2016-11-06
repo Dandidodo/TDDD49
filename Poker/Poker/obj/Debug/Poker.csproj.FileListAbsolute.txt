@@ -12,3 +12,6 @@ C:\Users\Pierre\TDDD49\Poker\Poker\obj\Debug\Poker.Properties.Resources.resource
 C:\Users\Pierre\TDDD49\Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
 C:\Users\Pierre\TDDD49\Poker\Poker\obj\Debug\Poker.exe
 C:\Users\Pierre\TDDD49\Poker\Poker\obj\Debug\Poker.pdb
+D:\Skolarbete\TDDD49\Poker\Poker\bin\Debug\Poker.exe.config
+D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.exe
+D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.pdb

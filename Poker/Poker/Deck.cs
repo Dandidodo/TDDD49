@@ -9,10 +9,11 @@ namespace Poker
     class Deck
     {
         List<Card> cards = new List<Card>();
+        static Random r = new Random();
 
         public Deck()
         {
-            this.cards = initDeck();
+            this.cards = initDeck();            
         }
 
         public List<Card> initDeck()
@@ -28,9 +29,29 @@ namespace Poker
                     Console.WriteLine(temp_cards.Last().getRank().ToString() + temp_cards.Last().getSuit());
                 }
             }
-            return temp_cards;
+            return Shuffle(temp_cards);
         }
 
+        // Fisher-Yates shuffle
+        // Loop through the entire deck and swap the place of two cards each time
+        public List<Card> Shuffle(List<Card> cards)
+        {
+            for (int n = cards.Count - 1; n > 0; --n)
+            {
+                int k = r.Next(n + 1);
+                Card temp = cards[n];
+                cards[n] = cards[k];
+                cards[k] = temp;
+            }
+            return cards;
+        }
 
+        public Card draw()
+        {
+            // Perhaps check if there are cards left in the deck before we do this?
+            Card card = cards[0];
+            cards.RemoveAt(0);
+            return card;
+        }
     }
 }
