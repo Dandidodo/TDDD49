@@ -10,6 +10,7 @@ namespace Poker
     {
         private List<Card> cards;
         private int chips;
+        private int stakes;
             
         public Player()
         {
