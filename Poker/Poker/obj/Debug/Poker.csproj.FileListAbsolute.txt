@@ -18,3 +18,8 @@ D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.pdb
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\bin\Debug\Poker.exe.config
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.exe
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.pdb
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.csprojResolveAssemblyReference.cache
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\MainWindow.g.cs
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\App.g.cs
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.cache
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.lref

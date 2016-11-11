@@ -28,6 +28,7 @@ namespace Poker
         private int bigBlind;
         private Player currentPlayer;
         
+
         public TexasHoldemRules(bool limit, List<Player> players, Deck deck)
         {
             this.limit = limit;
@@ -36,7 +37,11 @@ namespace Poker
             
             indexBigBlind = 1;
             indexSmallBlind = 0;
-            newHand();
+        }
+
+        public List<Player> getActivePlayers()
+        {
+            return activePlayers;
         }
 
         public void newHand()
@@ -45,7 +50,7 @@ namespace Poker
             deck.initDeck();
             insertBlinds();
             currentPlayer = players[indexBigBlind + 1];
-            dealCards();
+            dealCards();      
         }
 
         public void insertBlinds()
@@ -65,14 +70,42 @@ namespace Poker
             }
         }
 
-        public void 
-
         public void insertPlayerChips(Player player, int chips)
         {
             if (player.getChips() < chips)
             {
                 
             }
-        } 
+        }
+
+        public void playRound()
+        {
+            Player currentPlayer = activePlayers[indexSmallBlind];
+            Player lastRaiserOrFirst = currentPlayer; //Either the first player who starts the game or the last raiser.
+
+            do
+            {
+                currentPlayer = players[indexSmallBlind];
+
+                //TODO: START HERE BRO
+                if ()
+
+                currentPlayer = nextPlayer(currentPlayer);
+            } while (lastRaiserOrFirst != currentPlayer);
+        }
+
+        public void playerAction()
+        {
+            //Spelaren får göra saker
+        }
+
+        //TODO: Move this to a better suited place
+        public Player nextPlayer(Player currentPlayer)
+        {
+            // Hitta index ur activePlayers, ta nästa, om slutet ta 0te player.
+            int currentPlayerIndex = activePlayers.IndexOf(currentPlayer);
+            return (currentPlayerIndex == activePlayers.Count - 1) ?  activePlayers[0] : activePlayers[currentPlayerIndex++];
+        }
     }
 }
+

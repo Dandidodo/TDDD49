@@ -16,7 +16,8 @@ namespace Poker
         {
             this.players = initPlayers();
             
-            this.rules = new TexasHoldemRules(players, deck, chips); ;
+            this.rules = new TexasHoldemRules(players, deck); ;
+            playGame();
         }
 
         public List<Player> initPlayers()
@@ -29,6 +30,17 @@ namespace Poker
             temp_players.Add(player2);
 
             return temp_players;
+        }
+
+        public void playGame()
+        {
+            while (players.Count > 1) {
+                rules.newHand();
+                while (rules.getActivePlayers().Count > 1)
+                {
+                    rules.playRound();
+                }                
+            }            
         }
     }
 }
