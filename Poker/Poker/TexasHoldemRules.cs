@@ -22,21 +22,25 @@ namespace Poker
         private List<Player> players;
         private List<Player> activePlayers;
         private Deck deck;
+        private Table table;
         private int pot;
         private int indexBigBlind;
         private int indexSmallBlind;
         private int bigBlind;
+        private int roundCounter;
         private Player currentPlayer;
         
 
-        public TexasHoldemRules(bool limit, List<Player> players, Deck deck)
+        public TexasHoldemRules(Table table, List<Player> players, Deck deck, bool limit)
         {
-            this.limit = limit;
+            this.table = table;
             this.players = players;
             this.deck = deck;
-            
+            this.limit = limit;
+
             indexBigBlind = 1;
             indexSmallBlind = 0;
+            roundCounter = 0;
         }
 
         public List<Player> getActivePlayers()
@@ -84,17 +88,35 @@ namespace Poker
             Player lastRaiserOrFirst = currentPlayer; //Either the first player who starts the game or the last raiser.
 
             do
-            {
-                currentPlayer = players[indexSmallBlind];
+            {            
+                if (roundCounter==0)
+                {
+                    currentPlayer = activePlayers[indexBigBlind + 1];
+                }
 
-                //TODO: START HERE BRO
-                if ()
-
-                currentPlayer = nextPlayer(currentPlayer);
+                playerAction(currentPlayer);
+                currentPlayer = nextPlayer(currentPlayer);                
             } while (lastRaiserOrFirst != currentPlayer);
+
+            // Put community cards on the table
+            dealCommunityCards();
+                        
+            roundCounter++;
         }
 
-        public void playerAction()
+        public void dealCommunityCards()
+        {            
+            table.addCommunityCard();
+
+            // Deal two extra cards for the flop
+            if (roundCounter == 0)
+            {
+                table.addCommunityCard();
+                table.addCommunityCard();
+            }
+        }
+
+        public void playerAction(Player player)
         {
             //Spelaren får göra saker
         }

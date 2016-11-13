@@ -11,12 +11,16 @@ namespace Poker
         List<Player> players = new List<Player>();
         TexasHoldemRules rules;
         Deck deck = new Deck();
+        private int pot;
+        private List<Card> communityCards;
 
         public Table()
         {
             this.players = initPlayers();
+            this.pot = 0;
+            this.communityCards = new List<Card>();
             
-            this.rules = new TexasHoldemRules(players, deck); ;
+            this.rules = new TexasHoldemRules(this, players, deck, true); // How do we set the limits
             playGame();
         }
 
@@ -41,6 +45,11 @@ namespace Poker
                     rules.playRound();
                 }                
             }            
+        }
+
+        public void addCommunityCard()
+        {
+            communityCards.Add(deck.draw());
         }
     }
 }
