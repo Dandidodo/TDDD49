@@ -28,3 +28,4 @@ D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\MainWindow.g.cs
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\App.g.cs
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.cache
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.lref
+C:\Users\Pierre\TDDD49\Poker\Poker\bin\Debug\Microsoft.Expression.Prototyping.SketchControls.dll

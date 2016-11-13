@@ -7,7 +7,34 @@
         xmlns:pc="http://schemas.microsoft.com/prototyping/2010/controls" x:Class="Poker.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <pc:SketchCircleUC Margin="115.555,52.548,124.218,79.746"/>
+    <Grid Margin="0,-61.5,-96,0">
+        <pc:SketchCircleUC Margin="130.555,139.548,221.718,79.746" Background="#FF077A0C"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="195.334,0,0,147.333" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="224.334,0,0,147.333" Stroke="Black" Width="24" RenderTransformOrigin="0.5,0.554" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="253.334,0,0,147.333" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="282.334,0,0,147.333" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#FFF4F4F5" Margin="0,0,277.666,147.333" Stroke="Black" HorizontalAlignment="Right" Height="37.334" VerticalAlignment="Bottom" Width="24"/>
+        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="245.001,0,0,32.746" Stroke="Black" VerticalAlignment="Bottom" Width="42"/>
+        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="42" Margin="0,0,179.718,104.413" Stroke="Black" VerticalAlignment="Bottom" Width="42"/>
+        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="42" Margin="0,105.087,259.666,0" Stroke="Black" VerticalAlignment="Top" Width="42"/>
+        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="158.334,105.087,0,0" Stroke="Black" VerticalAlignment="Top" Width="42"/>
+        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="95.555,0,0,104.413" Stroke="Black" VerticalAlignment="Bottom" Width="42"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="237.667,0,0,10" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="272.667,0,0,10" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Right" Margin="0,0,206.666,79.746" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Right" Margin="0,0,171.666,79.746" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#FFF4F4F5" Margin="304.334,133.833,284.666,0" Stroke="Black" Height="37.334" VerticalAlignment="Top"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Right" Margin="0,133.833,249.666,0" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Top"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="149.667,133.833,0,0" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Top"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="184.667,133.833,0,0" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Top"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="88.222,0,0,79.746" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="123.222,0,0,79.746" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="306.334,0,277.666,32.746" Stroke="Black" VerticalAlignment="Bottom"/>
+        <TextBlock x:Name="textBlock" Height="14.588" Margin="0,0,293.039,32.746" TextWrapping="Wrap" Text="10" VerticalAlignment="Bottom" FontSize="8" HorizontalAlignment="Right"/>
+        <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="0,0,137.666,97.833" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="29"/>
+        <TextBlock x:Name="textBlock_Copy" Height="14.588" Margin="0,0,147.832,102.492" TextWrapping="Wrap" Text="10" VerticalAlignment="Bottom" FontSize="8" HorizontalAlignment="Right"/>
+        <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="0,119.753,206.666,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="29"/>
+        <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="118.222,112.214,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="29"/>
+        <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="54.222,0,0,104.413" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="29"/>
     </Grid>
 </Window>

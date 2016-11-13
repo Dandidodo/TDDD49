@@ -29,7 +29,9 @@ namespace Poker
         private int bigBlind;
         private int roundCounter;
         private Player currentPlayer;
-        
+
+        public enum Choice { FOLD, CHECK, RAISE };
+
 
         public TexasHoldemRules(Table table, List<Player> players, Deck deck, bool limit)
         {
@@ -118,7 +120,24 @@ namespace Poker
 
         public void playerAction(Player player)
         {
-            //Spelaren får göra saker
+            //1) Fold, 2) Call, 3) Raise
+            // Show graphical options to current player
+
+
+            while(true)
+            {
+ /*               if (playerChoice == Choice.FOLD)
+                {
+
+                } else if (playerChoice == Choice.CHECK)
+                {
+
+                } else if (playerChoice == Choice.RAISE)
+                {
+
+                }*/
+            }
+
         }
 
         //TODO: Move this to a better suited place
