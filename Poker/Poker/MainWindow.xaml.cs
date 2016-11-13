@@ -25,5 +25,10 @@ namespace Poker
             InitializeComponent();
             new Deck();
         }
+
+        private void fold_button_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("\n\n blablabla \n\n");
+        }
     }
 }

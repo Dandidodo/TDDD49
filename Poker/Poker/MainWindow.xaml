@@ -36,5 +36,9 @@
         <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="0,119.753,206.666,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="29"/>
         <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="118.222,112.214,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="29"/>
         <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="54.222,0,0,104.413" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="29"/>
+        <Button x:Name="call_button" Content="Call" HorizontalAlignment="Left" Height="23.093" Margin="152.222,0,0,29.241" VerticalAlignment="Bottom" Width="34.088"/>
+        <Button x:Name="raise_button" Content="Raise" HorizontalAlignment="Left" Height="23.093" Margin="191.31,0,0,29.241" VerticalAlignment="Bottom" Width="34.088"/>
+        <Button x:Name="fold_button" Click="fold_button_Click" Content="Fold" HorizontalAlignment="Left" Height="23.093" Margin="113.134,0,0,29.241" VerticalAlignment="Bottom" Width="34.088"/>
+        <Slider x:Name="slider" HorizontalAlignment="Left" Height="18.388" Margin="113.134,0,0,5.853" Style="{DynamicResource SimpleSlider}" VerticalAlignment="Bottom" Width="81.729"/>
     </Grid>
 </Window>

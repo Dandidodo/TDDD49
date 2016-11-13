@@ -29,3 +29,12 @@ D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\App.g.cs
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.cache
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.lref
 C:\Users\Pierre\TDDD49\Poker\Poker\bin\Debug\Microsoft.Expression.Prototyping.SketchControls.dll
+D:\Skolarbete\TDDD49\Poker\Poker\bin\Debug\Poker.exe
+D:\Skolarbete\TDDD49\Poker\Poker\bin\Debug\Poker.pdb
+D:\Skolarbete\TDDD49\Poker\Poker\bin\Debug\Microsoft.Expression.Prototyping.SketchControls.dll
+D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Simple Styles.baml
+D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\App.baml
+D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\MainWindow.baml
+D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.g.resources
+D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
+D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache

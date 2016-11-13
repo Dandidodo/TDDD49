@@ -29,6 +29,7 @@ namespace Poker
         private int bigBlind;
         private int roundCounter;
         private Player currentPlayer;
+        private Player lastRaiserOrFirst;
 
         public enum Choice { FOLD, CHECK, RAISE };
 
@@ -56,6 +57,7 @@ namespace Poker
             deck.initDeck();
             insertBlinds();
             currentPlayer = players[indexBigBlind + 1];
+            lastRaiserOrFirst = players[indexBigBlind];
             dealCards();      
         }
 
@@ -97,13 +99,29 @@ namespace Poker
                 }
 
                 playerAction(currentPlayer);
-                currentPlayer = nextPlayer(currentPlayer);                
+                currentPlayer = getNextPlayer(currentPlayer);                
             } while (lastRaiserOrFirst != currentPlayer);
 
             // Put community cards on the table
             dealCommunityCards();
                         
             roundCounter++;
+        }
+
+        public void isRoundFinished(Player currentPlayer)
+        {
+            if (lastRaiserOrFirst != currentPlayer)
+            {
+                // Round is finished
+                dealCommunityCards();
+                roundCounter++;
+            }
+
+            // Wait for next player to act
+            while (true)
+            {
+
+            }
         }
 
         public void dealCommunityCards()
@@ -126,22 +144,35 @@ namespace Poker
 
             while(true)
             {
- /*               if (playerChoice == Choice.FOLD)
-                {
+                /*              
+               if (playerChoice == Choice.FOLD)
+               {
 
-                } else if (playerChoice == Choice.CHECK)
-                {
+               } else if (playerChoice == Choice.CHECK)
+               {
 
-                } else if (playerChoice == Choice.RAISE)
-                {
+               } else if (playerChoice == Choice.RAISE)
+               {
 
-                }*/
+               }
+               */
             }
 
         }
 
+        // function for fold
+
+        // function for call
+
+        // function for raise
+
+
+
+
+
+
         //TODO: Move this to a better suited place
-        public Player nextPlayer(Player currentPlayer)
+        public Player getNextPlayer(Player currentPlayer)
         {
             // Hitta index ur activePlayers, ta nästa, om slutet ta 0te player.
             int currentPlayerIndex = activePlayers.IndexOf(currentPlayer);
