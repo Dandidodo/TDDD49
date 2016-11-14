@@ -14,13 +14,13 @@
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="253.334,0,0,147.333" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="282.334,0,0,147.333" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
         <Rectangle Fill="#FFF4F4F5" Margin="0,0,277.666,147.333" Stroke="Black" HorizontalAlignment="Right" Height="37.334" VerticalAlignment="Bottom" Width="24"/>
-        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="245.001,0,0,32.746" Stroke="Black" VerticalAlignment="Bottom" Width="42"/>
-        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="42" Margin="0,0,179.718,104.413" Stroke="Black" VerticalAlignment="Bottom" Width="42"/>
-        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="42" Margin="0,105.087,259.666,0" Stroke="Black" VerticalAlignment="Top" Width="42"/>
-        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="158.334,105.087,0,0" Stroke="Black" VerticalAlignment="Top" Width="42"/>
-        <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="95.555,0,0,104.413" Stroke="Black" VerticalAlignment="Bottom" Width="42"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="237.667,0,0,10" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="272.667,0,0,10" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Ellipse x:Name="player1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="245.001,0,0,32.746" Stroke="Black" VerticalAlignment="Bottom" Width="42"/>
+        <Ellipse x:Name="player5" Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="42" Margin="0,0,179.718,104.413" Stroke="Black" VerticalAlignment="Bottom" Width="42"/>
+        <Ellipse x:Name="player4" Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="42" Margin="0,105.087,259.666,0" Stroke="Black" VerticalAlignment="Top" Width="42"/>
+        <Ellipse x:Name="player3" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="158.334,105.087,0,0" Stroke="Black" VerticalAlignment="Top" Width="42"/>
+        <Ellipse x:Name="player2" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="95.555,0,0,104.413" Stroke="Black" VerticalAlignment="Bottom" Width="42"/>
+        <Rectangle x:Name="player1_card1_bg" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="237.667,0,0,10" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
+        <Rectangle x:Name="player1_card2_bg" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="272.667,0,0,10" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Right" Margin="0,0,206.666,79.746" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Right" Margin="0,0,171.666,79.746" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
         <Rectangle Fill="#FFF4F4F5" Margin="304.334,133.833,284.666,0" Stroke="Black" Height="37.334" VerticalAlignment="Top"/>
@@ -30,9 +30,9 @@
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="88.222,0,0,79.746" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="123.222,0,0,79.746" Stroke="Black" Width="24" Height="37.334" VerticalAlignment="Bottom"/>
         <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="306.334,0,277.666,32.746" Stroke="Black" VerticalAlignment="Bottom"/>
-        <TextBlock x:Name="textBlock" Height="14.588" Margin="0,0,293.039,32.746" TextWrapping="Wrap" Text="10" VerticalAlignment="Bottom" FontSize="8" HorizontalAlignment="Right"/>
+        <TextBlock x:Name="player1_chips" Height="14.588" Margin="0,0,284.666,37.746" TextWrapping="Wrap" Text="10" VerticalAlignment="Bottom" FontSize="8" HorizontalAlignment="Right"/>
         <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="0,0,137.666,97.833" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="29"/>
-        <TextBlock x:Name="textBlock_Copy" Height="14.588" Margin="0,0,147.832,102.492" TextWrapping="Wrap" Text="10" VerticalAlignment="Bottom" FontSize="8" HorizontalAlignment="Right"/>
+        <TextBlock x:Name="player5_chips" Height="14.588" Margin="0,0,147.832,102.492" TextWrapping="Wrap" Text="10" VerticalAlignment="Bottom" FontSize="8" HorizontalAlignment="Right"/>
         <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="0,119.753,206.666,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="29"/>
         <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="118.222,112.214,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="29"/>
         <Ellipse Fill="#FFFBE34D" Height="27.334" Margin="54.222,0,0,104.413" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="29"/>
@@ -40,5 +40,9 @@
         <Button x:Name="raise_button" Content="Raise" HorizontalAlignment="Left" Height="23.093" Margin="191.31,0,0,29.241" VerticalAlignment="Bottom" Width="34.088"/>
         <Button x:Name="fold_button" Click="fold_button_Click" Content="Fold" HorizontalAlignment="Left" Height="23.093" Margin="113.134,0,0,29.241" VerticalAlignment="Bottom" Width="34.088"/>
         <Slider x:Name="slider" HorizontalAlignment="Left" Height="18.388" Margin="113.134,0,0,5.853" Style="{DynamicResource SimpleSlider}" VerticalAlignment="Bottom" Width="81.729"/>
+        <TextBlock x:Name="player1_card1_rank" HorizontalAlignment="Left" Height="11.268" Margin="243.667,0,0,34.62" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="12.501" FontSize="9.333" Content="{Binding MyData}"><Run Text="10"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="player1_card2_rank" HorizontalAlignment="Left" Height="11.268" Margin="280.251,0,0,34.62" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="11" FontSize="9.333"><Run Text="10"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="player1_card1_suit" HorizontalAlignment="Left" Height="11.268" Margin="246.668,0,0,16.478" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="9.5" FontSize="9.333" Text="H"/>
+        <TextBlock x:Name="player1_card1_suit1" HorizontalAlignment="Left" Height="11.268" Margin="281.334,0,0,16.478" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="9.917" FontSize="9.333" Text="H"/>
     </Grid>
 </Window>

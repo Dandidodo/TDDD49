@@ -28,11 +28,22 @@ namespace Poker
             return chips;
         }
 
+        public void setStakes(int value)
+        {
+            stakes = value;
+        }
+
+        public int getStakes()
+        {
+            return stakes;
+        }
+
         public void receiveCard(Card card)
         {
             cards.Add(card);
         }
 
+        // is this function necessary?
         public void removeCards()
         {
             cards.Clear();

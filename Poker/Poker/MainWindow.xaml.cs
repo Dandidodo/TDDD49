@@ -20,15 +20,46 @@ namespace Poker
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Table table;
+
+        private int MyData;
+
         public MainWindow()
         {
             InitializeComponent();
-            new Deck();
+            this.table = new Table();
         }
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("\n\n blablabla \n\n");
+            table.playerFold();
+
+            hidePlayerButtons();
+        }
+
+        private void raise_button_Click(object sender, RoutedEventArgs e)
+        {
+            table.playerRaise();
+
+            hidePlayerButtons();
+        }
+
+        private void call_button_Click(object sender, RoutedEventArgs e)
+        {
+            table.playerCall();
+
+            hidePlayerButtons();
+        }
+
+        //Hide buttons until next time its the players turn
+        private void hidePlayerButtons()
+        {
+
+        }
+
+        private void showPlayerButtons()
+        {
+
         }
     }
 }

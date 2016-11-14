@@ -58,7 +58,8 @@ namespace Poker
             insertBlinds();
             currentPlayer = players[indexBigBlind + 1];
             lastRaiserOrFirst = players[indexBigBlind];
-            dealCards();      
+            dealCards();
+            playerAction(currentPlayer);
         }
 
         public void insertBlinds()
@@ -86,41 +87,17 @@ namespace Poker
             }
         }
 
-        public void playRound()
-        {
-            Player currentPlayer = activePlayers[indexSmallBlind];
-            Player lastRaiserOrFirst = currentPlayer; //Either the first player who starts the game or the last raiser.
-
-            do
-            {            
-                if (roundCounter==0)
-                {
-                    currentPlayer = activePlayers[indexBigBlind + 1];
-                }
-
-                playerAction(currentPlayer);
-                currentPlayer = getNextPlayer(currentPlayer);                
-            } while (lastRaiserOrFirst != currentPlayer);
-
-            // Put community cards on the table
-            dealCommunityCards();
-                        
-            roundCounter++;
-        }
-
         public void isRoundFinished(Player currentPlayer)
         {
             if (lastRaiserOrFirst != currentPlayer)
             {
+                // Check if it was the last round
+
                 // Round is finished
                 dealCommunityCards();
                 roundCounter++;
-            }
-
-            // Wait for next player to act
-            while (true)
-            {
-
+                currentPlayer = activePlayers[indexSmallBlind];
+                playerAction(currentPlayer);
             }
         }
 
@@ -161,15 +138,36 @@ namespace Poker
         }
 
         // function for fold
+        public void playerFold()
+        {
+            // Move the players stakes to the pot
+            table.setPot(table.getPot() + currentPlayer.getStakes());
+            currentPlayer.setStakes(0);
+
+            // Remove player from active players
+            activePlayers.Remove(currentPlayer);
+
+            // Next player
+            currentPlayer = getNextPlayer(currentPlayer);
+            playerAction(currentPlayer);
+        }
 
         // function for call
+        public void playerCall()
+        {
+            // Insert chips
+            // Check if player is out of chips
+            // NextPlayer
+        }
 
         // function for raise
-
-
-
-
-
+        public void playerRaise()
+        {
+            // Insert chips
+            // Set player to lastRaiserOrFirst
+            // Check if player is out of chips
+            // NextPlayer
+        }
 
         //TODO: Move this to a better suited place
         public Player getNextPlayer(Player currentPlayer)
