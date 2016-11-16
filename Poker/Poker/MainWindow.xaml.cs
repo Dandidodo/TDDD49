@@ -20,33 +20,34 @@ namespace Poker
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Table table;
+        private Table_entity table;
 
         private int MyData;
 
         public MainWindow()
         {
             InitializeComponent();
-            this.table = new Table();
+            this.table = new Table_entity();
         }
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
         {
-            table.playerFold();
+            Console.WriteLine(1);
 
-            hidePlayerButtons();
+            //table.playerFold();
+            //hidePlayerButtons();
         }
 
         private void raise_button_Click(object sender, RoutedEventArgs e)
         {
-            table.playerRaise();
+            //table.playerRaise();
 
             hidePlayerButtons();
         }
 
         private void call_button_Click(object sender, RoutedEventArgs e)
         {
-            table.playerCall();
+            //table.playerCall();
 
             hidePlayerButtons();
         }

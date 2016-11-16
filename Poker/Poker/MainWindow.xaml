@@ -40,7 +40,7 @@
         <Button x:Name="raise_button" Content="Raise" HorizontalAlignment="Left" Height="23.093" Margin="191.31,0,0,29.241" VerticalAlignment="Bottom" Width="34.088"/>
         <Button x:Name="fold_button" Click="fold_button_Click" Content="Fold" HorizontalAlignment="Left" Height="23.093" Margin="113.134,0,0,29.241" VerticalAlignment="Bottom" Width="34.088"/>
         <Slider x:Name="slider" HorizontalAlignment="Left" Height="18.388" Margin="113.134,0,0,5.853" Style="{DynamicResource SimpleSlider}" VerticalAlignment="Bottom" Width="81.729"/>
-        <TextBlock x:Name="player1_card1_rank" HorizontalAlignment="Left" Height="11.268" Margin="243.667,0,0,34.62" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="12.501" FontSize="9.333" Content="{Binding MyData}"><Run Text="10"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="player1_card1_rank" HorizontalAlignment="Left" Height="11.268" Margin="243.667,0,0,34.62" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="12.501" FontSize="9.333"><Run Text="10"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="player1_card2_rank" HorizontalAlignment="Left" Height="11.268" Margin="280.251,0,0,34.62" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="11" FontSize="9.333"><Run Text="10"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="player1_card1_suit" HorizontalAlignment="Left" Height="11.268" Margin="246.668,0,0,16.478" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="9.5" FontSize="9.333" Text="H"/>
         <TextBlock x:Name="player1_card1_suit1" HorizontalAlignment="Left" Height="11.268" Margin="281.334,0,0,16.478" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="9.917" FontSize="9.333" Text="H"/>

@@ -15,14 +15,6 @@ C:\Users\Pierre\TDDD49\Poker\Poker\obj\Debug\Poker.pdb
 D:\Skolarbete\TDDD49\Poker\Poker\bin\Debug\Poker.exe.config
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.exe
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.pdb
-\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\bin\Debug\Poker.exe.config
-\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.exe
-\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.pdb
-\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.csprojResolveAssemblyReference.cache
-\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\MainWindow.g.cs
-\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\App.g.cs
-\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.cache
-\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.lref
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.csprojResolveAssemblyReference.cache
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\MainWindow.g.cs
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\App.g.cs
@@ -38,12 +30,20 @@ D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\MainWindow.baml
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.g.resources
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
 D:\Skolarbete\TDDD49\Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\bin\Debug\Poker.exe.config
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\bin\Debug\Poker.exe
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\bin\Debug\Poker.pdb
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\bin\Debug\Microsoft.Expression.Prototyping.SketchControls.dll
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Simple Styles.baml
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\MainWindow.g.cs
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\App.g.cs
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.cache
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.lref
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\App.baml
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\MainWindow.baml
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.g.resources
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
 \\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.exe
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.pdb
+\\obelix.helix.ida.liu.se\users-6\marlu642\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.csprojResolveAssemblyReference.cache
