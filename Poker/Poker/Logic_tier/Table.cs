@@ -9,7 +9,13 @@ namespace Poker.Logic_tier
     class Table
     {
 
-        private Table_entity table_entity = new Table_entity();
+        private Table_entity table_entity;
+
+        public Table()
+        {
+            this.table_entity = new Table_entity();
+            Console.WriteLine("Table created");
+        }
 
         public List<Player_entity> initPlayers()
         {

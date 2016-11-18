@@ -43,6 +43,6 @@
         <TextBlock x:Name="player1_card1_rank" HorizontalAlignment="Left" Height="11.268" Margin="243.667,0,0,34.62" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="12.501" FontSize="9.333"><Run Text="10"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="player1_card2_rank" HorizontalAlignment="Left" Height="11.268" Margin="280.251,0,0,34.62" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="11" FontSize="9.333"><Run Text="10"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="player1_card1_suit" HorizontalAlignment="Left" Height="11.268" Margin="246.668,0,0,16.478" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="9.5" FontSize="9.333" Text="H"/>
-        <TextBlock x:Name="player1_card1_suit1" HorizontalAlignment="Left" Height="11.268" Margin="281.334,0,0,16.478" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="9.917" FontSize="9.333" Text="H"/>
+        <TextBlock x:Name="player1_card2_suit" HorizontalAlignment="Left" Height="11.268" Margin="281.334,0,0,16.478" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="9.917" FontSize="9.333" Text="H"/>
     </Grid>
 </Window>

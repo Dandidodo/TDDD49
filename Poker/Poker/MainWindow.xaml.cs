@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Poker.Logic_tier;
 
 namespace Poker
 {
@@ -20,14 +21,15 @@ namespace Poker
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Table_entity table;
+        private Logic_tier.Table table;
 
         private int MyData;
 
         public MainWindow()
         {
             InitializeComponent();
-            this.table = new Table_entity();
+            this.table = new Logic_tier.Table();
+            setPlayerCards();
         }
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
@@ -61,6 +63,15 @@ namespace Poker
         private void showPlayerButtons()
         {
 
+        }
+
+        private void setPlayerCards()
+        {
+            player1_card1_rank.Text = "10";
+            player1_card1_suit.Text = "S";
+
+            player1_card2_rank.Text = "2";
+            player1_card2_suit.Text = "S";
         }
     }
 }

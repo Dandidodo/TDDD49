@@ -56,9 +56,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logic_tier\Entities\Card_entity.cs" />
     <Compile Include="Logic_tier\Entities\Deck_entity.cs" />
-    <Compile Include="Logic_tier\Entities\Table.cs" />
-    <Compile Include="Logic_tier\Table_logic.cs" />
+    <Compile Include="Logic_tier\Entities\Player_entity.cs" />
+    <Compile Include="Logic_tier\Entities\Table_entity.cs" />
+    <Compile Include="Logic_tier\Table.cs" />
     <Compile Include="TexasHoldemRules.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -68,7 +70,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logic_tier\Entities\Card.cs" />
     <Compile Include="Logic_tier\Deck.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -80,7 +81,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logic_tier\Entities\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

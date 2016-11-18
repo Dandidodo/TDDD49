@@ -22,6 +22,7 @@ namespace Poker
             
             this.rules = new TexasHoldemRules(this, players, deck, true); // How do we set the limits
             //playGame();
+            Console.WriteLine("Table_entity created");
         }
 
         public void setPlayers(List<Player_entity> players)

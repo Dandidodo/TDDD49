@@ -44,6 +44,7 @@ namespace Poker
             indexBigBlind = 1;
             indexSmallBlind = 0;
             roundCounter = 0;
+            Console.WriteLine("Texas created");
         }
 
         public List<Player_entity> getActivePlayers()
