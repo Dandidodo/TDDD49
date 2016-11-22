@@ -29,12 +29,15 @@ namespace Poker
         {
             InitializeComponent();
             this.table = new Logic_tier.Table();
-            setPlayerCards();
+            displayPlayerChips();
+            displayPlayerCards();
+            displayStakes();
         }
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(1);
+            // IMPLEMENT THIS!!!
+            // hideCards(getCurrentPlayer()); 
 
             //table.playerFold();
             //hidePlayerButtons();
@@ -65,13 +68,50 @@ namespace Poker
 
         }
 
-        private void setPlayerCards()
+        private void displayStakes()
         {
-            player1_card1_rank.Text = "10";
-            player1_card1_suit.Text = "S";
+            player1_stakes.Text = table.getPlayer1().getStakes().ToString();
+            player2_stakes.Text = table.getPlayer2().getStakes().ToString();
+            player3_stakes.Text = table.getPlayer3().getStakes().ToString();
+            player4_stakes.Text = table.getPlayer4().getStakes().ToString();
+            player5_stakes.Text = table.getPlayer5().getStakes().ToString();
+        }
 
-            player1_card2_rank.Text = "2";
-            player1_card2_suit.Text = "S";
+        private void displayPlayerCards()
+        {
+            player1_card1_rank.Text = table.getPlayer1().getCards()[0].getRank().ToString();
+            player1_card1_suit.Text = table.getPlayer1().getCards()[0].getSuit().ToString();
+            player1_card2_rank.Text = table.getPlayer1().getCards()[1].getRank().ToString();
+            player1_card2_suit.Text = table.getPlayer1().getCards()[1].getSuit().ToString();
+
+            player2_card1_rank.Text = table.getPlayer2().getCards()[0].getRank().ToString();
+            player2_card1_suit.Text = table.getPlayer2().getCards()[0].getSuit().ToString();
+            player2_card2_rank.Text = table.getPlayer2().getCards()[1].getRank().ToString();
+            player2_card2_suit.Text = table.getPlayer2().getCards()[1].getSuit().ToString();
+
+            player3_card1_rank.Text = table.getPlayer3().getCards()[0].getRank().ToString();
+            player3_card1_suit.Text = table.getPlayer3().getCards()[0].getSuit().ToString();
+            player3_card2_rank.Text = table.getPlayer3().getCards()[1].getRank().ToString();
+            player3_card2_suit.Text = table.getPlayer3().getCards()[1].getSuit().ToString();
+
+            player4_card1_rank.Text = table.getPlayer4().getCards()[0].getRank().ToString();
+            player4_card1_suit.Text = table.getPlayer4().getCards()[0].getSuit().ToString();
+            player4_card2_rank.Text = table.getPlayer4().getCards()[1].getRank().ToString();
+            player4_card2_suit.Text = table.getPlayer4().getCards()[1].getSuit().ToString();
+
+            player5_card1_rank.Text = table.getPlayer5().getCards()[0].getRank().ToString();
+            player5_card1_suit.Text = table.getPlayer5().getCards()[0].getSuit().ToString();
+            player5_card2_rank.Text = table.getPlayer5().getCards()[1].getRank().ToString();
+            player5_card2_suit.Text = table.getPlayer5().getCards()[1].getSuit().ToString();
+        }
+
+        private void displayPlayerChips()
+        {
+            player1_chips.Text = table.getPlayer1().getChips().ToString();
+            player2_chips.Text = table.getPlayer2().getChips().ToString();
+            player3_chips.Text = table.getPlayer3().getChips().ToString();
+            player4_chips.Text = table.getPlayer4().getChips().ToString();
+            player5_chips.Text = table.getPlayer4().getChips().ToString();
         }
     }
 }

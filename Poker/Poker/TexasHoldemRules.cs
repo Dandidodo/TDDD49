@@ -18,6 +18,8 @@ namespace Poker
 
         private const int playerCards = 2;
         private const int communityCards = 5;
+        private const int startingChips = 1000;
+        private const int bigBlind = 20;
         private bool limit;
         private List<Player_entity> players;
         private List<Player_entity> activePlayers;
@@ -26,10 +28,10 @@ namespace Poker
         private int pot;
         private int indexBigBlind;
         private int indexSmallBlind;
-        private int bigBlind;
         private int roundCounter;
         private Player_entity currentPlayer;
         private Player_entity lastRaiserOrFirst;
+        
 
         public enum Choice { FOLD, CHECK, RAISE };
 
@@ -41,10 +43,11 @@ namespace Poker
             this.deck = deck;
             this.limit = limit;
 
-            indexBigBlind = 1;
-            indexSmallBlind = 0;
+            indexBigBlind = 2;
+            indexSmallBlind = 1;
             roundCounter = 0;
             Console.WriteLine("Texas created");
+            newHand();
         }
 
         public List<Player_entity> getActivePlayers()
@@ -55,12 +58,15 @@ namespace Poker
         public void newHand()
         {
             activePlayers = players;
-            deck.initDeck();
-            insertBlinds();
+            deck.initDeck();     
             currentPlayer = players[indexBigBlind + 1];
             lastRaiserOrFirst = players[indexBigBlind];
+
+            giveStartingChips();
+            insertBlinds();
             dealCards();
-            playerAction(currentPlayer);
+            
+            //playerAction(currentPlayer);
         }
 
         public void insertBlinds()
@@ -69,6 +75,14 @@ namespace Poker
             indexSmallBlind = (indexSmallBlind == players.Count - 1) ? indexSmallBlind = 0 : indexSmallBlind++;
             insertPlayerChips(players[indexBigBlind], bigBlind);
             insertPlayerChips(players[indexSmallBlind], bigBlind / 2);
+        }
+
+        public void giveStartingChips()
+        {
+            foreach (Player_entity player in players)
+            {
+                player.setChips(startingChips);            
+            }
         }
 
         public void dealCards()
@@ -84,7 +98,15 @@ namespace Poker
         {
             if (player.getChips() < chips)
             {
-                
+                // If player dont have enough chips
+                Console.WriteLine("if");
+                player.setStakes(player.getChips());
+                player.setChips(0);
+            } else
+            {
+                Console.WriteLine("else");
+                player.setStakes(chips);
+                player.setChips(player.getChips() - chips);
             }
         }
 
@@ -120,9 +142,9 @@ namespace Poker
             // Show graphical options to current player
 
 
+            /* 
             while(true)
-            {
-                /*              
+            {             
                if (playerChoice == Choice.FOLD)
                {
 
@@ -132,9 +154,9 @@ namespace Poker
                } else if (playerChoice == Choice.RAISE)
                {
 
-               }
-               */
+               }           
             }
+            */
 
         }
 

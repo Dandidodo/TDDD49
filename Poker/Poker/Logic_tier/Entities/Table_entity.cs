@@ -14,15 +14,21 @@ namespace Poker
         private int pot;
         private List<Card_entity> communityCards;
 
-        public Table_entity()
+        public Table_entity(List<Player_entity> players)
         {
             //this.players = initPlayers();
             this.pot = 0;
             this.communityCards = new List<Card_entity>();
+            setPlayers(players);
             
             this.rules = new TexasHoldemRules(this, players, deck, true); // How do we set the limits
             //playGame();
             Console.WriteLine("Table_entity created");
+        }
+
+        public TexasHoldemRules getRules()
+        {
+            return rules;
         }
 
         public void setPlayers(List<Player_entity> players)
@@ -55,9 +61,11 @@ namespace Poker
             return pot;
         }
         
+        /*
         public TexasHoldemRules getRules()
         {
             return rules;
         }        
+        */
     }
 }

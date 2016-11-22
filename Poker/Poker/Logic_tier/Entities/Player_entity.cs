@@ -18,6 +18,11 @@ namespace Poker
             this.chips = 0;
         }
 
+        public List<Card_entity> getCards()
+        {
+            return cards;
+        }
+
         public void setChips(int value)
         {
             chips = value;
@@ -40,6 +45,8 @@ namespace Poker
 
         public void receiveCard(Card_entity card)
         {
+            Console.WriteLine(card.getRank());
+            Console.WriteLine(card.getSuit());
             cards.Add(card);
         }
 
