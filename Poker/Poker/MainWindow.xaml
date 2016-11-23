@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1079" Width="1920">
     <Grid Margin="-15.668,-0.026,7.667,-30.975" Height="1080" Width="1920">
-        <pc:SketchCircleUC Margin="368.555,211.548,369.718,212.033" Background="#FF077A0C"/>
+        <pc:SketchCircleUC Margin="368.555,211.548,369.718,212.033" Background="#FF077A0C" OpacityMask="Black"/>
         <Ellipse x:Name="player1" Fill="#FFF4F4F5" Height="80" Margin="913.001,0,926.999,125.337" Stroke="Black" VerticalAlignment="Bottom" StrokeThickness="5"/>
         <Rectangle x:Name="player1_card2_bg" Fill="#FFF4F4F5" HorizontalAlignment="Right" Margin="0,0,900.504,36.626" Stroke="Black" Width="53.333" Height="82.964" VerticalAlignment="Bottom"/>
         <Ellipse x:Name="player1_chips_bg" Fill="#FFFBE34D" Height="49.013" Margin="0,0,838.25,138.831" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="52"/>
@@ -68,6 +68,23 @@
         <TextBlock x:Name="player4_stakes" Height="19.158" Margin="0,344.846,553.054,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Right" Width="37.809"/>
         <Ellipse x:Name="player3_stakes_bg" Fill="#FFB22020" Height="54.354" Margin="542.138,326.776,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="57.667"/>
         <TextBlock x:Name="player3_stakes" Height="19.158" Margin="551.941,344.846,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Left" Width="37.809"/>
+        <Rectangle x:Name="cm_card1_bg" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="760.576,392.855,0,0" Stroke="Black" Width="53.333" Height="82.964" VerticalAlignment="Top"/>
+        <TextBlock x:Name="cm_card1_rank" HorizontalAlignment="Left" Height="18.374" Margin="779.596,404.235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="20.016" FontSize="16" RenderTransformOrigin="-0.005,0.117"><Run Text="10"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="cm_card1_suit" HorizontalAlignment="Left" Height="21.093" Margin="782.501,440.843,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="17.111" FontSize="16" Text="H"/>
+        <Rectangle x:Name="cm_card2_bg" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="839.909,392.855,0,0" Stroke="Black" Width="53.333" Height="82.964" VerticalAlignment="Top"/>
+        <TextBlock x:Name="cm_card2_rank" HorizontalAlignment="Left" Height="18.374" Margin="858.929,404.235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="20.016" FontSize="16" RenderTransformOrigin="-0.005,0.117"><Run Text="10"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="cm_card2_suit" HorizontalAlignment="Left" Height="21.093" Margin="861.834,440.843,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="17.111" FontSize="16" Text="H"/>
+        <Rectangle x:Name="cm_card3_bg" Fill="#FFF4F4F5" Margin="921.242,392.855,945.425,0" Stroke="Black" Height="82.964" VerticalAlignment="Top"/>
+        <TextBlock x:Name="cm_card3_rank" Height="18.374" Margin="940.262,404.235,959.722,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="-0.005,0.117"><Run Text="10"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="cm_card3_suit" Height="21.093" Margin="943.167,440.843,959.722,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="H"/>
+        <Rectangle x:Name="cm_card4_bg" Fill="#FFF4F4F5" Margin="0,392.855,860.342,0" Stroke="Black" Height="82.964" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53.333"/>
+        <TextBlock x:Name="cm_card4_rank" Height="18.374" Margin="0,404.235,874.639,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="-0.005,0.117" HorizontalAlignment="Right" Width="20.016"><Run Text="10"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="cm_card4_suit" Height="21.093" Margin="0,440.843,874.639,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="H" HorizontalAlignment="Right" Width="17.111"/>
+        <Rectangle x:Name="cm_card5_bg" Fill="#FFF4F4F5" Margin="0,392.855,782.342,0" Stroke="Black" Height="82.964" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53.333"/>
+        <TextBlock x:Name="cm_card5_rank" Height="18.374" Margin="0,404.235,796.639,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="-0.005,0.117" HorizontalAlignment="Right" Width="20.016"><Run Text="10"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="cm_card5_suit" Height="21.093" Margin="0,440.843,796.639,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="H" HorizontalAlignment="Right" Width="17.111"/>
+        <Ellipse x:Name="pot_bg" Fill="#FF081772" Margin="823.366,521.526,844.634,457.996" Stroke="Black"/>
+        <TextBlock x:Name="pot" Height="38.658" Margin="887.926,0,914.801,483.735" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="29.333" Foreground="White" HorizontalAlignment="Center"><Run Text="10000"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
 
     </Grid>
 </Window>

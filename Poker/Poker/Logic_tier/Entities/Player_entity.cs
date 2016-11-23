@@ -11,7 +11,7 @@ namespace Poker
         private List<Card_entity> cards;
         private int chips;
         private int stakes;
-            
+
         public Player_entity()
         {
             this.cards = new List<Card_entity>();

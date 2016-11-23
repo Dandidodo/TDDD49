@@ -8,28 +8,17 @@ namespace Poker.Logic_tier
 {
     class Table
     {
-        private Table_entity table_entity; // create getter for table_entity?
-        private Player_entity player1;
-        private Player_entity player2;
-        private Player_entity player3;
-        private Player_entity player4;
-        private Player_entity player5;
+        private Table_entity table_entity;
 
-        // Move this to table_entity?
-
-        public Table()
-        {
-            player1 = new Player_entity();
-            player2 = new Player_entity();
-            player3 = new Player_entity();
-            player4 = new Player_entity();
-            player5 = new Player_entity();
-
-            table_entity = new Table_entity(initPlayers());
+        public Table(Table_entity table_entity)
+        {      
+            this.table_entity = table_entity;
 
             Console.WriteLine("Table created");
         }
 
+        /*
+        // Maybe re-implement this with an int for the number of players as an argument
         public List<Player_entity> initPlayers()
         {
             List<Player_entity> temp_players = new List<Player_entity>();            
@@ -42,6 +31,7 @@ namespace Poker.Logic_tier
 
             return temp_players;
         }
+        */
 
         public void playGame()
         {
@@ -75,29 +65,6 @@ namespace Poker.Logic_tier
 
         }
 
-        public Player_entity getPlayer1()
-        {
-            return player1;
-        }
-
-        public Player_entity getPlayer2()
-        {
-            return player2;
-        }
-
-        public Player_entity getPlayer3()
-        {
-            return player3;
-        }
-
-        public Player_entity getPlayer4()
-        {
-            return player4;
-        }
-
-        public Player_entity getPlayer5()
-        {
-            return player5;
-        }
+        
     }
 }

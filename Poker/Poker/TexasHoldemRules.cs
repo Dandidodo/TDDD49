@@ -50,6 +50,11 @@ namespace Poker
             newHand();
         }
 
+        public Player_entity getCurrentPlayer()
+        {
+            return currentPlayer;
+        }
+
         public List<Player_entity> getActivePlayers()
         {
             return activePlayers;
@@ -120,7 +125,7 @@ namespace Poker
                 dealCommunityCards();
                 roundCounter++;
                 currentPlayer = activePlayers[indexSmallBlind];
-                playerAction(currentPlayer);
+                //playerAction(currentPlayer);
             }
         }
 
@@ -136,7 +141,7 @@ namespace Poker
             }
         }
 
-        public void playerAction(Player_entity player)
+        public void playerAction()
         {
             //1) Fold, 2) Call, 3) Raise
             // Show graphical options to current player
@@ -167,12 +172,14 @@ namespace Poker
             table.setPot(table.getPot() + currentPlayer.getStakes());
             currentPlayer.setStakes(0);
 
+            // Get next player
+            Player_entity nextPlayer = getNextPlayer();
+            
             // Remove player from active players
             activePlayers.Remove(currentPlayer);
-
-            // Next player
-            currentPlayer = getNextPlayer(currentPlayer);
-            playerAction(currentPlayer);
+            
+            currentPlayer = nextPlayer;          
+            //playerAction();
         }
 
         // function for call
@@ -193,11 +200,11 @@ namespace Poker
         }
 
         //TODO: Move this to a better suited place
-        public Player_entity getNextPlayer(Player_entity currentPlayer)
+        public Player_entity getNextPlayer()
         {
             // Hitta index ur activePlayers, ta nästa, om slutet ta 0te player.
             int currentPlayerIndex = activePlayers.IndexOf(currentPlayer);
-            return (currentPlayerIndex == activePlayers.Count - 1) ?  activePlayers[0] : activePlayers[currentPlayerIndex++];
+            return (currentPlayerIndex == activePlayers.Count - 1) ?  activePlayers[0] : activePlayers[++currentPlayerIndex];
         }
     }
 }
