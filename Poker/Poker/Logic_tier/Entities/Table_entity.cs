@@ -101,7 +101,39 @@ namespace Poker
         {
             return pot;
         }
-        
+
+        public void setCM(Card_entity card)
+        {
+            Console.WriteLine(card.getRank().ToString() + card.getSuit());
+            communityCards.Add(card);
+        }
+
+        public Card_entity getCM1()
+        {
+            return communityCards[0];
+        }
+
+        public Card_entity getCM2()
+        {
+            return communityCards[1];
+        }
+
+        public Card_entity getCM3()
+        {
+            return communityCards[2];
+        }
+
+        public Card_entity getCM4()
+        {
+            return communityCards[3];
+        }
+
+        public Card_entity getCM5()
+        {
+            return communityCards[4];
+        }
+
+
         /*
         public TexasHoldemRules getRules()
         {

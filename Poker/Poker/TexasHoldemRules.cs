@@ -46,6 +46,8 @@ namespace Poker
             indexSmallBlind = 1;
             roundCounter = 0;
             Console.WriteLine("Texas created");
+
+            dealCommunityCards();
             newHand();
         }
 
@@ -130,15 +132,9 @@ namespace Poker
         }
 
         public void dealCommunityCards()
-        {            
-            //table.addCommunityCard();
-
-            // Deal two extra cards for the flop
-            if (roundCounter == 0)
-            {
-                //table.addCommunityCard();
-                //table.addCommunityCard();
-            }
+        {
+            for (int i = 0; i < 5; i++)
+                table.setCM(deck.draw());
         }
 
         public void playerAction()

@@ -33,7 +33,27 @@ namespace Poker
             table = new Logic_tier.Table(table_entity);
             displayChips();
             displayPlayerCards();
+            initCommunityCards();
             displayStakes();
+        }
+
+        private void initCommunityCards()
+        {
+            cm_card1_suit.Text = table_entity.getCM1().getSuit().ToString();
+            cm_card1_rank.Text = table_entity.getCM1().getRank().ToString();
+            cm_card2_suit.Text = table_entity.getCM2().getSuit().ToString();
+            cm_card2_rank.Text = table_entity.getCM2().getRank().ToString();
+
+            //Hide other cards for now
+            cm_card3_suit.Visibility = Visibility.Hidden;
+            cm_card3_rank.Visibility = Visibility.Hidden;
+            cm_card3_bg.Visibility = Visibility.Hidden;
+            cm_card4_suit.Visibility = Visibility.Hidden;
+            cm_card4_rank.Visibility = Visibility.Hidden;
+            cm_card4_bg.Visibility = Visibility.Hidden;
+            cm_card5_suit.Visibility = Visibility.Hidden;
+            cm_card5_rank.Visibility = Visibility.Hidden;
+            cm_card5_bg.Visibility = Visibility.Hidden;
         }
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
