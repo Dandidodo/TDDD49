@@ -35,8 +35,33 @@ namespace Poker
             displayPlayerCards();
             initCommunityCards();
             displayStakes();
+            highlightCurrentPlayerYellow();
         }
 
+        private void highlightCurrentPlayerYellow()
+        {
+            Player_entity currentPlayer = table_entity.getRules().getCurrentPlayer();
+
+            //Reset colors
+            player1.Fill = new SolidColorBrush(Colors.White);
+            player2.Fill = new SolidColorBrush(Colors.White);
+            player3.Fill = new SolidColorBrush(Colors.White);
+            player4.Fill = new SolidColorBrush(Colors.White);
+            player5.Fill = new SolidColorBrush(Colors.White);
+
+            if (currentPlayer == table_entity.getPlayer1())
+                player1.Fill = new SolidColorBrush(Colors.Yellow);
+            else if (currentPlayer == table_entity.getPlayer2())
+                player2.Fill = new SolidColorBrush(Colors.Yellow);
+            else if (currentPlayer == table_entity.getPlayer3())
+                player3.Fill = new SolidColorBrush(Colors.Yellow);
+            else if (currentPlayer == table_entity.getPlayer4())
+                player4.Fill = new SolidColorBrush(Colors.Yellow);
+            else if (currentPlayer == table_entity.getPlayer5())
+                player5.Fill = new SolidColorBrush(Colors.Yellow);
+        }
+
+        //Display two cards in the beginning and hide the other cards.
         private void initCommunityCards()
         {
             cm_card1_suit.Text = table_entity.getCM1().getSuit().ToString();
@@ -48,9 +73,11 @@ namespace Poker
             cm_card3_suit.Visibility = Visibility.Hidden;
             cm_card3_rank.Visibility = Visibility.Hidden;
             cm_card3_bg.Visibility = Visibility.Hidden;
+
             cm_card4_suit.Visibility = Visibility.Hidden;
             cm_card4_rank.Visibility = Visibility.Hidden;
             cm_card4_bg.Visibility = Visibility.Hidden;
+
             cm_card5_suit.Visibility = Visibility.Hidden;
             cm_card5_rank.Visibility = Visibility.Hidden;
             cm_card5_bg.Visibility = Visibility.Hidden;
@@ -110,6 +137,7 @@ namespace Poker
 
             //table.playerFold();
             //hidePlayerButtons();
+            highlightCurrentPlayerYellow();
         }
 
         private void raise_button_Click(object sender, RoutedEventArgs e)
@@ -117,6 +145,7 @@ namespace Poker
             //table.playerRaise();
 
             hidePlayerButtons();
+            highlightCurrentPlayerYellow();
         }
 
         private void call_button_Click(object sender, RoutedEventArgs e)
@@ -124,6 +153,7 @@ namespace Poker
             //table.playerCall();
 
             hidePlayerButtons();
+            highlightCurrentPlayerYellow();
         }
 
         //Hide buttons until next time its the players turn

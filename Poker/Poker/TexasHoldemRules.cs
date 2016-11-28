@@ -186,8 +186,14 @@ namespace Poker
         public void playerCall()
         {
             // Insert chips
+            insertPlayerChips(currentPlayer, bigBlind/2);
+
             // Check if player is out of chips
             // NextPlayer
+            // Get next player
+            Player_entity nextPlayer = getNextPlayer();
+
+            currentPlayer = nextPlayer;
         }
 
         // function for raise
