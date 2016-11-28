@@ -33,7 +33,7 @@ namespace Poker
             table = new Logic_tier.Table(table_entity);
             displayChips();
             displayPlayerCards();
-            initCommunityCards();
+            flop(); //Floppen skall köras efter första rundan så inte här XD
             displayStakes();
             highlightCurrentPlayerYellow();
         }
@@ -61,19 +61,17 @@ namespace Poker
                 player5.Fill = new SolidColorBrush(Colors.Yellow);
         }
 
-        //Display two cards in the beginning and hide the other cards.
-        private void initCommunityCards()
+        //Display three cards in the beginning and hide the other cards.
+        private void flop()
         {
             cm_card1_suit.Text = table_entity.getCM1().getSuit().ToString();
             cm_card1_rank.Text = table_entity.getCM1().getRank().ToString();
             cm_card2_suit.Text = table_entity.getCM2().getSuit().ToString();
             cm_card2_rank.Text = table_entity.getCM2().getRank().ToString();
+            cm_card3_suit.Text = table_entity.getCM3().getSuit().ToString();
+            cm_card3_rank.Text = table_entity.getCM3().getRank().ToString();
 
             //Hide other cards for now
-            cm_card3_suit.Visibility = Visibility.Hidden;
-            cm_card3_rank.Visibility = Visibility.Hidden;
-            cm_card3_bg.Visibility = Visibility.Hidden;
-
             cm_card4_suit.Visibility = Visibility.Hidden;
             cm_card4_rank.Visibility = Visibility.Hidden;
             cm_card4_bg.Visibility = Visibility.Hidden;
@@ -81,6 +79,18 @@ namespace Poker
             cm_card5_suit.Visibility = Visibility.Hidden;
             cm_card5_rank.Visibility = Visibility.Hidden;
             cm_card5_bg.Visibility = Visibility.Hidden;
+        }
+
+        private void turn()
+        {
+            cm_card4_suit.Text = table_entity.getCM4().getSuit().ToString();
+            cm_card4_rank.Text = table_entity.getCM4().getRank().ToString();
+        }
+
+        private void river()
+        {
+            cm_card5_suit.Text = table_entity.getCM5().getSuit().ToString();
+            cm_card5_rank.Text = table_entity.getCM5().getRank().ToString();
         }
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
