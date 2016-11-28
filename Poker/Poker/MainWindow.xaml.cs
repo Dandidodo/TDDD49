@@ -102,9 +102,9 @@ namespace Poker
             player1_card2_bg.Visibility = player1_visibility;
 
             Visibility player2_visibility = table_entity.getPlayer2().active ? Visibility.Visible : Visibility.Hidden;
-            player2_card2_rank.Visibility = player2_visibility;
-            player2_card2_suit.Visibility = player2_visibility;
-            player2_card2_bg.Visibility = player2_visibility;
+            player2_card1_rank.Visibility = player2_visibility;
+            player2_card1_suit.Visibility = player2_visibility;
+            player2_card1_bg.Visibility = player2_visibility;
             player2_card2_rank.Visibility = player2_visibility;
             player2_card2_suit.Visibility = player2_visibility;
             player2_card2_bg.Visibility = player2_visibility;
@@ -150,10 +150,24 @@ namespace Poker
 
         private void call_button_Click(object sender, RoutedEventArgs e)
         {
-            //table.playerCall();
+            table_entity.getRules().playerCall();
 
             hidePlayerButtons();
+
+            displayStakes();
+            displayChips();
             highlightCurrentPlayerYellow();
+        }
+
+        private void slider_mouse_Leave(object sender, RoutedEventArgs e)
+        {
+            //TODO: Update slider value based of current players chips
+            Player_entity currPlayer = table_entity.getRules().getCurrentPlayer();
+            double chips = currPlayer.getChips();
+            double calcChips = ((slider.Value * 0.1) * chips); // Slider has bool value in range 0.0-10.0, hence * 0.1, then we multiply this with chips 
+            int roundUp = ((int)Math.Round(calcChips / 10.0)) * 10; // Rounds it up to nearest 10.
+
+            chipsValue.Text = roundUp.ToString(); // Slider has bool value in range 0.0-10.0
         }
 
         //Hide buttons until next time its the players turn

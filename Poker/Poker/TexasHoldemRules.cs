@@ -186,7 +186,7 @@ namespace Poker
         public void playerCall()
         {
             // Insert chips
-            insertPlayerChips(currentPlayer, bigBlind/2);
+            insertPlayerChips(currentPlayer, bigBlind);
 
             // Check if player is out of chips
             // NextPlayer
@@ -194,6 +194,7 @@ namespace Poker
             Player_entity nextPlayer = getNextPlayer();
 
             currentPlayer = nextPlayer;
+            Console.WriteLine("CALL");
         }
 
         // function for raise
