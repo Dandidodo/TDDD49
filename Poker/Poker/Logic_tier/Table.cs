@@ -33,38 +33,23 @@ namespace Poker.Logic_tier
         }
         */
 
+        /*
         public void playGame()
         {
             while (table_entity.getPlayers().Count > 1)
             {
                 table_entity.getRules().newHand();
-                while (table_entity.getRules().getActivePlayers().Count > 1)
+                while (table_entity.getRules().players().Count > 1)
                 {
                     //rules.playRound();
                 }
             }
         }
+        */
 
         public void addCommunityCard()
         {
             //communityCards.Add(deck_entity.draw());
         }
-
-        public void playerFold()
-        {
-
-        }
-
-        public void playerRaise()
-        {
-
-        }
-
-        public void playerCall()
-        {
-
-        }
-
-        
     }
 }

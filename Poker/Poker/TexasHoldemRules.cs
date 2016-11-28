@@ -22,7 +22,6 @@ namespace Poker
         private const int bigBlind = 20;
         private bool limit;
         private List<Player_entity> players;
-        private List<Player_entity> activePlayers;
         private Deck deck;
         private Table_entity table;
         private int pot;
@@ -55,15 +54,16 @@ namespace Poker
             return currentPlayer;
         }
 
-        public List<Player_entity> getActivePlayers()
-        {
-            return activePlayers;
-        }
-
         public void newHand()
         {
-            activePlayers = players;
-            deck.initDeck();     
+            //activePlayers = players;
+            foreach(Player_entity player in players)
+            {
+                player.active = true;
+            }
+
+            deck.initDeck();
+            changeBlindIndexes();
             currentPlayer = players[indexBigBlind + 1];
             lastRaiserOrFirst = players[indexBigBlind];
 
@@ -76,8 +76,7 @@ namespace Poker
 
         public void insertBlinds()
         {
-            indexBigBlind = (indexBigBlind == players.Count - 1) ? indexBigBlind = 0 : indexBigBlind++;
-            indexSmallBlind = (indexSmallBlind == players.Count - 1) ? indexSmallBlind = 0 : indexSmallBlind++;
+            
             insertPlayerChips(players[indexBigBlind], bigBlind);
             insertPlayerChips(players[indexSmallBlind], bigBlind / 2);
         }
@@ -104,28 +103,29 @@ namespace Poker
             if (player.getChips() < chips)
             {
                 // If player dont have enough chips
-                Console.WriteLine("if");
                 player.setStakes(player.getChips());
                 player.setChips(0);
             } else
             {
-                Console.WriteLine("else");
                 player.setStakes(chips);
                 player.setChips(player.getChips() - chips);
             }
         }
 
-        public void isRoundFinished(Player_entity currentPlayer)
+        public void isRoundFinished()
         {
-            if (lastRaiserOrFirst != currentPlayer)
+            int activePlayers = 0;
+            foreach (Player_entity player in players)
             {
-                // Check if it was the last round
-
-                // Round is finished
-                dealCommunityCards();
-                roundCounter++;
-                currentPlayer = activePlayers[indexSmallBlind];
-                //playerAction(currentPlayer);
+                if (player.active == true)
+                    activePlayers++;
+            }
+            if (activePlayers == 1)
+            {
+                currentPlayer.setChips(currentPlayer.getChips() + table.getPot() + currentPlayer.getStakes());
+                currentPlayer.setStakes(0);
+                table.setPot(0);
+                //newHand();
             }
         }
 
@@ -174,11 +174,15 @@ namespace Poker
 
             // Get next player
             Player_entity nextPlayer = getNextPlayer();
-            
+
             // Remove player from active players
-            activePlayers.Remove(currentPlayer);
+            currentPlayer.active = false;
             
-            currentPlayer = nextPlayer;          
+            currentPlayer = nextPlayer;
+
+            // Check if winner
+            isRoundFinished();
+
             //playerAction();
         }
 
@@ -199,12 +203,39 @@ namespace Poker
             // NextPlayer
         }
 
-        //TODO: Move this to a better suited place
+        public void changeBlindIndexes()
+        {
+            indexBigBlind = (indexBigBlind == players.Count - 1) ? indexBigBlind = 0 : indexBigBlind++;
+            indexSmallBlind = (indexSmallBlind == players.Count - 1) ? indexSmallBlind = 0 : indexSmallBlind++;
+        }
+
+
+        // TODO: Move this to a better suited place
+        // Find the next player, we have to check a special case if the current active player is in the end of players, then we have to
+        // return the first active player found.
         public Player_entity getNextPlayer()
         {
-            // Hitta index ur activePlayers, ta nästa, om slutet ta 0te player.
-            int currentPlayerIndex = activePlayers.IndexOf(currentPlayer);
-            return (currentPlayerIndex == activePlayers.Count - 1) ?  activePlayers[0] : activePlayers[++currentPlayerIndex];
+            Player_entity nextPlayer = new Player_entity();
+            bool currentPlayerFound = false;
+            bool firstActivePlayerFound = false;
+
+            foreach (Player_entity player in players)
+            {
+                if (player == currentPlayer)
+                {
+                    currentPlayerFound = true;
+                }
+                else if (currentPlayerFound == true)
+                {
+                    return player;
+                }
+                else if (player.active == true && !firstActivePlayerFound)
+                {
+                    nextPlayer = player;
+                    firstActivePlayerFound = true;
+                }                
+            }
+            return nextPlayer;
         }
     }
 }
