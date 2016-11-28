@@ -140,14 +140,6 @@ namespace Poker
             highlightCurrentPlayerYellow();
         }
 
-        private void raise_button_Click(object sender, RoutedEventArgs e)
-        {
-            //table.playerRaise();
-
-            hidePlayerButtons();
-            highlightCurrentPlayerYellow();
-        }
-
         private void call_button_Click(object sender, RoutedEventArgs e)
         {
             table_entity.getRules().playerCall();
@@ -159,15 +151,32 @@ namespace Poker
             highlightCurrentPlayerYellow();
         }
 
-        private void slider_mouse_Leave(object sender, RoutedEventArgs e)
+
+        private void raise_button_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Update slider value based of current players chips
+            table_entity.getRules().playerRaise(calcSliderValue());
+
+            hidePlayerButtons();
+
+            displayStakes();
+            displayChips();
+            highlightCurrentPlayerYellow();
+        }
+
+
+        private int calcSliderValue()
+        {
             Player_entity currPlayer = table_entity.getRules().getCurrentPlayer();
             double chips = currPlayer.getChips();
-            double calcChips = ((slider.Value * 0.1) * chips); // Slider has bool value in range 0.0-10.0, hence * 0.1, then we multiply this with chips 
+            double calcChips = ((slider.Value * 0.1) * chips); // Slider has bool value in range 0.0-10.0, hence * 0.1, then we multiply this with chips.
             int roundUp = ((int)Math.Round(calcChips / 10.0)) * 10; // Rounds it up to nearest 10.
 
-            chipsValue.Text = roundUp.ToString(); // Slider has bool value in range 0.0-10.0
+            return roundUp;
+        }
+
+        private void slider_mouse_Leave(object sender, RoutedEventArgs e)
+        {
+            chipsValue.Text = calcSliderValue().ToString(); // Slider has bool value in range 0.0-10.0
         }
 
         //Hide buttons until next time its the players turn

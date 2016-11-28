@@ -198,12 +198,19 @@ namespace Poker
         }
 
         // function for raise
-        public void playerRaise()
+        public void playerRaise(int raise)
         {
             // Insert chips
-            // Set player to lastRaiserOrFirst
-            // Check if player is out of chips
+            insertPlayerChips(currentPlayer, raise);
+            
+            // TODO: Check if player is out of chips
+            
             // NextPlayer
+            Player_entity nextPlayer = getNextPlayer();
+
+            currentPlayer = nextPlayer;
+            Console.WriteLine("RAISE");
+
         }
 
         public void changeBlindIndexes()
