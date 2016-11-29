@@ -35,6 +35,7 @@ namespace Poker
             displayPlayerCards();
             flop(); //Floppen skall köras efter första rundan så inte här XD
             displayStakes();
+            setSliderValue();
             highlightCurrentPlayerYellow();
         }
 
@@ -164,15 +165,30 @@ namespace Poker
 
         private void raise_button_Click(object sender, RoutedEventArgs e)
         {
-            table_entity.getRules().playerRaise(calcSliderValue());
+            table_entity.getRules().playerRaise(calcSliderValue() + table_entity.getRules().getCurrentPlayer().getStakes());
 
             hidePlayerButtons();
 
             displayStakes();
             displayChips();
+            setSliderValue();
             highlightCurrentPlayerYellow();
         }
 
+        private void setCallButtonToCall()
+        {
+            call_button.Content = "Call";
+        }
+
+        private void setCallButtonToCheck()
+        {
+            call_button.Content = "Check"; 
+        }
+
+        private void setSliderValue()
+        {
+            chipsValue.Text = (table_entity.getRules().MinRaise - table_entity.getRules().getCurrentPlayer().getStakes()).ToString();
+        }
 
         private int calcSliderValue()
         {
@@ -181,6 +197,10 @@ namespace Poker
             double calcChips = ((slider.Value * 0.1) * chips); // Slider has bool value in range 0.0-10.0, hence * 0.1, then we multiply this with chips.
             int roundUp = ((int)Math.Round(calcChips / 10.0)) * 10; // Rounds it up to nearest 10.
 
+            if (roundUp < table_entity.getRules().MinRaise - table_entity.getRules().getCurrentPlayer().getStakes())
+            {
+                roundUp = table_entity.getRules().MinRaise - table_entity.getRules().getCurrentPlayer().getStakes();
+            }
             return roundUp;
         }
 
@@ -243,7 +263,7 @@ namespace Poker
             player2_chips.Text = table_entity.getPlayer2().getChips().ToString();
             player3_chips.Text = table_entity.getPlayer3().getChips().ToString();
             player4_chips.Text = table_entity.getPlayer4().getChips().ToString();
-            player5_chips.Text = table_entity.getPlayer4().getChips().ToString();
+            player5_chips.Text = table_entity.getPlayer5().getChips().ToString();
         }
     }
 }

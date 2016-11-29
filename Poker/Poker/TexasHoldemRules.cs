@@ -19,7 +19,9 @@ namespace Poker
         private const int playerCards = 2;
         private const int communityCards = 5;
         private const int startingChips = 1000;
-        private const int bigBlind = 20;
+        private int bigBlind = 20;
+        private int lastRaise;
+        private int minRaise; // minimum allowed raise
         private bool limit;
         private List<Player_entity> players;
         private Deck deck;
@@ -30,7 +32,33 @@ namespace Poker
         private int roundCounter;
         private Player_entity currentPlayer;
         private Player_entity lastRaiserOrFirst;
-        
+
+        // Move to table_entity
+        public int MinRaise
+        {
+            get
+            {
+                return minRaise;
+            }
+
+            set
+            {
+                minRaise = value;
+            }
+        }
+
+        public int LastRaise
+        {
+            get
+            {
+                return lastRaise;
+            }
+
+            set
+            {
+                lastRaise = value;
+            }
+        }
 
         public enum Choice { FOLD, CHECK, RAISE };
 
@@ -41,6 +69,9 @@ namespace Poker
             this.players = players;
             this.deck = deck;
             this.limit = limit;
+
+            lastRaise = bigBlind;
+            minRaise = bigBlind*2;
 
             indexBigBlind = 2;
             indexSmallBlind = 1;
@@ -105,11 +136,11 @@ namespace Poker
             if (player.getChips() < chips)
             {
                 // If player dont have enough chips
-                player.setStakes(player.getChips());
+                player.setStakes(player.getStakes() + player.getChips());
                 player.setChips(0);
             } else
             {
-                player.setStakes(chips);
+                player.setStakes(player.getStakes() + chips);
                 player.setChips(player.getChips() - chips);
             }
         }
@@ -186,7 +217,7 @@ namespace Poker
         public void playerCall()
         {
             // Insert chips
-            insertPlayerChips(currentPlayer, bigBlind);
+            insertPlayerChips(currentPlayer, lastRaise);
 
             // Check if player is out of chips
             // NextPlayer
@@ -194,14 +225,21 @@ namespace Poker
             Player_entity nextPlayer = getNextPlayer();
 
             currentPlayer = nextPlayer;
-            Console.WriteLine("CALL");
         }
 
         // function for raise
         public void playerRaise(int raise)
         {
+            minRaise = raise + (raise - lastRaise);
+
+            lastRaise = raise;
+
             // Insert chips
-            insertPlayerChips(currentPlayer, raise);
+            insertPlayerChips(currentPlayer, raise - currentPlayer.getStakes());
+
+            
+
+            
             
             // TODO: Check if player is out of chips
             
@@ -209,8 +247,6 @@ namespace Poker
             Player_entity nextPlayer = getNextPlayer();
 
             currentPlayer = nextPlayer;
-            Console.WriteLine("RAISE");
-
         }
 
         public void changeBlindIndexes()
