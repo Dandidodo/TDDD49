@@ -372,6 +372,27 @@ namespace Poker
             }
             Console.WriteLine(rankCounter);
         }
+
+        private bool checkFlush(List<Card_entity> allCards)
+        {
+            for (int card1_index = 0; card1_index < allCards.Count; card1_index++)
+            {
+                for (int card2_index = card1_index + 1; card2_index < allCards.Count; card2_index++)
+                {
+                    Card_entity card1 = allCards[card1_index];
+                    Card_entity card2 = allCards[card2_index];
+
+                    if (card1 != card2)
+                    {
+                        if (card1.getSuit() != card2.getSuit())
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
     }
 }
 
