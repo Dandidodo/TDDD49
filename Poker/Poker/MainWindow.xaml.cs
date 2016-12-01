@@ -33,7 +33,8 @@ namespace Poker
             table = new Logic_tier.Table(table_entity);
             displayChips();
             displayPlayerCards();
-            flop(); //Floppen skall köras efter första rundan så inte här XD
+            setCommunityCards();
+            hideCommunityCards();
             displayStakes();
             setSliderValue();
             highlightCurrentPlayerYellow();
@@ -62,17 +63,38 @@ namespace Poker
                 player5.Fill = new SolidColorBrush(Colors.Yellow);
         }
 
-        //Display three cards in the beginning and hide the other cards.
-        private void flop()
+        private void setCommunityCards()
         {
             cm_card1_suit.Text = table_entity.getCM1().getSuit().ToString();
             cm_card1_rank.Text = table_entity.getCM1().getRank().ToString();
+
             cm_card2_suit.Text = table_entity.getCM2().getSuit().ToString();
             cm_card2_rank.Text = table_entity.getCM2().getRank().ToString();
+
             cm_card3_suit.Text = table_entity.getCM3().getSuit().ToString();
             cm_card3_rank.Text = table_entity.getCM3().getRank().ToString();
 
-            //Hide other cards for now
+            cm_card4_suit.Text = table_entity.getCM4().getSuit().ToString();
+            cm_card4_rank.Text = table_entity.getCM4().getRank().ToString();
+
+            cm_card5_suit.Text = table_entity.getCM5().getSuit().ToString();
+            cm_card5_rank.Text = table_entity.getCM5().getRank().ToString();
+        }
+
+        private void hideCommunityCards()
+        {
+            cm_card1_suit.Visibility = Visibility.Hidden;
+            cm_card1_rank.Visibility = Visibility.Hidden;
+            cm_card1_bg.Visibility = Visibility.Hidden;
+
+            cm_card2_suit.Visibility = Visibility.Hidden;
+            cm_card2_rank.Visibility = Visibility.Hidden;
+            cm_card2_bg.Visibility = Visibility.Hidden;
+
+            cm_card3_suit.Visibility = Visibility.Hidden;
+            cm_card3_rank.Visibility = Visibility.Hidden;
+            cm_card3_bg.Visibility = Visibility.Hidden;
+
             cm_card4_suit.Visibility = Visibility.Hidden;
             cm_card4_rank.Visibility = Visibility.Hidden;
             cm_card4_bg.Visibility = Visibility.Hidden;
@@ -82,16 +104,32 @@ namespace Poker
             cm_card5_bg.Visibility = Visibility.Hidden;
         }
 
-        private void turn()
-        {
-            cm_card4_suit.Text = table_entity.getCM4().getSuit().ToString();
-            cm_card4_rank.Text = table_entity.getCM4().getRank().ToString();
-        }
-
-        private void river()
-        {
-            cm_card5_suit.Text = table_entity.getCM5().getSuit().ToString();
-            cm_card5_rank.Text = table_entity.getCM5().getRank().ToString();
+        private void updateCommunityCards()
+        {           
+            if (table_entity.getRules().RoundCounter == 1)
+            {
+                cm_card1_suit.Visibility = Visibility.Visible;
+                cm_card1_rank.Visibility = Visibility.Visible;
+                cm_card1_bg.Visibility = Visibility.Visible;
+                cm_card2_suit.Visibility = Visibility.Visible;
+                cm_card2_rank.Visibility = Visibility.Visible;
+                cm_card2_bg.Visibility = Visibility.Visible;
+                cm_card3_suit.Visibility = Visibility.Visible;
+                cm_card3_rank.Visibility = Visibility.Visible;
+                cm_card3_bg.Visibility = Visibility.Visible;
+            }
+            if (table_entity.getRules().RoundCounter == 2)
+            {
+                cm_card4_suit.Visibility = Visibility.Visible;
+                cm_card4_rank.Visibility = Visibility.Visible;
+                cm_card4_bg.Visibility = Visibility.Visible;
+            }
+            if (table_entity.getRules().RoundCounter == 3)
+            {
+                cm_card5_suit.Visibility = Visibility.Visible;
+                cm_card5_rank.Visibility = Visibility.Visible;
+                cm_card5_bg.Visibility = Visibility.Visible;
+            }
         }
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
@@ -104,7 +142,7 @@ namespace Poker
             displayStakes();
             displayChips();
 
-            Visibility player1_visibility = table_entity.getPlayer1().active ? Visibility.Visible : Visibility.Hidden;
+            Visibility player1_visibility = table_entity.getPlayer1().Active ? Visibility.Visible : Visibility.Hidden;
             player1_card1_rank.Visibility = player1_visibility;
             player1_card1_suit.Visibility = player1_visibility;
             player1_card1_bg.Visibility = player1_visibility;
@@ -112,7 +150,7 @@ namespace Poker
             player1_card2_suit.Visibility = player1_visibility;
             player1_card2_bg.Visibility = player1_visibility;
 
-            Visibility player2_visibility = table_entity.getPlayer2().active ? Visibility.Visible : Visibility.Hidden;
+            Visibility player2_visibility = table_entity.getPlayer2().Active ? Visibility.Visible : Visibility.Hidden;
             player2_card1_rank.Visibility = player2_visibility;
             player2_card1_suit.Visibility = player2_visibility;
             player2_card1_bg.Visibility = player2_visibility;
@@ -120,7 +158,7 @@ namespace Poker
             player2_card2_suit.Visibility = player2_visibility;
             player2_card2_bg.Visibility = player2_visibility;
 
-            Visibility player3_visibility = table_entity.getPlayer3().active ? Visibility.Visible : Visibility.Hidden;
+            Visibility player3_visibility = table_entity.getPlayer3().Active ? Visibility.Visible : Visibility.Hidden;
             player3_card1_rank.Visibility = player3_visibility;
             player3_card1_suit.Visibility = player3_visibility;
             player3_card1_bg.Visibility = player3_visibility;
@@ -128,7 +166,7 @@ namespace Poker
             player3_card2_suit.Visibility = player3_visibility;
             player3_card2_bg.Visibility = player3_visibility;
 
-            Visibility player4_visibility = table_entity.getPlayer4().active ? Visibility.Visible : Visibility.Hidden;
+            Visibility player4_visibility = table_entity.getPlayer4().Active ? Visibility.Visible : Visibility.Hidden;
             player4_card1_rank.Visibility = player4_visibility;
             player4_card1_suit.Visibility = player4_visibility;
             player4_card1_bg.Visibility = player4_visibility;
@@ -136,7 +174,7 @@ namespace Poker
             player4_card2_suit.Visibility = player4_visibility;
             player4_card2_bg.Visibility = player4_visibility;
 
-            Visibility player5_visibility = table_entity.getPlayer5().active ? Visibility.Visible : Visibility.Hidden;
+            Visibility player5_visibility = table_entity.getPlayer5().Active ? Visibility.Visible : Visibility.Hidden;
             player5_card1_rank.Visibility = player5_visibility;
             player5_card1_suit.Visibility = player5_visibility;
             player5_card1_bg.Visibility = player5_visibility;
@@ -149,6 +187,8 @@ namespace Poker
             //table.playerFold();
             //hidePlayerButtons();
             highlightCurrentPlayerYellow();
+            updateCheckCallButton();
+            updateCommunityCards();
         }
 
         private void call_button_Click(object sender, RoutedEventArgs e)
@@ -160,6 +200,9 @@ namespace Poker
             displayStakes();
             displayChips();
             highlightCurrentPlayerYellow();
+            updateCheckCallButton();
+            updateCommunityCards();
+            pot.Text = table_entity.getPot().ToString();
         }
 
 
@@ -173,6 +216,19 @@ namespace Poker
             displayChips();
             setSliderValue();
             highlightCurrentPlayerYellow();
+            updateCheckCallButton();
+        }
+
+        private void updateCheckCallButton()
+        {
+            if (table_entity.getRules().LastRaise == table_entity.getRules().getCurrentPlayer().getStakes())
+            {
+                setCallButtonToCheck();
+            }
+            else
+            {
+                setCallButtonToCall();
+            }
         }
 
         private void setCallButtonToCall()
@@ -188,6 +244,7 @@ namespace Poker
         private void setSliderValue()
         {
             chipsValue.Text = (table_entity.getRules().MinRaise - table_entity.getRules().getCurrentPlayer().getStakes()).ToString();
+            slider.Value = 0;
         }
 
         private int calcSliderValue()

@@ -13,10 +13,10 @@ namespace Poker
 
         public Deck()
         {
-            this.deck_entity.setCards(initDeck());            
+            initDeck();         
         }
 
-        public List<Card_entity> initDeck()
+        public void initDeck()
         {
             List<Card_entity> temp_cards = new List<Card_entity>();
             var suits = Enum.GetValues(typeof(Card_entity.Suit));
@@ -29,7 +29,7 @@ namespace Poker
                     //Console.WriteLine(temp_cards.Last().getRank().ToString() + temp_cards.Last().getSuit());
                 }
             }
-            return Shuffle(temp_cards);
+            deck_entity.setCards(Shuffle(temp_cards));
         }
 
         // Fisher-Yates shuffle

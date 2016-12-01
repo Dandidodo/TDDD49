@@ -11,7 +11,8 @@ namespace Poker
         private List<Card_entity> cards;
         private int chips;
         private int stakes;
-        private bool _active;
+        private bool active;
+        private bool actedThisRound;
 
         public Player_entity()
         {
@@ -19,17 +20,31 @@ namespace Poker
             chips = 0;
             stakes = 0;
             active = false;
+            actedThisRound = false;
         }
 
-        public bool active
+        public bool Active
         {
             get
             {
-                return _active;
+                return active;
             }
             set
             {
-                _active = value;
+                active = value;
+            }
+        }
+
+        public bool ActedThisRound
+        {
+            get
+            {
+                return actedThisRound;
+            }
+
+            set
+            {
+                actedThisRound = value;
             }
         }
 

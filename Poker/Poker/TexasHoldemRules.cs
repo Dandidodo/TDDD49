@@ -31,7 +31,6 @@ namespace Poker
         private int indexSmallBlind;
         private int roundCounter;
         private Player_entity currentPlayer;
-        private Player_entity lastRaiserOrFirst;
 
         // Move to table_entity
         public int MinRaise
@@ -60,8 +59,18 @@ namespace Poker
             }
         }
 
-        public enum Choice { FOLD, CHECK, RAISE };
+        public int RoundCounter
+        {
+            get
+            {
+                return roundCounter;
+            }
 
+            set
+            {
+                roundCounter = value;
+            }
+        }
 
         public TexasHoldemRules(Table_entity table, List<Player_entity> players, Deck deck, bool limit)
         {
@@ -71,14 +80,15 @@ namespace Poker
             this.limit = limit;
 
             lastRaise = bigBlind;
-            minRaise = bigBlind*2;
+            minRaise = bigBlind * 2;
 
-            indexBigBlind = 2;
-            indexSmallBlind = 1;
+            indexBigBlind = 1;
+            indexSmallBlind = 0;
             roundCounter = 0;
             Console.WriteLine("Texas created");
 
-            dealCommunityCards();
+            setCommunityCards();
+            giveStartingChips();
             newHand();
         }
 
@@ -89,27 +99,34 @@ namespace Poker
 
         public void newHand()
         {
-            //activePlayers = players;
-            foreach(Player_entity player in players)
+            foreach (Player_entity player in players)
             {
-                player.active = true;
+                player.Active = true;
+                player.ActedThisRound = false;
             }
 
             deck.initDeck();
-            changeBlindIndexes();
-            currentPlayer = players[indexBigBlind + 1];
-            lastRaiserOrFirst = players[indexBigBlind];
 
-            giveStartingChips();
+            changeBlindIndexes();
             insertBlinds();
-            dealCards();
+
+
+            currentPlayer = (indexBigBlind == players.Count - 1) ? players[0] : players[indexBigBlind + 1];
             
+            dealCards();
+
             //playerAction(currentPlayer);
+        }
+
+        public void changeBlindIndexes()
+        {
+            indexBigBlind = (indexBigBlind == players.Count - 1) ? indexBigBlind = 0 : ++indexBigBlind;
+            indexSmallBlind = (indexSmallBlind == players.Count - 1) ? indexSmallBlind = 0 : ++indexSmallBlind;
         }
 
         public void insertBlinds()
         {
-            
+
             insertPlayerChips(players[indexBigBlind], bigBlind);
             insertPlayerChips(players[indexSmallBlind], bigBlind / 2);
         }
@@ -118,13 +135,13 @@ namespace Poker
         {
             foreach (Player_entity player in players)
             {
-                player.setChips(startingChips);            
+                player.setChips(startingChips);
             }
         }
 
         public void dealCards()
         {
-            foreach(Player_entity player in players)
+            foreach (Player_entity player in players)
             {
                 player.receiveCard(deck.draw());
                 player.receiveCard(deck.draw());
@@ -145,24 +162,23 @@ namespace Poker
             }
         }
 
-        public void isRoundFinished()
+        public bool roundIsFinished()
+        {
+            return (currentPlayer.getStakes() == lastRaise && currentPlayer.ActedThisRound);
+        }
+
+        public bool handIsFinished()
         {
             int activePlayers = 0;
             foreach (Player_entity player in players)
             {
-                if (player.active == true)
+                if (player.Active == true)
                     activePlayers++;
             }
-            if (activePlayers == 1)
-            {
-                currentPlayer.setChips(currentPlayer.getChips() + table.getPot() + currentPlayer.getStakes());
-                currentPlayer.setStakes(0);
-                table.setPot(0);
-                //newHand();
-            }
+            return activePlayers == 1;
         }
 
-        public void dealCommunityCards()
+        public void setCommunityCards()
         {
             for (int i = 0; i < 5; i++)
                 table.setCM(deck.draw());
@@ -195,6 +211,7 @@ namespace Poker
         // function for fold
         public void playerFold()
         {
+            currentPlayer.ActedThisRound = true;
             // Move the players stakes to the pot
             table.setPot(table.getPot() + currentPlayer.getStakes());
             currentPlayer.setStakes(0);
@@ -203,21 +220,31 @@ namespace Poker
             Player_entity nextPlayer = getNextPlayer();
 
             // Remove player from active players
-            currentPlayer.active = false;
-            
+            currentPlayer.Active = false;
+
             currentPlayer = nextPlayer;
 
-            // Check if winner
-            isRoundFinished();
+            // Check if the hand is finished
+            if (handIsFinished())
+            {
+                giveWinnings();
+                newHand();
+            }            
+        }
 
-            //playerAction();
+        public void giveWinnings()
+        {
+            currentPlayer.setChips(currentPlayer.getChips() + table.getPot() + currentPlayer.getStakes());
+            currentPlayer.setStakes(0);
+            table.setPot(0);
         }
 
         // function for call
         public void playerCall()
         {
+            currentPlayer.ActedThisRound = true;
             // Insert chips
-            insertPlayerChips(currentPlayer, lastRaise);
+            insertPlayerChips(currentPlayer, lastRaise - currentPlayer.getStakes());
 
             // Check if player is out of chips
             // NextPlayer
@@ -225,36 +252,48 @@ namespace Poker
             Player_entity nextPlayer = getNextPlayer();
 
             currentPlayer = nextPlayer;
+
+            if (roundIsFinished())
+            {
+                foreach (Player_entity player in players)
+                {
+                    player.ActedThisRound = false;
+                    table.setPot(table.getPot() + player.getStakes());
+                    player.setStakes(0);
+                }
+                currentPlayer = players[indexSmallBlind];
+
+                // River
+                if (roundCounter == 3)
+                {
+                    // Calculate who has the best hand
+                    //showDown();
+                    newHand(); // remove this when showdown is implemented
+                }
+                else {
+                    roundCounter++;
+                }     
+            }
         }
 
         // function for raise
         public void playerRaise(int raise)
         {
-            minRaise = raise + (raise - lastRaise);
+            currentPlayer.ActedThisRound = true;
 
+            minRaise = raise + (raise - lastRaise);
             lastRaise = raise;
 
             // Insert chips
             insertPlayerChips(currentPlayer, raise - currentPlayer.getStakes());
 
-            
-
-            
-            
             // TODO: Check if player is out of chips
             
             // NextPlayer
             Player_entity nextPlayer = getNextPlayer();
 
             currentPlayer = nextPlayer;
-        }
-
-        public void changeBlindIndexes()
-        {
-            indexBigBlind = (indexBigBlind == players.Count - 1) ? indexBigBlind = 0 : indexBigBlind++;
-            indexSmallBlind = (indexSmallBlind == players.Count - 1) ? indexSmallBlind = 0 : indexSmallBlind++;
-        }
-
+        }     
 
         // TODO: Move this to a better suited place
         // Find the next player, we have to check a special case if the current active player is in the end of players, then we have to
@@ -275,7 +314,7 @@ namespace Poker
                 {
                     return player;
                 }
-                else if (player.active == true && !firstActivePlayerFound)
+                else if (player.Active == true && !firstActivePlayerFound)
                 {
                     nextPlayer = player;
                     firstActivePlayerFound = true;
