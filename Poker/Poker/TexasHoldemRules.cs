@@ -89,7 +89,7 @@ namespace Poker
             setCommunityCards();
             giveStartingChips();
             newHand();
-            //compareHands(); //testing this atm
+            compareHands(); //testing this atm
         }
 
         public Player_entity getCurrentPlayer()
@@ -302,6 +302,7 @@ namespace Poker
 
         private void compareHands()
         {
+            /*
             foreach (Player_entity player in players)
             {
                 if (player.Active)
@@ -313,8 +314,22 @@ namespace Poker
                     allCards.Add(player.getCards()[1]);
 
                     checkSameRank(allCards);
+                    checkFlush(allCards);
+                    checkStraight(allCards);
                 }
-            }
+            }*/
+
+            //Fake shit for testing purposes only
+            List<Card_entity> testStraight = new List<Card_entity>();
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club,1));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 4));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 5));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 6));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 7));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 8));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 2));
+
+            checkStraight(testStraight);
         }
 
 
@@ -368,6 +383,34 @@ namespace Poker
                 }
             }
             return true;
+        }
+
+        //TODO: Doesnt work atm
+        private bool checkStraight(List<Card_entity> allCards)
+        {
+            List<Card_entity> sortedCards = allCards.OrderBy(c => c.getRank()).ToList();
+
+            int previousRank = sortedCards[0].getRank();
+            int currentStreak = 0; // The cards rank has to increase five times, but we dont know where the straight starts.
+
+            for(int i = 1; i < allCards.Count; i++)
+            {
+           
+                int currentRank = sortedCards[i].getRank();
+                if ((previousRank + 1) == currentRank)
+                {
+                    currentStreak++;
+                    if (currentStreak == 4)
+                        return true; //Here we have found it
+                }
+                else
+                {
+                    previousRank = currentRank;
+                    currentStreak = 0;
+                }
+
+            }
+            return false;
         }
     }
 }
