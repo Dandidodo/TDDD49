@@ -42,6 +42,11 @@ namespace Poker
             Console.WriteLine("Table_entity created");
         }
 
+        public List<Card_entity> getCommunityCards()
+        {
+            return communityCards;
+        }
+
         public Player_entity getPlayer1()
         {
             return player1;

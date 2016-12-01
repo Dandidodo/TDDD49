@@ -90,6 +90,7 @@ namespace Poker
             setCommunityCards();
             giveStartingChips();
             newHand();
+            //compareHands(); //testing this atm
         }
 
         public Player_entity getCurrentPlayer()
@@ -321,6 +322,55 @@ namespace Poker
                 }                
             }
             return nextPlayer;
+        }
+
+        private void compareHands()
+        {
+            foreach (Player_entity player in players)
+            {
+                if (player.Active)
+                {
+                    //Tilldela rank baserad på om spelare har ngt av dessa?
+                    //TODO: Highest card måste vi ta hänsyn till, om ingen spelare har ngn av nedanstående.
+                    List<Card_entity> allCards = new List<Card_entity>(table.getCommunityCards());
+                    allCards.Add(player.getCards()[0]);
+                    allCards.Add(player.getCards()[1]);
+
+                    checkSameRank(allCards);
+                }
+            }
+        }
+
+
+        private void checkSameRank(List<Card_entity> allCards)
+        {
+            Dictionary<int, int> rankCounter = new Dictionary<int, int>();
+
+            for (int card1_index = 0; card1_index < allCards.Count; card1_index++)
+            {
+                for (int card2_index = card1_index + 1; card2_index < allCards.Count; card2_index++)
+                {
+                    Card_entity card1 = allCards[card1_index];
+                    Card_entity card2 = allCards[card2_index];
+
+                    if (card1!= card2)
+                    {
+                        if (card1.getRank() == card2.getRank())
+                        {
+                            if (rankCounter.ContainsKey(card1.getRank()))
+                            {
+                                int value = rankCounter[card1.getRank()];
+                                rankCounter[card1.getRank()] = value + 1; //Something more than a pair, three of a kind etc...
+                            }
+                            else
+                            {
+                                rankCounter.Add(card1.getRank(), 1); //We found a pair
+                            }
+                        }
+                    }
+                }
+            }
+            Console.WriteLine(rankCounter);
         }
     }
 }
