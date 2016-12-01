@@ -26,7 +26,6 @@ namespace Poker
         private List<Player_entity> players;
         private Deck deck;
         private Table_entity table;
-        private int pot;
         private int indexBigBlind;
         private int indexSmallBlind;
         private int roundCounter;
@@ -111,12 +110,9 @@ namespace Poker
             changeBlindIndexes();
             insertBlinds();
 
-
             currentPlayer = (indexBigBlind == players.Count - 1) ? players[0] : players[indexBigBlind + 1];
             
             dealCards();
-
-            //playerAction(currentPlayer);
         }
 
         public void changeBlindIndexes()
@@ -184,32 +180,7 @@ namespace Poker
             for (int i = 0; i < 5; i++)
                 table.setCM(deck.draw());
         }
-
-        public void playerAction()
-        {
-            //1) Fold, 2) Call, 3) Raise
-            // Show graphical options to current player
-
-
-            /* 
-            while(true)
-            {             
-               if (playerChoice == Choice.FOLD)
-               {
-
-               } else if (playerChoice == Choice.CHECK)
-               {
-
-               } else if (playerChoice == Choice.RAISE)
-               {
-
-               }           
-            }
-            */
-
-        }
-
-        // function for fold
+        
         public void playerFold()
         {
             currentPlayer.ActedThisRound = true;
@@ -218,7 +189,7 @@ namespace Poker
             currentPlayer.setStakes(0);
 
             // Get next player
-            Player_entity nextPlayer = getNextPlayer();
+            Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
 
             // Remove player from active players
             currentPlayer.Active = false;
@@ -239,8 +210,7 @@ namespace Poker
             currentPlayer.setStakes(0);
             table.setPot(0);
         }
-
-        // function for call
+        
         public void playerCall()
         {
             currentPlayer.ActedThisRound = true;
@@ -250,20 +220,13 @@ namespace Poker
             // Check if player is out of chips
             // NextPlayer
             // Get next player
-            Player_entity nextPlayer = getNextPlayer();
+            Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
 
             currentPlayer = nextPlayer;
 
             if (roundIsFinished())
             {
-                foreach (Player_entity player in players)
-                {
-                    player.ActedThisRound = false;
-                    table.setPot(table.getPot() + player.getStakes());
-                    player.setStakes(0);
-                }
-                currentPlayer = players[indexSmallBlind];
-
+                newRound();
                 // River
                 if (roundCounter == 3)
                 {
@@ -275,6 +238,19 @@ namespace Poker
                     roundCounter++;
                 }     
             }
+        }
+
+        public void newRound()
+        {
+            foreach (Player_entity player in players)
+            {
+                player.ActedThisRound = false;
+                table.setPot(table.getPot() + player.getStakes());
+                player.setStakes(0);
+            }
+            currentPlayer = getNextActivePlayer(players[indexSmallBlind - 1]); // Will not work when indexSmallBlind == 0
+            lastRaise = 0;
+            minRaise = bigBlind;
         }
 
         // function for raise
@@ -291,7 +267,7 @@ namespace Poker
             // TODO: Check if player is out of chips
             
             // NextPlayer
-            Player_entity nextPlayer = getNextPlayer();
+            Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
 
             currentPlayer = nextPlayer;
         }     
@@ -299,25 +275,25 @@ namespace Poker
         // TODO: Move this to a better suited place
         // Find the next player, we have to check a special case if the current active player is in the end of players, then we have to
         // return the first active player found.
-        public Player_entity getNextPlayer()
+        public Player_entity getNextActivePlayer(Player_entity player)
         {
             Player_entity nextPlayer = new Player_entity();
-            bool currentPlayerFound = false;
+            bool playerFound = false;
             bool firstActivePlayerFound = false;
 
-            foreach (Player_entity player in players)
+            foreach (Player_entity p in players)
             {
-                if (player == currentPlayer)
+                if (p == player)
                 {
-                    currentPlayerFound = true;
+                    playerFound = true;
                 }
-                else if (currentPlayerFound == true)
+                else if (playerFound == true && p.Active == true)
                 {
-                    return player;
+                    return p;
                 }
-                else if (player.Active == true && !firstActivePlayerFound)
+                else if (p.Active == true && !firstActivePlayerFound)
                 {
-                    nextPlayer = player;
+                    nextPlayer = p;
                     firstActivePlayerFound = true;
                 }                
             }
