@@ -321,10 +321,10 @@ namespace Poker
 
             //Fake shit for testing purposes only
             List<Card_entity> testStraight = new List<Card_entity>();
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 1));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 1));
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 4));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 5));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 6));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 5));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 6));
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 7));
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 8));
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 2));
@@ -364,28 +364,33 @@ namespace Poker
             Console.WriteLine(rankCounter);
         }
 
+        // Returns if any suit occures 5 times or more.
         private bool checkFlush(List<Card_entity> allCards)
         {
-            for (int card1_index = 0; card1_index < allCards.Count; card1_index++)
-            {
-                for (int card2_index = card1_index + 1; card2_index < allCards.Count; card2_index++)
-                {
-                    Card_entity card1 = allCards[card1_index];
-                    Card_entity card2 = allCards[card2_index];
+            int heartCount = 0;
+            int spadesCount = 0;
+            int diamondCount = 0;
+            int clubCount = 0;
 
-                    if (card1 != card2)
-                    {
-                        if (card1.getSuit() != card2.getSuit())
-                        {
-                            return false;
-                        }
-                    }
-                }
+
+            for (int i = 0; i < allCards.Count; i++)
+            {
+                Card_entity.Suit currentSuit = allCards[i].getSuit();
+
+                if (currentSuit == Card_entity.Suit.Heart)
+                    heartCount++;
+                else if (currentSuit == Card_entity.Suit.Spade)
+                    spadesCount++;
+                else if (currentSuit == Card_entity.Suit.Diamond)
+                    diamondCount++;
+                else
+                    clubCount++;
+
             }
-            return true;
+
+            return ((heartCount >= 5) || (spadesCount >= 5) || (diamondCount >= 5) || (clubCount >= 5));
         }
 
-        //TODO: Doesnt work atm
         private bool checkStraight(List<Card_entity> allCards)
         {
             List<Card_entity> sortedCards = allCards.OrderBy(c => c.getRank()).ToList();
@@ -400,6 +405,7 @@ namespace Poker
                 {
                     currentStreak++;
                     if (currentStreak == 4)
+                        //TODO: Check if last card is Ace -> Set royal flag
                         return true; //Here we have found it
                 }
                 else
