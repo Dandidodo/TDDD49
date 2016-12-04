@@ -321,7 +321,7 @@ namespace Poker
 
             //Fake shit for testing purposes only
             List<Card_entity> testStraight = new List<Card_entity>();
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club,1));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 1));
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 4));
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 5));
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 6));
@@ -329,7 +329,7 @@ namespace Poker
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 8));
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 2));
 
-            checkStraight(testStraight);
+            checkFlush(testStraight);
         }
 
 
@@ -395,7 +395,6 @@ namespace Poker
 
             for(int i = 1; i < allCards.Count; i++)
             {
-           
                 int currentRank = sortedCards[i].getRank();
                 if ((previousRank + 1) == currentRank)
                 {
@@ -405,9 +404,10 @@ namespace Poker
                 }
                 else
                 {
-                    previousRank = currentRank;
                     currentStreak = 0;
                 }
+
+                previousRank = currentRank;
 
             }
             return false;
