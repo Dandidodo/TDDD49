@@ -300,6 +300,8 @@ namespace Poker
             return nextPlayer;
         }
 
+        // Rank each hand from 1-10 from best to worst, also rank the strenght of the hand,
+        // say two players have a pair, which one is the strongest.
         private void compareHands()
         {
             /*
@@ -329,43 +331,70 @@ namespace Poker
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 8));
             testStraight.Add(new Card_entity(Card_entity.Suit.Club, 2));
 
-            checkFlush(testStraight);
+            List<Card_entity> sortedCards = testStraight.OrderBy(c => c.getRank()).ToList();
+
+            checkFlush(sortedCards);
         }
 
 
-        private void checkSameRank(List<Card_entity> allCards)
+        private void checkSameRank(List<Card_entity> combinedCards)
         {
             Dictionary<int, int> rankCounter = new Dictionary<int, int>();
 
-            for (int card1_index = 0; card1_index < allCards.Count; card1_index++)
+            //Detta är en dum lösning, vi kan loopa en gång och incrementa samma siffra om den redan finns....
+            for (int card1_index = 0; card1_index < combinedCards.Count; card1_index++)
             {
-                for (int card2_index = card1_index + 1; card2_index < allCards.Count; card2_index++)
+                for (int card2_index = card1_index + 1; card2_index < combinedCards.Count; card2_index++)
                 {
-                    Card_entity card1 = allCards[card1_index];
-                    Card_entity card2 = allCards[card2_index];
+                    Card_entity card1 = combinedCards[card1_index];
+                    Card_entity card2 = combinedCards[card2_index];
 
-                    if (card1!= card2)
+                    if (card1.getRank() == card2.getRank())
                     {
-                        if (card1.getRank() == card2.getRank())
+                        if (rankCounter.ContainsKey(card1.getRank()))
                         {
-                            if (rankCounter.ContainsKey(card1.getRank()))
-                            {
-                                int value = rankCounter[card1.getRank()];
-                                rankCounter[card1.getRank()] = value + 1; //Something more than a pair, three of a kind etc...
-                            }
-                            else
-                            {
-                                rankCounter.Add(card1.getRank(), 1); //We found a pair
-                            }
+                            int value = rankCounter[card1.getRank()];
+                            rankCounter[card1.getRank()] = value + 1; //Something more than a pair, three of a kind etc...
+                        }
+                        else
+                        {
+                            rankCounter.Add(card1.getRank(), 1); //We found a pair
                         }
                     }
                 }
             }
+
+            int[,] three_of_a_kind;
+            int[,] pair;
+
+            foreach (KeyValuePair<int, int> rank in rankCounter)
+            {
+                if (rank.Value == 4)
+                {
+                    //returnera direkt med four of a kind, har två spelare samma foak (dv four of a kind på community cards), så blir avgörande highest kicker, om olika foak så blir den med högsta foak.
+                }
+                else if (rank.Value == 3)
+                {
+                    //save in a variable, we might have a full house
+                }
+                else
+                {
+                    //save the pair because
+                }
+            }
+
+            //If still here we have to return what we found.
+
             Console.WriteLine(rankCounter);
         }
 
+        /*
+        private int[,] evalHand(Dictionary<int,int> rankCounter)
+        {
+        }*/
+
         // Returns if any suit occures 5 times or more.
-        private bool checkFlush(List<Card_entity> allCards)
+        private bool checkFlush(List<Card_entity> combinedCards)
         {
             int heartCount = 0;
             int spadesCount = 0;
@@ -373,9 +402,9 @@ namespace Poker
             int clubCount = 0;
 
 
-            for (int i = 0; i < allCards.Count; i++)
+            for (int i = 0; i < combinedCards.Count; i++)
             {
-                Card_entity.Suit currentSuit = allCards[i].getSuit();
+                Card_entity.Suit currentSuit = combinedCards[i].getSuit();
 
                 if (currentSuit == Card_entity.Suit.Heart)
                     heartCount++;
@@ -385,22 +414,21 @@ namespace Poker
                     diamondCount++;
                 else
                     clubCount++;
-
             }
 
             return ((heartCount >= 5) || (spadesCount >= 5) || (diamondCount >= 5) || (clubCount >= 5));
         }
 
-        private bool checkStraight(List<Card_entity> allCards)
+        private bool checkStraight(List<Card_entity> combinedCards)
         {
-            List<Card_entity> sortedCards = allCards.OrderBy(c => c.getRank()).ToList();
+            
 
-            int previousRank = sortedCards[0].getRank();
+            int previousRank = combinedCards[0].getRank();
             int currentStreak = 0; // The cards rank has to increase five times, but we dont know where the straight starts.
 
-            for(int i = 1; i < allCards.Count; i++)
+            for(int i = 1; i < combinedCards.Count; i++)
             {
-                int currentRank = sortedCards[i].getRank();
+                int currentRank = combinedCards[i].getRank();
                 if ((previousRank + 1) == currentRank)
                 {
                     currentStreak++;
