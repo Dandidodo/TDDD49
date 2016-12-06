@@ -76,10 +76,7 @@ namespace Poker
             this.table = table;
             this.players = players;
             this.deck = deck;
-            this.limit = limit;
-
-            lastRaise = bigBlind;
-            minRaise = bigBlind * 2;
+            this.limit = limit;            
 
             indexBigBlind = 1;
             indexSmallBlind = 0;
@@ -99,6 +96,8 @@ namespace Poker
 
         public void newHand()
         {
+            roundCounter = 0;
+
             foreach (Player_entity player in players)
             {
                 player.Active = true;
@@ -110,6 +109,8 @@ namespace Poker
             changeBlindIndexes();
             insertBlinds();
 
+            lastRaise = bigBlind;
+            minRaise = bigBlind * 2;
 
             currentPlayer = (indexBigBlind == players.Count - 1) ? players[0] : players[indexBigBlind + 1];
             
@@ -198,12 +199,15 @@ namespace Poker
 
             currentPlayer = nextPlayer;
 
-            // Check if the hand is finished
-            if (handIsFinished())
+            if (roundIsFinished()) // Everyone has acted at least once and there is no raise
+            {
+                endRound(); // Move all stakes to the pot etc
+            }
+            if (handIsFinished()) // Check if the hand is finished (if there's only 1 active player left)
             {
                 giveWinnings();
                 newHand();
-            }            
+            }
         }
 
         public void giveWinnings()
@@ -229,18 +233,15 @@ namespace Poker
 
             if (roundIsFinished())
             {
-                newRound();
-
+                endRound();
                 // River
-                if (roundCounter == 3)
+                if (roundCounter == 4)
                 {
                     // Calculate who has the best hand
                     //showDown();
+                    giveWinnings();
                     newHand(); // remove this when showdown is implemented
                 }
-                else {
-                    roundCounter++;
-                }     
             }
         }
 
@@ -278,7 +279,7 @@ namespace Poker
                 {
                     playerFound = true;
                 }
-                else if (playerFound == true)
+                else if (playerFound == true && p.Active == true)
                 {
                     return p;
                 }
@@ -291,7 +292,7 @@ namespace Poker
             return nextPlayer;
         }
 
-        public void newRound()
+        public void endRound()
         {
             foreach (Player_entity player in players)
             {
@@ -302,6 +303,7 @@ namespace Poker
             currentPlayer = getNextActivePlayer(players[indexSmallBlind - 1]); // Will not work when indexSmallBlind == 0
             lastRaise = 0;
             minRaise = bigBlind;
+            roundCounter++;
         }
 
         // Rank each hand from 1-10 from best to worst, also rank the strenght of the hand,
@@ -367,8 +369,47 @@ namespace Poker
                 }
             }
 
-            int[,] three_of_a_kind;
-            int[,] pair;
+            //Sort by highest value so that we get the best 
+            var myList = rankCounter.ToList();
+            myList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
+
+            bool three_of_a_kind = false;
+            int[,] three_of_a_kind_val;
+
+            //int value;
+            //value += 9000; //royal flush
+            // can only be one royal flush at the same time
+
+            //int value;
+            //value += 800000; //straight flush
+            //value += highestrankedcardinstraightflush
+
+            //value += 700000; //4 of a kind
+            //value += fourofakindvalue*10 + highestrankedcard //value four of a kind more than the highest ranked card
+
+            //value += 600000; //full house
+            //value += value of three of a kind + pair
+
+            //value += 500000 //flush
+            //value += highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
+
+            //value += 400000 //straight
+            //value + highestrankedcard
+
+            //value += 300000 //three of a kind
+            //threeofakindval*100 + highestcard1*10 + highestcard2 //value three of a kind more than the highest ranked card
+
+            //value += 200000 //two pairs
+            //first pair*100 + second pair*10 + highestrankedcard //value three of a kind more than the highest ranked card
+
+            //value += 100000 //one pair
+            //value + pair_val*1000 + highestcard1*100 + highestcard2*10 + highestcard3
+
+            // highest card
+            //highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
+
+            bool pair = true;
+            int[,] pair_val;
 
             foreach (KeyValuePair<int, int> rank in rankCounter)
             {
@@ -380,8 +421,13 @@ namespace Poker
                 {
                     //save in a variable, we might have a full house
                 }
-                else
+                else if(rank.Value == 2)
                 {
+                    //If full house
+                    if(three_of_a_kind)
+                    {
+
+                    }
                     //save the pair because
                 }
             }

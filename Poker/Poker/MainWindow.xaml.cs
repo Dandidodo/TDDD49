@@ -105,8 +105,13 @@ namespace Poker
         }
 
         private void updateCommunityCards()
-        {           
-            if (table_entity.getRules().RoundCounter == 1)
+        {
+            if (table_entity.getRules().RoundCounter == 0)
+            {
+                hideCommunityCards();
+            }
+
+            else if (table_entity.getRules().RoundCounter == 1)
             {
                 cm_card1_suit.Visibility = Visibility.Visible;
                 cm_card1_rank.Visibility = Visibility.Visible;
@@ -118,13 +123,13 @@ namespace Poker
                 cm_card3_rank.Visibility = Visibility.Visible;
                 cm_card3_bg.Visibility = Visibility.Visible;
             }
-            if (table_entity.getRules().RoundCounter == 2)
+            else if (table_entity.getRules().RoundCounter == 2)
             {
                 cm_card4_suit.Visibility = Visibility.Visible;
                 cm_card4_rank.Visibility = Visibility.Visible;
                 cm_card4_bg.Visibility = Visibility.Visible;
             }
-            if (table_entity.getRules().RoundCounter == 3)
+            else if (table_entity.getRules().RoundCounter == 3)
             {
                 cm_card5_suit.Visibility = Visibility.Visible;
                 cm_card5_rank.Visibility = Visibility.Visible;
@@ -134,14 +139,18 @@ namespace Poker
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
         {
-            Player_entity currPlayer = table_entity.getRules().getCurrentPlayer();
-
             table_entity.getRules().playerFold();
+            updateGraphics();
+        }
 
-            pot.Text = table_entity.getPot().ToString();
-            displayStakes();
-            displayChips();
+        private void call_button_Click(object sender, RoutedEventArgs e)
+        {
+            table_entity.getRules().playerCall();
+            updateGraphics();
+        }
 
+        private void updateGraphics()
+        {
             Visibility player1_visibility = table_entity.getPlayer1().Active ? Visibility.Visible : Visibility.Hidden;
             player1_card1_rank.Visibility = player1_visibility;
             player1_card1_suit.Visibility = player1_visibility;
@@ -182,21 +191,6 @@ namespace Poker
             player5_card2_suit.Visibility = player5_visibility;
             player5_card2_bg.Visibility = player5_visibility;
 
-
-
-            //table.playerFold();
-            //hidePlayerButtons();
-            highlightCurrentPlayerYellow();
-            updateCheckCallButton();
-            updateCommunityCards();
-        }
-
-        private void call_button_Click(object sender, RoutedEventArgs e)
-        {
-            table_entity.getRules().playerCall();
-
-            hidePlayerButtons();
-
             displayStakes();
             displayChips();
             highlightCurrentPlayerYellow();
@@ -209,8 +203,6 @@ namespace Poker
         private void raise_button_Click(object sender, RoutedEventArgs e)
         {
             table_entity.getRules().playerRaise(calcSliderValue() + table_entity.getRules().getCurrentPlayer().getStakes());
-
-            hidePlayerButtons();
 
             displayStakes();
             displayChips();
@@ -266,17 +258,6 @@ namespace Poker
             chipsValue.Text = calcSliderValue().ToString(); // Slider has bool value in range 0.0-10.0
         }
 
-        //Hide buttons until next time its the players turn
-        private void hidePlayerButtons()
-        {
-
-        }
-
-        private void showPlayerButtons()
-        {
-
-        }
-
         private void displayStakes()
         {
             player1_stakes.Text = table_entity.getPlayer1().getStakes().ToString();
@@ -321,6 +302,26 @@ namespace Poker
             player3_chips.Text = table_entity.getPlayer3().getChips().ToString();
             player4_chips.Text = table_entity.getPlayer4().getChips().ToString();
             player5_chips.Text = table_entity.getPlayer5().getChips().ToString();
+
+            
+        }
+
+        private void mouseEnter(object sender, MouseEventArgs e)
+        {
+                Rectangle card = sender as Rectangle;
+            if (card != null)
+            {
+                Canvas.SetZIndex(card, 0);
+            }
+        }
+
+        private void mouseLeave(object sender, MouseEventArgs e)
+        {
+            Rectangle card = sender as Rectangle;
+            if (card != null)
+            {
+                Canvas.SetZIndex(card, 1);
+            }
         }
     }
 }
