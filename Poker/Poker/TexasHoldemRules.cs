@@ -76,17 +76,17 @@ namespace Poker
             this.table = table;
             this.players = players;
             this.deck = deck;
-            this.limit = limit;            
+            this.limit = limit;
 
             indexBigBlind = 1;
             indexSmallBlind = 0;
             roundCounter = 0;
             Console.WriteLine("Texas created");
-
-            setCommunityCards();
+                        
             giveStartingChips();
             newHand();
-            //compareHands(); //testing this atm
+
+            findWinner(); //testing this atm
         }
 
         public Player_entity getCurrentPlayer()
@@ -113,7 +113,8 @@ namespace Poker
             minRaise = bigBlind * 2;
 
             currentPlayer = (indexBigBlind == players.Count - 1) ? players[0] : players[indexBigBlind + 1];
-            
+
+            setCommunityCards();
             dealCards();
         }
 
@@ -154,7 +155,8 @@ namespace Poker
                 // If player dont have enough chips
                 player.setStakes(player.getStakes() + player.getChips());
                 player.setChips(0);
-            } else
+            }
+            else
             {
                 player.setStakes(player.getStakes() + chips);
                 player.setChips(player.getChips() - chips);
@@ -182,7 +184,7 @@ namespace Poker
             for (int i = 0; i < 5; i++)
                 table.setCM(deck.draw());
         }
-        
+
         // function for fold
         public void playerFold()
         {
@@ -205,15 +207,15 @@ namespace Poker
             }
             if (handIsFinished()) // Check if the hand is finished (if there's only 1 active player left)
             {
-                giveWinnings();
+                giveWinnings(currentPlayer);
                 newHand();
             }
         }
 
-        public void giveWinnings()
+        public void giveWinnings(Player_entity player)
         {
-            currentPlayer.setChips(currentPlayer.getChips() + table.getPot() + currentPlayer.getStakes());
-            currentPlayer.setStakes(0);
+            player.setChips(player.getChips() + table.getPot() + player.getStakes());
+            player.setStakes(0);
             table.setPot(0);
         }
 
@@ -238,8 +240,8 @@ namespace Poker
                 if (roundCounter == 4)
                 {
                     // Calculate who has the best hand
-                    //showDown();
-                    giveWinnings();
+                    Player_entity player = findWinner();
+                    giveWinnings(player);
                     newHand(); // remove this when showdown is implemented
                 }
             }
@@ -257,12 +259,12 @@ namespace Poker
             insertPlayerChips(currentPlayer, raise - currentPlayer.getStakes());
 
             // TODO: Check if player is out of chips
-            
+
             // NextPlayer
             Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
 
             currentPlayer = nextPlayer;
-        }     
+        }
 
         // TODO: Move this to a better suited place
         // Find the next player, we have to check a special case if the current active player is in the end of players, then we have to
@@ -287,7 +289,7 @@ namespace Poker
                 {
                     nextPlayer = p;
                     firstActivePlayerFound = true;
-                }                
+                }
             }
             return nextPlayer;
         }
@@ -308,44 +310,123 @@ namespace Poker
 
         // Rank each hand from 1-10 from best to worst, also rank the strenght of the hand,
         // say two players have a pair, which one is the strongest.
-        private void compareHands()
+        private Player_entity findWinner()
         {
-            /*
+            int bestHandVal = 0;
+            int playerHandVal = 0;
+            Player_entity bestPlayer = new Player_entity();
             foreach (Player_entity player in players)
             {
                 if (player.Active)
                 {
-                    //Tilldela rank baserad på om spelare har ngt av dessa?
-                    //TODO: Highest card måste vi ta hänsyn till, om ingen spelare har ngn av nedanstående.
                     List<Card_entity> allCards = new List<Card_entity>(table.getCommunityCards());
                     allCards.Add(player.getCards()[0]);
                     allCards.Add(player.getCards()[1]);
-                    checkSameRank(allCards);
-                    checkFlush(allCards);
-                    checkStraight(allCards);
-                }
-            }*/
+                    List<Card_entity> sortedCards = allCards.OrderBy(c => c.getRank()).ToList();
+                    sortedCards.Reverse();
+                    playerHandVal = checkSameRank(sortedCards);
 
+                    if (playerHandVal > bestHandVal)
+                    {
+                        bestHandVal = playerHandVal;
+                        bestPlayer = player;
+                    }
+
+                    // Do this in the future if we want to
+                    //checkFlush(allCards);
+                    //checkStraight(allCards);
+                }
+            }
+            return bestPlayer;
+            /*
             //Fake shit for testing purposes only
             List<Card_entity> testStraight = new List<Card_entity>();
-            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 1));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 4));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 5));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 6));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 7));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 8));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 2));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 3));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 3));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Diamond, 3));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 3));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 14));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 10));
+            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 10));
 
             List<Card_entity> sortedCards = testStraight.OrderBy(c => c.getRank()).ToList();
+            sortedCards.Reverse();
 
-            checkFlush(sortedCards);
+            int playerVal = checkSameRank(sortedCards);
+            */
         }
 
+        //int value;
+        //value += 900000; //royal flush
+        // can only be one royal flush at the same time
 
-        private void checkSameRank(List<Card_entity> combinedCards)
+        //int value;
+        //value += 800000; //straight flush
+        //value += highestrankedcardinstraightflush
+
+        // DONE
+        //value += 700000; //4 of a kind
+        //value += fourofakindvalue*10 + highestrankedcard //value four of a kind more than the highest ranked card
+
+        // DONE
+        //value += 600000; //full house
+        //value += value of three of a kind + pair
+
+        //value += 500000 //flush
+        //value += highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
+
+        //value += 400000 //straight
+        //value + highestrankedcard
+
+        // DONE
+        //value += 300000 //three of a kind
+        //threeofakindval*100 + highestcard1*10 + highestcard2 //value three of a kind more than the highest ranked card
+
+        // DONE
+        //value += 200000 //two pairs
+        //first pair*100 + second pair*10 + highestrankedcard //value three of a kind more than the highest ranked card
+
+        // DONE
+        //value += 100000 //one pair
+        //value + pair_val*1000 + highestcard1*100 + highestcard2*10 + highestcard3
+
+        // DONE
+        // highest card
+        //highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
+
+
+
+        private int checkSameRank(List<Card_entity> combinedCards)
         {
             Dictionary<int, int> rankCounter = new Dictionary<int, int>();
 
+            int occurenceCounter = 1;
+
+            //This counter assumes that combinedCards is sorted.
+            for (int card_index = 1; card_index < combinedCards.Count; ++card_index)
+            {
+                if (combinedCards[card_index].getRank() != combinedCards[card_index - 1].getRank())
+                {
+                    if (occurenceCounter > 1)
+                    {
+                        Card_entity card = combinedCards[card_index-1];
+                        rankCounter.Add(card.getRank(), occurenceCounter);
+                        occurenceCounter = 1;
+                    }                    
+                }
+                else
+                {
+                    occurenceCounter++;
+                }
+            }
+            if (occurenceCounter > 1)
+            {
+                Card_entity card = combinedCards[combinedCards.Count - 1];
+                rankCounter.Add(card.getRank(), occurenceCounter);
+                occurenceCounter = 1;
+            }
+
+            /*
             //Detta är en dum lösning, vi kan loopa en gång och incrementa samma siffra om den redan finns....
             for (int card1_index = 0; card1_index < combinedCards.Count; card1_index++)
             {
@@ -356,85 +437,97 @@ namespace Poker
 
                     if (card1.getRank() == card2.getRank())
                     {
+                        Console.WriteLine("card 1 rank: " + card1.getRank());
                         if (rankCounter.ContainsKey(card1.getRank()))
                         {
-                            int value = rankCounter[card1.getRank()];
-                            rankCounter[card1.getRank()] = value + 1; //Something more than a pair, three of a kind etc...
+                            int number_of_cards_with_same_rank = rankCounter[card1.getRank()];
+                            rankCounter[card1.getRank()] = number_of_cards_with_same_rank + 1; //Something more than a pair, three of a kind etc...
                         }
                         else
                         {
-                            rankCounter.Add(card1.getRank(), 1); //We found a pair
+                            rankCounter.Add(card1.getRank(), 2); //We found a pair
                         }
                     }
                 }
             }
-
-            //Sort by highest value so that we get the best 
-            var myList = rankCounter.ToList();
-            myList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
+            */
 
             bool three_of_a_kind = false;
-            int[,] three_of_a_kind_val;
+            int three_of_a_kind_val = 0;
 
-            //int value;
-            //value += 9000; //royal flush
-            // can only be one royal flush at the same time
-
-            //int value;
-            //value += 800000; //straight flush
-            //value += highestrankedcardinstraightflush
-
-            //value += 700000; //4 of a kind
-            //value += fourofakindvalue*10 + highestrankedcard //value four of a kind more than the highest ranked card
-
-            //value += 600000; //full house
-            //value += value of three of a kind + pair
-
-            //value += 500000 //flush
-            //value += highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
-
-            //value += 400000 //straight
-            //value + highestrankedcard
-
-            //value += 300000 //three of a kind
-            //threeofakindval*100 + highestcard1*10 + highestcard2 //value three of a kind more than the highest ranked card
-
-            //value += 200000 //two pairs
-            //first pair*100 + second pair*10 + highestrankedcard //value three of a kind more than the highest ranked card
-
-            //value += 100000 //one pair
-            //value + pair_val*1000 + highestcard1*100 + highestcard2*10 + highestcard3
-
-            // highest card
-            //highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
-
-            bool pair = true;
-            int[,] pair_val;
+            bool pair = false;
+            int pair_val = 0;
 
             foreach (KeyValuePair<int, int> rank in rankCounter)
             {
-                if (rank.Value == 4)
+                if (rank.Value == 4) // Value = number_of_cards_with_same_rank
                 {
-                    //returnera direkt med four of a kind, har två spelare samma foak (dv four of a kind på community cards), så blir avgörande highest kicker, om olika foak så blir den med högsta foak.
+                    // Get the highest card that is not part of the four of a kind.
+                    int highestKicker = combinedCards[0].getRank() == rank.Key ? combinedCards[4].getRank() : combinedCards[0].getRank();
+                    return 700000 + rank.Key * 100 + highestKicker;
                 }
-                else if (rank.Value == 3)
+                else if (rank.Value == 3 && !three_of_a_kind)
                 {
-                    //save in a variable, we might have a full house
+                    three_of_a_kind_val = rank.Key;
+                    three_of_a_kind = true;
+
+                    //If full house
+                    if (pair)
+                        return 600000 + three_of_a_kind_val * 100 + pair_val;
                 }
-                else if(rank.Value == 2)
+                else if (rank.Value == 2)
                 {
                     //If full house
-                    if(three_of_a_kind)
+                    if (three_of_a_kind)
                     {
-
+                        return 600000 + three_of_a_kind_val * 100 + rank.Key;
                     }
-                    //save the pair because
+                    else if (pair) // We already have a pair => Two pairs
+                    {
+                        int highestKicker;
+
+                        // Get the two pairs + highest kicker
+                        if (combinedCards[0].getRank() != pair_val)
+                            highestKicker = combinedCards[0].getRank();
+                        else if (combinedCards[2].getRank() != rank.Key)
+                            highestKicker = combinedCards[2].getRank();
+                        else
+                            highestKicker = combinedCards[4].getRank();
+
+                        return 200000 + pair_val * 1000 + rank.Key * 100 + highestKicker;
+                    }
+                    else
+                    {
+                        pair_val = rank.Key;
+                        pair = true;
+                    }
                 }
             }
 
-            //If still here we have to return what we found.
-
-            Console.WriteLine(rankCounter);
+            if (three_of_a_kind)
+            {
+                Console.WriteLine(combinedCards[0].getRank());
+                Console.WriteLine(combinedCards[1].getRank());
+                Console.WriteLine(combinedCards[2].getRank());
+                Console.WriteLine(combinedCards[3].getRank());
+                Console.WriteLine(combinedCards[4].getRank());
+                Console.WriteLine(combinedCards[5].getRank());
+                Console.WriteLine(combinedCards[6].getRank());
+                int highestKicker = combinedCards[0].getRank() == three_of_a_kind_val ? combinedCards[3].getRank() : combinedCards[0].getRank();
+                int secondHighestKicker = combinedCards[1].getRank() == three_of_a_kind_val ? combinedCards[4].getRank() : combinedCards[1].getRank();
+                return 300000 + three_of_a_kind_val * 100 + highestKicker * 10 + secondHighestKicker;
+            }
+            else if (pair)
+            {
+                int highestKicker = combinedCards[0].getRank() == pair_val ? combinedCards[2].getRank() : combinedCards[0].getRank();
+                int secondHighestKicker = combinedCards[1].getRank() == pair_val ? combinedCards[3].getRank() : combinedCards[1].getRank();
+                int thirdHighestKicker = combinedCards[2].getRank() == pair_val ? combinedCards[4].getRank() : combinedCards[2].getRank();
+                return 100000 + three_of_a_kind_val * 1000 + highestKicker * 100 + secondHighestKicker * 10 + thirdHighestKicker;
+            }
+            else
+            {
+                return combinedCards[0].getRank() + combinedCards[1].getRank() + combinedCards[2].getRank() + combinedCards[3].getRank() + combinedCards[4].getRank();
+            }
         }
 
         /*
