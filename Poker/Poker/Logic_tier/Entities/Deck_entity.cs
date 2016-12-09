@@ -17,7 +17,7 @@ namespace Poker.Logic_tier.Entities
 
         public List<Card_entity> getCards()
         {
-            return this.cards;
+            return cards;
         }
     }
 }

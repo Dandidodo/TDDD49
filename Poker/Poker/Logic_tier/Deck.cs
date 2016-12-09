@@ -36,7 +36,7 @@ namespace Poker
         // Loop through the entire deck_entity and swap the place of two cards each time
         public List<Card_entity> Shuffle(List<Card_entity> cards)
         {
-            Random r = new Random();
+            Random r = new Random(); // Does not work apperently
 
             for (int n = cards.Count - 1; n > 0; --n)
             {

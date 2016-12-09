@@ -33,13 +33,11 @@ namespace Poker
             players.Add(player4);
             players.Add(player5);
 
-            this.pot = 0;
-            this.communityCards = new List<Card_entity>();
+            pot = 0;
+            communityCards = new List<Card_entity>();
             setPlayers(players);
             
-            this.rules = new TexasHoldemRules(this, players, deck, true); // How do we set the limits
-            //playGame();
-            Console.WriteLine("Table_entity created");
+            rules = new TexasHoldemRules(this, players, deck, true); // How do we set the limits
         }
 
         public List<Card_entity> getCommunityCards()
@@ -114,6 +112,11 @@ namespace Poker
             communityCards.Add(card);
         }
 
+        public void removeCards()
+        {
+            communityCards.Clear();
+        }
+
 
         //TODO: Dessa fem kke passar bättre i TexasHoldemRules
         public Card_entity getCM1()
@@ -140,13 +143,5 @@ namespace Poker
         {
             return communityCards[4];
         }
-
-
-        /*
-        public TexasHoldemRules getRules()
-        {
-            return rules;
-        }        
-        */
     }
 }

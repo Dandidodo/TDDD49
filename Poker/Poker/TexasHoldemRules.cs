@@ -16,9 +16,17 @@ namespace Poker
         // Throw cards
         // Value of hands
 
-        private const int playerCards = 2;
-        private const int communityCards = 5;
-        private const int startingChips = 1000;
+        private const int PLAYERCARDS = 2;
+        private const int COMMUNITYCARDS = 5;
+        private const int STARTINGCHIPS = 1000;
+        private const int STRAIGHTFLUSH = 800000;
+        private const int FOUROFAKIND = 700000;
+        private const int FULLHOUSE = 600000;
+        private const int FLUSH = 500000;
+        private const int STRAIGHT = 400000;
+        private const int THREEOFAKIND = 300000;
+        private const int TWOPAIR = 200000;
+        private const int PAIR = 100000;
         private int bigBlind = 20;
         private int lastRaise;
         private int minRaise; // minimum allowed raise
@@ -30,6 +38,7 @@ namespace Poker
         private int indexSmallBlind;
         private int roundCounter;
         private Player_entity currentPlayer;
+
 
         // Move to table_entity
         public int MinRaise
@@ -135,7 +144,7 @@ namespace Poker
         {
             foreach (Player_entity player in players)
             {
-                player.setChips(startingChips);
+                player.setChips(STARTINGCHIPS);
             }
         }
 
@@ -143,6 +152,7 @@ namespace Poker
         {
             foreach (Player_entity player in players)
             {
+                player.removeCards();
                 player.receiveCard(deck.draw());
                 player.receiveCard(deck.draw());
             }
@@ -181,6 +191,7 @@ namespace Poker
 
         public void setCommunityCards()
         {
+            table.removeCards();
             for (int i = 0; i < 5; i++)
                 table.setCM(deck.draw());
         }
@@ -236,13 +247,13 @@ namespace Poker
             if (roundIsFinished())
             {
                 endRound();
-                // River
+                // If River
                 if (roundCounter == 4)
                 {
                     // Calculate who has the best hand
                     Player_entity player = findWinner();
                     giveWinnings(player);
-                    newHand(); // remove this when showdown is implemented
+                    newHand();
                 }
             }
         }
@@ -302,7 +313,8 @@ namespace Poker
                 table.setPot(table.getPot() + player.getStakes());
                 player.setStakes(0);
             }
-            currentPlayer = getNextActivePlayer(players[indexSmallBlind - 1]); // Will not work when indexSmallBlind == 0
+            //currentPlayer = getNextActivePlayer(players[indexSmallBlind - 1]); // Will not work when indexSmallBlind == 0
+            currentPlayer = players[indexSmallBlind]; // Won't work if player is out of chips
             lastRaise = 0;
             minRaise = bigBlind;
             roundCounter++;
@@ -332,7 +344,7 @@ namespace Poker
                         bestPlayer = player;
                     }
 
-                    // Do this in the future if we want to
+                    // TODO: Do this in the future if we want to
                     //checkFlush(allCards);
                     //checkStraight(allCards);
                 }
@@ -356,49 +368,20 @@ namespace Poker
             */
         }
 
-        //int value;
-        //value += 900000; //royal flush
-        // can only be one royal flush at the same time
-
-        //int value;
+        // TODO
         //value += 800000; //straight flush
         //value += highestrankedcardinstraightflush
 
-        // DONE
-        //value += 700000; //4 of a kind
-        //value += fourofakindvalue*10 + highestrankedcard //value four of a kind more than the highest ranked card
-
-        // DONE
-        //value += 600000; //full house
-        //value += value of three of a kind + pair
-
+        // TODO
         //value += 500000 //flush
         //value += highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
 
-        //value += 400000 //straight
+        // TODO        //value += 400000 //straight
         //value + highestrankedcard
 
-        // DONE
-        //value += 300000 //three of a kind
-        //threeofakindval*100 + highestcard1*10 + highestcard2 //value three of a kind more than the highest ranked card
-
-        // DONE
-        //value += 200000 //two pairs
-        //first pair*100 + second pair*10 + highestrankedcard //value three of a kind more than the highest ranked card
-
-        // DONE
-        //value += 100000 //one pair
-        //value + pair_val*1000 + highestcard1*100 + highestcard2*10 + highestcard3
-
-        // DONE
-        // highest card
-        //highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
-
-
-
-        private int checkSameRank(List<Card_entity> combinedCards)
+        private Dictionary<int, int> countOccurencesOfRank(List<Card_entity> combinedCards)
         {
-            Dictionary<int, int> rankCounter = new Dictionary<int, int>();
+            Dictionary<int, int> occourencesOfRank = new Dictionary<int, int>();
 
             int occurenceCounter = 1;
 
@@ -409,10 +392,10 @@ namespace Poker
                 {
                     if (occurenceCounter > 1)
                     {
-                        Card_entity card = combinedCards[card_index-1];
-                        rankCounter.Add(card.getRank(), occurenceCounter);
+                        Card_entity card = combinedCards[card_index - 1];
+                        occourencesOfRank.Add(card.getRank(), occurenceCounter);
                         occurenceCounter = 1;
-                    }                    
+                    }
                 }
                 else
                 {
@@ -422,118 +405,95 @@ namespace Poker
             if (occurenceCounter > 1)
             {
                 Card_entity card = combinedCards[combinedCards.Count - 1];
-                rankCounter.Add(card.getRank(), occurenceCounter);
+                occourencesOfRank.Add(card.getRank(), occurenceCounter);
                 occurenceCounter = 1;
             }
+            return occourencesOfRank;
+        }
 
-            /*
-            //Detta är en dum lösning, vi kan loopa en gång och incrementa samma siffra om den redan finns....
-            for (int card1_index = 0; card1_index < combinedCards.Count; card1_index++)
-            {
-                for (int card2_index = card1_index + 1; card2_index < combinedCards.Count; card2_index++)
-                {
-                    Card_entity card1 = combinedCards[card1_index];
-                    Card_entity card2 = combinedCards[card2_index];
-
-                    if (card1.getRank() == card2.getRank())
-                    {
-                        Console.WriteLine("card 1 rank: " + card1.getRank());
-                        if (rankCounter.ContainsKey(card1.getRank()))
-                        {
-                            int number_of_cards_with_same_rank = rankCounter[card1.getRank()];
-                            rankCounter[card1.getRank()] = number_of_cards_with_same_rank + 1; //Something more than a pair, three of a kind etc...
-                        }
-                        else
-                        {
-                            rankCounter.Add(card1.getRank(), 2); //We found a pair
-                        }
-                    }
-                }
-            }
-            */
-
-            bool three_of_a_kind = false;
-            int three_of_a_kind_val = 0;
-
-            bool pair = false;
+        private int checkSameRank(List<Card_entity> combinedCards)
+        {
+            Dictionary<int, int> occourencesOfRank = countOccurencesOfRank(combinedCards);
             int pair_val = 0;
+            int three_of_a_kind_val = 0;          
 
-            foreach (KeyValuePair<int, int> rank in rankCounter)
+            foreach (KeyValuePair<int, int> rank in occourencesOfRank)
             {
                 if (rank.Value == 4) // Value = number_of_cards_with_same_rank
                 {
-                    // Get the highest card that is not part of the four of a kind.
-                    int highestKicker = combinedCards[0].getRank() == rank.Key ? combinedCards[4].getRank() : combinedCards[0].getRank();
-                    return 700000 + rank.Key * 100 + highestKicker;
+                    return calculateFourOfAKindValue(combinedCards, rank.Key);
                 }
-                else if (rank.Value == 3 && !three_of_a_kind)
+                else if (rank.Value == 3 && three_of_a_kind_val != 0)
                 {
                     three_of_a_kind_val = rank.Key;
-                    three_of_a_kind = true;
-
-                    //If full house
-                    if (pair)
-                        return 600000 + three_of_a_kind_val * 100 + pair_val;
+                    if (pair_val != 0) //FULL HOUSE
+                        return calculateFullHouseValue(three_of_a_kind_val, pair_val);
                 }
                 else if (rank.Value == 2)
                 {
-                    //If full house
-                    if (three_of_a_kind)
-                    {
-                        return 600000 + three_of_a_kind_val * 100 + rank.Key;
-                    }
-                    else if (pair) // We already have a pair => Two pairs
-                    {
-                        int highestKicker;
-
-                        // Get the two pairs + highest kicker
-                        if (combinedCards[0].getRank() != pair_val)
-                            highestKicker = combinedCards[0].getRank();
-                        else if (combinedCards[2].getRank() != rank.Key)
-                            highestKicker = combinedCards[2].getRank();
-                        else
-                            highestKicker = combinedCards[4].getRank();
-
-                        return 200000 + pair_val * 1000 + rank.Key * 100 + highestKicker;
-                    }
+                    if (three_of_a_kind_val != 0) //FULL HOUSE
+                        return calculateFullHouseValue(three_of_a_kind_val, rank.Key);
+                    else if (pair_val != 0) // We already have a pair => TWO PAIRS
+                        return calculateTwoPairValuee(combinedCards, pair_val, rank.Key);
                     else
-                    {
                         pair_val = rank.Key;
-                        pair = true;
-                    }
                 }
             }
 
-            if (three_of_a_kind)
-            {
-                Console.WriteLine(combinedCards[0].getRank());
-                Console.WriteLine(combinedCards[1].getRank());
-                Console.WriteLine(combinedCards[2].getRank());
-                Console.WriteLine(combinedCards[3].getRank());
-                Console.WriteLine(combinedCards[4].getRank());
-                Console.WriteLine(combinedCards[5].getRank());
-                Console.WriteLine(combinedCards[6].getRank());
-                int highestKicker = combinedCards[0].getRank() == three_of_a_kind_val ? combinedCards[3].getRank() : combinedCards[0].getRank();
-                int secondHighestKicker = combinedCards[1].getRank() == three_of_a_kind_val ? combinedCards[4].getRank() : combinedCards[1].getRank();
-                return 300000 + three_of_a_kind_val * 100 + highestKicker * 10 + secondHighestKicker;
-            }
-            else if (pair)
-            {
-                int highestKicker = combinedCards[0].getRank() == pair_val ? combinedCards[2].getRank() : combinedCards[0].getRank();
-                int secondHighestKicker = combinedCards[1].getRank() == pair_val ? combinedCards[3].getRank() : combinedCards[1].getRank();
-                int thirdHighestKicker = combinedCards[2].getRank() == pair_val ? combinedCards[4].getRank() : combinedCards[2].getRank();
-                return 100000 + three_of_a_kind_val * 1000 + highestKicker * 100 + secondHighestKicker * 10 + thirdHighestKicker;
-            }
+            if (three_of_a_kind_val != 0)
+                return calculateThreeOfAKindValue(combinedCards, three_of_a_kind_val);
+            else if (pair_val != 0)
+                return calculatePairValue(combinedCards, pair_val);
             else
-            {
-                return combinedCards[0].getRank() + combinedCards[1].getRank() + combinedCards[2].getRank() + combinedCards[3].getRank() + combinedCards[4].getRank();
-            }
+                return calculateHighHandValue(combinedCards);
         }
 
-        /*
-        private int[,] evalHand(Dictionary<int,int> rankCounter)
+        private int calculateFullHouseValue(int three_of_a_kind_val, int pair_val)
         {
-        }*/
+            return FULLHOUSE + three_of_a_kind_val * 100 + pair_val;
+        }
+
+        private int calculateFourOfAKindValue(List<Card_entity> combinedCards, int four_of_a_kind_val)
+        {
+            // Get the highest card that is not part of the four of a kind.
+            int highestKicker = combinedCards[0].getRank() == four_of_a_kind_val ? combinedCards[4].getRank() : combinedCards[0].getRank();
+            return FOUROFAKIND + four_of_a_kind_val * 100 + highestKicker;
+        }
+
+        private int calculateThreeOfAKindValue(List<Card_entity> combinedCards, int three_of_a_kind_val)
+        {
+            int highestKicker = combinedCards[0].getRank() == three_of_a_kind_val ? combinedCards[3].getRank() : combinedCards[0].getRank();
+            int secondHighestKicker = combinedCards[1].getRank() == three_of_a_kind_val ? combinedCards[4].getRank() : combinedCards[1].getRank();
+            return THREEOFAKIND + three_of_a_kind_val * 100 + highestKicker * 10 + secondHighestKicker;
+        }
+
+        private int calculateTwoPairValuee(List<Card_entity> combinedCards, int pair_val, int pair2_val)
+        {
+            int highestKicker;
+
+            // Get the two pairs + highest kicker
+            if (combinedCards[0].getRank() != pair_val)
+                highestKicker = combinedCards[0].getRank();
+            else if (combinedCards[2].getRank() != pair2_val)
+                highestKicker = combinedCards[2].getRank();
+            else
+                highestKicker = combinedCards[4].getRank();
+
+            return TWOPAIR + pair_val * 1000 + pair2_val * 100 + highestKicker;
+        }
+
+        private int calculatePairValue(List<Card_entity> combinedCards, int pair_val)
+        {
+            int highestKicker = combinedCards[0].getRank() == pair_val ? combinedCards[2].getRank() : combinedCards[0].getRank();
+            int secondHighestKicker = combinedCards[1].getRank() == pair_val ? combinedCards[3].getRank() : combinedCards[1].getRank();
+            int thirdHighestKicker = combinedCards[2].getRank() == pair_val ? combinedCards[4].getRank() : combinedCards[2].getRank();
+            return PAIR + pair_val * 1000 + highestKicker * 100 + secondHighestKicker * 10 + thirdHighestKicker;
+        }   
+
+        private int calculateHighHandValue(List<Card_entity> combinedCards)
+        {
+            return combinedCards[0].getRank() + combinedCards[1].getRank() + combinedCards[2].getRank() + combinedCards[3].getRank() + combinedCards[4].getRank();
+        }
 
         // Returns if any suit occures 5 times or more.
         private bool checkFlush(List<Card_entity> combinedCards)

@@ -32,7 +32,7 @@ namespace Poker
             table_entity = new Table_entity();
             table = new Logic_tier.Table(table_entity);
             displayChips();
-            displayPlayerCards();
+            setPlayerCards();
             setCommunityCards();
             hideCommunityCards();
             displayStakes();
@@ -145,8 +145,17 @@ namespace Poker
 
         private void call_button_Click(object sender, RoutedEventArgs e)
         {
-            table_entity.getRules().playerCall();
+            table_entity.getRules().playerCall(); //playerCall(table_entity)
+
+            /*
+            if (gameLogic.send(new Click(table_entity)))
+            {
+                // gameLogic frågar reglerna
+            }
+            */
             updateGraphics();
+
+            // exception här
         }
 
         private void updateGraphics()
@@ -195,6 +204,8 @@ namespace Poker
             displayChips();
             highlightCurrentPlayerYellow();
             updateCheckCallButton();
+            setPlayerCards();
+            setCommunityCards();
             updateCommunityCards();
             pot.Text = table_entity.getPot().ToString();
         }
@@ -267,7 +278,7 @@ namespace Poker
             player5_stakes.Text = table_entity.getPlayer5().getStakes().ToString();
         }
 
-        private void displayPlayerCards()
+        private void setPlayerCards()
         {
             player1_card1_rank.Text = table_entity.getPlayer1().getCards()[0].getRank().ToString();
             player1_card1_suit.Text = table_entity.getPlayer1().getCards()[0].getSuit().ToString();
@@ -301,9 +312,7 @@ namespace Poker
             player2_chips.Text = table_entity.getPlayer2().getChips().ToString();
             player3_chips.Text = table_entity.getPlayer3().getChips().ToString();
             player4_chips.Text = table_entity.getPlayer4().getChips().ToString();
-            player5_chips.Text = table_entity.getPlayer5().getChips().ToString();
-
-            
+            player5_chips.Text = table_entity.getPlayer5().getChips().ToString();            
         }
 
         private void mouseEnter(object sender, MouseEventArgs e)
@@ -311,7 +320,7 @@ namespace Poker
                 Rectangle card = sender as Rectangle;
             if (card != null)
             {
-                Canvas.SetZIndex(card, 0);
+                Panel.SetZIndex(card, 0);
             }
         }
 
@@ -320,7 +329,7 @@ namespace Poker
             Rectangle card = sender as Rectangle;
             if (card != null)
             {
-                Canvas.SetZIndex(card, 1);
+                Panel.SetZIndex(card, 1);
             }
         }
     }

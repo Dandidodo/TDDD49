@@ -77,8 +77,7 @@ namespace Poker
         {
             cards.Add(card);
         }
-
-        // is this function necessary?
+        
         public void removeCards()
         {
             cards.Clear();
