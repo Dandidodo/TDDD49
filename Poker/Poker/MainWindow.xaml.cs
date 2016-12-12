@@ -13,6 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Poker.Logic_tier;
+using System.Xml.Linq;
+using System.IO;
+using System.Xml.Serialization;
+using System.Xml;
+//using System.Collections.Generic;
 
 namespace Poker
 {
@@ -140,6 +145,37 @@ namespace Poker
         {
             try
             {
+                /*
+                XDocument doc = new XDocument(
+                    new XElement("Root",
+                        new XElement("Child", "content")
+                    )
+                );
+                doc.Save("Root.xml");
+                
+                //Console.WriteLine(File.ReadAllText("Root.xml"));
+                
+                XDocument docRead = XDocument.Load("Root.xml");
+                var test = from root in docRead.Descendants("Root")
+                            select new
+                            {
+                                test = root.Element("Child").Value,
+                            };
+                Console.WriteLine(test);
+                */
+
+                XmlSerializer xsSubmit = new XmlSerializer(typeof(Table_entity));
+                var xml = "";
+
+                using (var sww = new StringWriter())
+                {
+                    using (XmlWriter writer = XmlWriter.Create(sww))
+                    {
+                        xsSubmit.Serialize(writer, table_entity);
+                        xml = sww.ToString(); // Your XML
+                    }
+                }
+
                 gameLogic.playerFold();
                 updateGraphics();
             }
