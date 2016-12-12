@@ -21,14 +21,15 @@ namespace Poker
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Logic_tier.Table table;
+        private GameLogic gameLogic;
         private Table_entity table_entity;
 
         public MainWindow()
         {
             InitializeComponent();
             table_entity = new Table_entity();
-            table = new Logic_tier.Table(table_entity);
+            gameLogic = new GameLogic(table_entity);
+
             displayChips();
             setPlayerCards();
             setCommunityCards();
@@ -40,7 +41,7 @@ namespace Poker
 
         private void highlightCurrentPlayerYellow()
         {
-            Player_entity currentPlayer = table_entity.getRules().getCurrentPlayer();
+            Player_entity currentPlayer = gameLogic.getCurrentPlayer();
 
             //Reset colors
             player1.Fill = new SolidColorBrush(Colors.White);
@@ -104,12 +105,12 @@ namespace Poker
 
         private void updateCommunityCards()
         {
-            if (table_entity.getRules().RoundCounter == 0)
+            if (gameLogic.RoundCounter == 0)
             {
                 hideCommunityCards();
             }
 
-            else if (table_entity.getRules().RoundCounter == 1)
+            else if (gameLogic.RoundCounter == 1)
             {
                 cm_card1_suit.Visibility = Visibility.Visible;
                 cm_card1_rank.Visibility = Visibility.Visible;
@@ -121,13 +122,13 @@ namespace Poker
                 cm_card3_rank.Visibility = Visibility.Visible;
                 cm_card3_bg.Visibility = Visibility.Visible;
             }
-            else if (table_entity.getRules().RoundCounter == 2)
+            else if (gameLogic.RoundCounter == 2)
             {
                 cm_card4_suit.Visibility = Visibility.Visible;
                 cm_card4_rank.Visibility = Visibility.Visible;
                 cm_card4_bg.Visibility = Visibility.Visible;
             }
-            else if (table_entity.getRules().RoundCounter == 3)
+            else if (gameLogic.RoundCounter == 3)
             {
                 cm_card5_suit.Visibility = Visibility.Visible;
                 cm_card5_rank.Visibility = Visibility.Visible;
@@ -139,7 +140,7 @@ namespace Poker
         {
             try
             {
-                table_entity.getRules().playerFold();
+                gameLogic.playerFold();
                 updateGraphics();
             }
             catch (Exception error)
@@ -150,7 +151,7 @@ namespace Poker
 
         private void call_button_Click(object sender, RoutedEventArgs e)
         {
-            table_entity.getRules().playerCall(); //playerCall(table_entity)
+            gameLogic.playerCall(); //playerCall(table_entity)
 
             /*
             if (gameLogic.send(new Click(table_entity)))
@@ -218,7 +219,7 @@ namespace Poker
 
         private void raise_button_Click(object sender, RoutedEventArgs e)
         {
-            table_entity.getRules().playerRaise(calcSliderValue() + table_entity.getRules().getCurrentPlayer().getStakes());
+            gameLogic.playerRaise(calcSliderValue() + gameLogic.getCurrentPlayer().getStakes());
 
             displayStakes();
             displayChips();
@@ -229,7 +230,7 @@ namespace Poker
 
         private void updateCheckCallButton()
         {
-            if (table_entity.getRules().LastRaise == table_entity.getRules().getCurrentPlayer().getStakes())
+            if (gameLogic.LastRaise == gameLogic.getCurrentPlayer().getStakes())
             {
                 setCallButtonToCheck();
             }
@@ -251,20 +252,20 @@ namespace Poker
 
         private void setSliderValue()
         {
-            chipsValue.Text = (table_entity.getRules().MinRaise - table_entity.getRules().getCurrentPlayer().getStakes()).ToString();
+            chipsValue.Text = (gameLogic.MinRaise - gameLogic.getCurrentPlayer().getStakes()).ToString();
             slider.Value = 0;
         }
 
         private int calcSliderValue()
         {
-            Player_entity currPlayer = table_entity.getRules().getCurrentPlayer();
+            Player_entity currPlayer = gameLogic.getCurrentPlayer();
             double chips = currPlayer.getChips();
             double calcChips = ((slider.Value * 0.1) * chips); // Slider has bool value in range 0.0-10.0, hence * 0.1, then we multiply this with chips.
             int roundUp = ((int)Math.Round(calcChips / 10.0)) * 10; // Rounds it up to nearest 10.
 
-            if (roundUp < table_entity.getRules().MinRaise - table_entity.getRules().getCurrentPlayer().getStakes())
+            if (roundUp < gameLogic.MinRaise - gameLogic.getCurrentPlayer().getStakes())
             {
-                roundUp = table_entity.getRules().MinRaise - table_entity.getRules().getCurrentPlayer().getStakes();
+                roundUp = gameLogic.MinRaise - gameLogic.getCurrentPlayer().getStakes();
             }
             return roundUp;
         }

@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 namespace Poker
 {
     class Table_entity
-    {
-        private List<Player_entity> players = new List<Player_entity>();
-        private TexasHoldemRules rules;
+    {        
         private Deck deck = new Deck();
         private int pot;
         private List<Card_entity> communityCards;
+        private List<Player_entity> players = new List<Player_entity>();
         private Player_entity player1;
         private Player_entity player2;
         private Player_entity player3;
@@ -36,8 +35,6 @@ namespace Poker
             pot = 0;
             communityCards = new List<Card_entity>();
             setPlayers(players);
-            
-            rules = new TexasHoldemRules(this, players, deck, true); // How do we set the limits
         }
 
         public List<Card_entity> getCommunityCards()
@@ -70,11 +67,6 @@ namespace Poker
             return player5;
         }
 
-        public TexasHoldemRules getRules()
-        {
-            return rules;
-        }
-
         public void setPlayers(List<Player_entity> players)
         {
             this.players = players;
@@ -85,14 +77,9 @@ namespace Poker
             return players;
         }
 
-        public void setDeck(int value)
+        public Deck getDeck()
         {
-            pot = value;
-        }
-
-        public int getDeck()
-        {
-            return pot;
+            return deck;
         }
 
         public void setPot(int value)

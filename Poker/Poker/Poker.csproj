@@ -60,8 +60,8 @@
     <Compile Include="Logic_tier\Entities\Deck_entity.cs" />
     <Compile Include="Logic_tier\Entities\Player_entity.cs" />
     <Compile Include="Logic_tier\Entities\Table_entity.cs" />
-    <Compile Include="Logic_tier\Table.cs" />
-    <Compile Include="TexasHoldemRules.cs" />
+    <Compile Include="Logic_tier\TexasHoldemRules.cs" />
+    <Compile Include="Logic_tier\GameLogic.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
