@@ -22,6 +22,7 @@ namespace Poker.Logic_tier
 
         }
 
+
         // Rank each hand from 1-10 from best to worst, also rank the strenght of the hand,
         // say two players have a pair, which one is the strongest.
         public Player_entity findWinner(Table_entity table, List<Player_entity> players)

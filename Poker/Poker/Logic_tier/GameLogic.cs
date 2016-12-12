@@ -12,7 +12,7 @@ namespace Poker
         private const int PLAYERCARDS = 2;
         private const int COMMUNITYCARDS = 5;
         private const int STARTINGCHIPS = 1000;
-        private int bigBlind = 20;
+        private const int BIGBLIND = 20;
         private int lastRaise;
         private int minRaise; // minimum allowed raise
         private Table_entity table;
@@ -21,46 +21,6 @@ namespace Poker
         private int roundCounter;
         private Player_entity currentPlayer;
         private TexasHoldemRules rules;
-
-        // Move to rules?
-        public int MinRaise
-        {
-            get
-            {
-                return minRaise;
-            }
-
-            set
-            {
-                minRaise = value;
-            }
-        }
-
-        public int LastRaise
-        {
-            get
-            {
-                return lastRaise;
-            }
-
-            set
-            {
-                lastRaise = value;
-            }
-        }
-
-        public int RoundCounter
-        {
-            get
-            {
-                return roundCounter;
-            }
-
-            set
-            {
-                roundCounter = value;
-            }
-        }
 
         public GameLogic(Table_entity table_entity)
         {
@@ -75,6 +35,25 @@ namespace Poker
             newHand();
 
             rules.findWinner(table_entity, table.getPlayers());
+        }
+
+        // Move to rules?
+        public int MinRaise
+        {
+            get { return minRaise; }
+            set { minRaise = value; }
+        }
+
+        public int LastRaise
+        {
+            get { return lastRaise; }
+            set { lastRaise = value; }
+        }
+
+        public int RoundCounter
+        {
+            get { return roundCounter; }
+            set { roundCounter = value; }
         }
 
         public Player_entity getCurrentPlayer()
@@ -97,8 +76,8 @@ namespace Poker
             changeBlindIndexes();
             insertBlinds();
 
-            lastRaise = bigBlind;
-            minRaise = bigBlind * 2;
+            lastRaise = BIGBLIND;
+            minRaise = BIGBLIND * 2;
 
             currentPlayer = (indexBigBlind == table.getPlayers().Count - 1) ? table.getPlayers()[0] : table.getPlayers()[indexBigBlind + 1];
 
@@ -115,8 +94,8 @@ namespace Poker
         public void insertBlinds()
         {
 
-            insertPlayerChips(table.getPlayers()[indexBigBlind], bigBlind);
-            insertPlayerChips(table.getPlayers()[indexSmallBlind], bigBlind / 2);
+            insertPlayerChips(table.getPlayers()[indexBigBlind], BIGBLIND);
+            insertPlayerChips(table.getPlayers()[indexSmallBlind], BIGBLIND / 2);
         }
 
         public void giveStartingChips()
@@ -295,7 +274,7 @@ namespace Poker
             List<Player_entity> players = table.getPlayers();
             currentPlayer = indexSmallBlind != 0 ? getNextActivePlayer(players[indexSmallBlind - 1]) : getNextActivePlayer(players[players.Count() - 1]);
             lastRaise = 0;
-            minRaise = bigBlind;
+            minRaise = BIGBLIND;
             roundCounter++;
         }
 

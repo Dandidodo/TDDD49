@@ -151,17 +151,15 @@ namespace Poker
 
         private void call_button_Click(object sender, RoutedEventArgs e)
         {
-            gameLogic.playerCall(); //playerCall(table_entity)
-
-            /*
-            if (gameLogic.send(new Click(table_entity)))
+            try
             {
-                // gameLogic frågar reglerna
+                gameLogic.playerCall();
+                updateGraphics();
             }
-            */
-            updateGraphics();
-
-            // exception här
+            catch (Exception error)
+            {
+                Console.WriteLine("{0} Exception caught.", error);
+            }
         }
 
         private void updateGraphics()
@@ -219,13 +217,20 @@ namespace Poker
 
         private void raise_button_Click(object sender, RoutedEventArgs e)
         {
-            gameLogic.playerRaise(calcSliderValue() + gameLogic.getCurrentPlayer().getStakes());
+            try
+            {
+                gameLogic.playerRaise(calcSliderValue() + gameLogic.getCurrentPlayer().getStakes());
 
-            displayStakes();
-            displayChips();
-            setSliderValue();
-            highlightCurrentPlayerYellow();
-            updateCheckCallButton();
+                displayStakes();
+                displayChips();
+                setSliderValue();
+                highlightCurrentPlayerYellow();
+                updateCheckCallButton();
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("{0} Exception caught.", error);
+            }
         }
 
         private void updateCheckCallButton()
@@ -272,7 +277,14 @@ namespace Poker
 
         private void slider_mouse_Leave(object sender, RoutedEventArgs e)
         {
-            chipsValue.Text = calcSliderValue().ToString(); // Slider has bool value in range 0.0-10.0
+            try
+            {
+                chipsValue.Text = calcSliderValue().ToString(); // Slider has bool value in range 0.0-10.0
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("{0} Exception caught.", error);
+            }
         }
 
         private void displayStakes()
