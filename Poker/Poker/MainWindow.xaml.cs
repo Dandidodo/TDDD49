@@ -24,8 +24,6 @@ namespace Poker
         private Logic_tier.Table table;
         private Table_entity table_entity;
 
-        private int MyData;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -139,8 +137,15 @@ namespace Poker
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
         {
-            table_entity.getRules().playerFold();
-            updateGraphics();
+            try
+            {
+                table_entity.getRules().playerFold();
+                updateGraphics();
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("{0} Exception caught.", error);
+            }
         }
 
         private void call_button_Click(object sender, RoutedEventArgs e)
