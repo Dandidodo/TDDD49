@@ -11,6 +11,14 @@ namespace Poker
     {
         Deck_entity deck_entity = new Deck_entity();
 
+        internal Deck_entity Deck_entity
+        {
+            get
+            {
+                return deck_entity;
+            }
+        }
+
         public Deck()
         {
             initDeck();         

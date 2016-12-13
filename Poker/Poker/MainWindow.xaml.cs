@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Poker.Logic_tier;
-using System.Xml.Linq;
 using System.IO;
-using System.Xml.Serialization;
-using System.Xml;
-//using System.Collections.Generic;
 
 namespace Poker
 {
@@ -34,6 +21,7 @@ namespace Poker
             InitializeComponent();
             table_entity = new Table_entity();
             gameLogic = new GameLogic(table_entity);
+            
 
             displayChips();
             setPlayerCards();
@@ -141,88 +129,12 @@ namespace Poker
             }
         }
 
-        public static void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
-        {
-            TextWriter writer = null;
-            try
-            {
-                var serializer = new XmlSerializer(typeof(T));
-                writer = new StreamWriter(filePath, append);
-                serializer.Serialize(writer, objectToWrite);
-            }
-            finally
-            {
-                if (writer != null)
-                    writer.Close();
-            }
-        }
-
-
         private void fold_button_Click(object sender, RoutedEventArgs e)
         {
             try
-            {
-                XDocument doc = new XDocument(
-                    new XElement("Table_entity",
-                        new XElement("deck", table_entity.getDeck()),
-                        new XElement("pot", table_entity.getPot()),
-                        new XElement("cmc",
-                            new XElement("cmc1", table_entity.getCM1()),
-                            new XElement("cmc2", table_entity.getCM2()),
-                            new XElement("cmc3", table_entity.getCM3()),
-                            new XElement("cmc4", table_entity.getCM4()),
-                            new XElement("cmc5", table_entity.getCM5())
-                        )
-                    )
-                );
-                doc.Save("Root.xml");
-                
-                //Console.WriteLine(File.ReadAllText("Root.xml"));
-                
-                XDocument docRead = XDocument.Load("Root.xml");
-                var test = from bla in docRead.Descendants("Table_entity")
-                            select new
-                            {
-                                Children = bla.Element("deck").Value
-                            };
-                foreach (var t in test)
-                {
-                    Console.WriteLine(t.Children);
-                }
-
-
-
-
-
-                /*
-                // This works
-                // The name of Header and Children is not important
-                
-                //Load xml
-                XDocument xdoc = XDocument.Load("data.xml");
-
-                //Run query
-                var lv1s = from lv1 in xdoc.Descendants("level1")
-                           select new
-                           {
-                               Header = lv1.Attribute("name").Value,
-                               Children = lv1.Descendants("level2")
-                           };
-
-                StringBuilder result = new StringBuilder();
-
-                //Loop through results
-                foreach (var lv1 in lv1s)
-                {
-                    result.AppendLine(lv1.Header);
-                    foreach (var lv2 in lv1.Children)
-                        result.AppendLine("     " + lv2.Attribute("name").Value);
-                }
-                Console.WriteLine(result);
-                */
-
+            {                
                 gameLogic.playerFold();
-                updateGraphics();
+                updateGraphics();                
             }
             catch (Exception error)
             {
@@ -301,6 +213,7 @@ namespace Poker
             try
             {
                 gameLogic.playerRaise(calcSliderValue() + gameLogic.getCurrentPlayer().getStakes());
+                // Visa passande av data via entiteter
 
                 displayStakes();
                 displayChips();

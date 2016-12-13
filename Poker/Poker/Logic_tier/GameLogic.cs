@@ -15,17 +15,19 @@ namespace Poker
         private const int BIGBLIND = 20;
         private int lastRaise;
         private int minRaise; // minimum allowed raise
-        private Table_entity table;
+        private Table_entity table_entity;
         private int indexBigBlind;
         private int indexSmallBlind;
         private int roundCounter;
         private Player_entity currentPlayer;
         private TexasHoldemRules rules;
+        private Data data;
 
         public GameLogic(Table_entity table_entity)
         {
-            table = table_entity;
+            this.table_entity = table_entity;
             rules = new TexasHoldemRules();
+            data = new Data();
 
             indexBigBlind = 1;
             indexSmallBlind = 0;
@@ -34,7 +36,8 @@ namespace Poker
             giveStartingChips();
             newHand();
 
-            rules.findWinner(table_entity, table.getPlayers());
+            //data.loadData();
+            // FIlen kan inte finnas, fel i XML, fel i XML gentemot oss
         }
 
         // Move to rules?
@@ -56,6 +59,32 @@ namespace Poker
             set { roundCounter = value; }
         }
 
+        public int IndexBigBlind
+        {
+            get
+            {
+                return indexBigBlind;
+            }
+
+            set
+            {
+                indexBigBlind = value;
+            }
+        }
+
+        public int IndexSmallBlind
+        {
+            get
+            {
+                return indexSmallBlind;
+            }
+
+            set
+            {
+                indexSmallBlind = value;
+            }
+        }
+
         public Player_entity getCurrentPlayer()
         {
             return currentPlayer;
@@ -65,13 +94,13 @@ namespace Poker
         {
             roundCounter = 0;
 
-            foreach (Player_entity player in table.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 player.Active = true;
                 player.ActedThisRound = false;
             }
 
-            table.getDeck().initDeck();
+            table_entity.getDeck().initDeck();
 
             changeBlindIndexes();
             insertBlinds();
@@ -79,7 +108,7 @@ namespace Poker
             lastRaise = BIGBLIND;
             minRaise = BIGBLIND * 2;
 
-            currentPlayer = (indexBigBlind == table.getPlayers().Count - 1) ? table.getPlayers()[0] : table.getPlayers()[indexBigBlind + 1];
+            currentPlayer = (indexBigBlind == table_entity.getPlayers().Count - 1) ? table_entity.getPlayers()[0] : table_entity.getPlayers()[indexBigBlind + 1];
 
             setCommunityCards();
             dealCards();
@@ -87,20 +116,20 @@ namespace Poker
 
         public void changeBlindIndexes()
         {
-            indexBigBlind = (indexBigBlind == table.getPlayers().Count - 1) ? indexBigBlind = 0 : ++indexBigBlind;
-            indexSmallBlind = (indexSmallBlind == table.getPlayers().Count - 1) ? indexSmallBlind = 0 : ++indexSmallBlind;
+            indexBigBlind = (indexBigBlind == table_entity.getPlayers().Count - 1) ? indexBigBlind = 0 : ++indexBigBlind;
+            indexSmallBlind = (indexSmallBlind == table_entity.getPlayers().Count - 1) ? indexSmallBlind = 0 : ++indexSmallBlind;
         }
 
         public void insertBlinds()
         {
 
-            insertPlayerChips(table.getPlayers()[indexBigBlind], BIGBLIND);
-            insertPlayerChips(table.getPlayers()[indexSmallBlind], BIGBLIND / 2);
+            insertPlayerChips(table_entity.getPlayers()[indexBigBlind], BIGBLIND);
+            insertPlayerChips(table_entity.getPlayers()[indexSmallBlind], BIGBLIND / 2);
         }
 
         public void giveStartingChips()
         {
-            foreach (Player_entity player in table.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 player.setChips(STARTINGCHIPS);
             }
@@ -108,11 +137,11 @@ namespace Poker
 
         public void dealCards()
         {
-            foreach (Player_entity player in table.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 player.removeCards();
-                player.receiveCard(table.getDeck().draw());
-                player.receiveCard(table.getDeck().draw());
+                player.receiveCard(table_entity.getDeck().draw());
+                player.receiveCard(table_entity.getDeck().draw());
             }
         }
 
@@ -139,7 +168,7 @@ namespace Poker
         public bool handIsFinished()
         {
             int activePlayers = 0;
-            foreach (Player_entity player in table.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 if (player.Active == true)
                     activePlayers++;
@@ -149,9 +178,9 @@ namespace Poker
 
         public void setCommunityCards()
         {
-            table.removeCards();
+            table_entity.removeCards();
             for (int i = 0; i < 5; i++)
-                table.setCM(table.getDeck().draw());
+                table_entity.setCM(table_entity.getDeck().draw());
         }
 
         // function for fold
@@ -159,7 +188,7 @@ namespace Poker
         {
             currentPlayer.ActedThisRound = true;
             // Move the players stakes to the pot
-            table.setPot(table.getPot() + currentPlayer.getStakes());
+            table_entity.setPot(table_entity.getPot() + currentPlayer.getStakes());
             currentPlayer.setStakes(0);
 
             // Get next player
@@ -179,13 +208,15 @@ namespace Poker
                 giveWinnings(currentPlayer);
                 newHand();
             }
+
+            data.saveData(table_entity, this);
         }
 
         public void giveWinnings(Player_entity player)
         {
-            player.setChips(player.getChips() + table.getPot() + player.getStakes());
+            player.setChips(player.getChips() + table_entity.getPot() + player.getStakes());
             player.setStakes(0);
-            table.setPot(0);
+            table_entity.setPot(0);
         }
 
         // function for call
@@ -209,11 +240,13 @@ namespace Poker
                 if (roundCounter == 4)
                 {
                     // Calculate who has the best hand
-                    Player_entity player = rules.findWinner(table, table.getPlayers());
+                    Player_entity player = rules.findWinner(table_entity, table_entity.getPlayers());
                     giveWinnings(player);
                     newHand();
                 }
             }
+
+            data.saveData(table_entity, this);
         }
 
         // function for raise
@@ -233,6 +266,8 @@ namespace Poker
             Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
 
             currentPlayer = nextPlayer;
+
+            data.saveData(table_entity, this);
         }
 
         // TODO: Move this to a better suited place
@@ -244,7 +279,7 @@ namespace Poker
             bool playerFound = false;
             bool firstActivePlayerFound = false;
 
-            foreach (Player_entity p in table.getPlayers())
+            foreach (Player_entity p in table_entity.getPlayers())
             {
                 if (p == player)
                 {
@@ -265,13 +300,13 @@ namespace Poker
 
         public void endRound()
         {
-            foreach (Player_entity player in table.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 player.ActedThisRound = false;
-                table.setPot(table.getPot() + player.getStakes());
+                table_entity.setPot(table_entity.getPot() + player.getStakes());
                 player.setStakes(0);
             }
-            List<Player_entity> players = table.getPlayers();
+            List<Player_entity> players = table_entity.getPlayers();
             currentPlayer = indexSmallBlind != 0 ? getNextActivePlayer(players[indexSmallBlind - 1]) : getNextActivePlayer(players[players.Count() - 1]);
             lastRaise = 0;
             minRaise = BIGBLIND;
