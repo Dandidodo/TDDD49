@@ -95,7 +95,6 @@ namespace Poker
 
         public void setCM(Card_entity card)
         {
-            Console.WriteLine(card.getRank().ToString() + card.getSuit());
             communityCards.Add(card);
         }
 

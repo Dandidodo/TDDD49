@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <level1 name="A">
+        <level2 name="A1" />
+        <level2 name="A2" />
+    </level1>
+    <level1 name="B">
+        <level2 name="B1" />
+        <level2 name="B2" />
+    </level1>
+    <level1 name="C" />
+</root>

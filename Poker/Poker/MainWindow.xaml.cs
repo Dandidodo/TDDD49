@@ -141,14 +141,38 @@ namespace Poker
             }
         }
 
+        public static void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
+        {
+            TextWriter writer = null;
+            try
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                writer = new StreamWriter(filePath, append);
+                serializer.Serialize(writer, objectToWrite);
+            }
+            finally
+            {
+                if (writer != null)
+                    writer.Close();
+            }
+        }
+
+
         private void fold_button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                /*
                 XDocument doc = new XDocument(
-                    new XElement("Root",
-                        new XElement("Child", "content")
+                    new XElement("Table_entity",
+                        new XElement("deck", table_entity.getDeck()),
+                        new XElement("pot", table_entity.getPot()),
+                        new XElement("cmc",
+                            new XElement("cmc1", table_entity.getCM1()),
+                            new XElement("cmc2", table_entity.getCM2()),
+                            new XElement("cmc3", table_entity.getCM3()),
+                            new XElement("cmc4", table_entity.getCM4()),
+                            new XElement("cmc5", table_entity.getCM5())
+                        )
                     )
                 );
                 doc.Save("Root.xml");
@@ -156,25 +180,46 @@ namespace Poker
                 //Console.WriteLine(File.ReadAllText("Root.xml"));
                 
                 XDocument docRead = XDocument.Load("Root.xml");
-                var test = from root in docRead.Descendants("Root")
+                var test = from bla in docRead.Descendants("Table_entity")
                             select new
                             {
-                                test = root.Element("Child").Value,
+                                Children = bla.Element("deck").Value
                             };
-                Console.WriteLine(test);
-                */
-
-                XmlSerializer xsSubmit = new XmlSerializer(typeof(Table_entity));
-                var xml = "";
-
-                using (var sww = new StringWriter())
+                foreach (var t in test)
                 {
-                    using (XmlWriter writer = XmlWriter.Create(sww))
-                    {
-                        xsSubmit.Serialize(writer, table_entity);
-                        xml = sww.ToString(); // Your XML
-                    }
+                    Console.WriteLine(t.Children);
                 }
+
+
+
+
+
+                /*
+                // This works
+                // The name of Header and Children is not important
+                
+                //Load xml
+                XDocument xdoc = XDocument.Load("data.xml");
+
+                //Run query
+                var lv1s = from lv1 in xdoc.Descendants("level1")
+                           select new
+                           {
+                               Header = lv1.Attribute("name").Value,
+                               Children = lv1.Descendants("level2")
+                           };
+
+                StringBuilder result = new StringBuilder();
+
+                //Loop through results
+                foreach (var lv1 in lv1s)
+                {
+                    result.AppendLine(lv1.Header);
+                    foreach (var lv2 in lv1.Children)
+                        result.AppendLine("     " + lv2.Attribute("name").Value);
+                }
+                Console.WriteLine(result);
+                */
 
                 gameLogic.playerFold();
                 updateGraphics();

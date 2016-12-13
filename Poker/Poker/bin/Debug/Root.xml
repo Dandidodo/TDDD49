@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Root>
-  <Child>content</Child>
-</Root>
+<Table_entity>
+  <deck>Poker.Table_entity</deck>
+</Table_entity>
