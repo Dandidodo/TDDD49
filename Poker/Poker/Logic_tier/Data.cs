@@ -83,17 +83,48 @@ namespace Poker.Logic_tier
 
         }
 
-        /*
-        public void loadData()
+        
+        public void loadData(Table_entity table_entity)
         {
             XDocument data = XDocument.Load("data.xml");
             var players = from p in data.Descendants("Table_entity").Descendants("players")
-            select new
+                          select new
+                          {
+                              Cards = p.Descendants("cards"),
+                              Chips = p.Element("chips"),
+                              Stakes = p.Element("stakes"),
+                              Active = p.Element("active"),
+                              ActedThisRound = p.Element("ActedThisRound")
+                          };
+            foreach (var p in players.Select((value, i) => new { i, value}))
             {
-                //load
+                /*
+                foreach (var card in p.value.Cards.Select((value2, i2) => new {i2, value2}))
+                {
+                    // Remove the cards
+                    table_entity.getPlayers()[p.i].removeCards();
+
+                    // Copy rank
+                    int rank = Int32.Parse(card.value2.Element("rank").Value);
+                    table_entity.getPlayers()[p.i].getCards()[card.i2].setRank(rank);
+
+                    // Copy suit
+                    Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value2.Element("suit").Value);
+                    table_entity.getPlayers()[p.i].getCards()[card.i2].setSuit(suit);
+                }
+                */
+                int chips = Int32.Parse(p.value.Chips.Value);
+                table_entity.getPlayers()[p.i].setChips(chips);
+
+                int stakes = Int32.Parse(p.value.Stakes.Value);
+                table_entity.getPlayers()[p.i].setStakes(stakes);
+
+                bool active = Convert.ToBoolean(p.value.Active.Value);
+                table_entity.getPlayers()[p.i].Active = active;
+
+                bool actedThisRound = Convert.ToBoolean(p.value.ActedThisRound.Value);
+                table_entity.getPlayers()[p.i].Active = actedThisRound;
             }
-            foreach (var p in players)
-        } 
-        */       
+        }             
     }
 }

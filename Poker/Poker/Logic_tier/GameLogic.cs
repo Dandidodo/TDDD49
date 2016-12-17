@@ -36,7 +36,7 @@ namespace Poker
             giveStartingChips();
             newHand();
 
-            //data.loadData();
+            data.loadData(table_entity);
             // FIlen kan inte finnas, fel i XML, fel i XML gentemot oss
         }
 
