@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 namespace Poker.Logic_tier
 {
     class TexasHoldemRules
-    {        
+    {
+        private const int ROYALFLUSH    = 900000;
         private const int STRAIGHTFLUSH = 800000;
-        private const int FOUROFAKIND = 700000;
-        private const int FULLHOUSE = 600000;
-        private const int FLUSH = 500000;
-        private const int STRAIGHT = 400000;
-        private const int THREEOFAKIND = 300000;
-        private const int TWOPAIR = 200000;
-        private const int PAIR = 100000;
+        private const int FOUROFAKIND   = 700000;
+        private const int FULLHOUSE     = 600000;
+        private const int FLUSH         = 500000;
+        private const int STRAIGHT      = 400000;
+        private const int THREEOFAKIND  = 300000;
+        private const int TWOPAIR       = 200000;
+        private const int PAIR          = 100000;
 
         public TexasHoldemRules()
         {      
@@ -37,50 +38,59 @@ namespace Poker.Logic_tier
                     List<Card_entity> allCards = new List<Card_entity>(table.getCommunityCards());
                     allCards.Add(player.getCards()[0]);
                     allCards.Add(player.getCards()[1]);
+
                     List<Card_entity> sortedCards = allCards.OrderBy(c => c.getRank()).ToList();
                     sortedCards.Reverse();
-                    playerHandVal = checkSameRank(sortedCards);
+
+                    playerHandVal = setPlayerHand(sortedCards);
 
                     if (playerHandVal > bestHandVal)
                     {
                         bestHandVal = playerHandVal;
                         bestPlayer = player;
                     }
-
-                    // TODO: Do this in the future if we want to
-                    //checkFlush(allCards);
-                    //checkStraight(allCards);
                 }
             }
             return bestPlayer;
-            /*
-            //Fake shit for testing purposes only
-            List<Card_entity> testStraight = new List<Card_entity>();
-            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 3));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 3));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Diamond, 3));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Spade, 3));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 14));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 10));
-            testStraight.Add(new Card_entity(Card_entity.Suit.Club, 10));
-
-            List<Card_entity> sortedCards = testStraight.OrderBy(c => c.getRank()).ToList();
-            sortedCards.Reverse();
-
-            int playerVal = checkSameRank(sortedCards);
-            */
         }
 
-        // TODO
-        //value += 800000; //straight flush
-        //value += highestrankedcardinstraightflush
+        private int setPlayerHand(List<Card_entity> sortedCards)
+        {
+            int playerHandVal = checkSameRank(sortedCards);
+            int flushValue = checkFlush(sortedCards);
+            int straightValue = checkStraight(sortedCards);
 
-        // TODO
-        //value += 500000 //flush
-        //value += highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
+            bool flush = false;
+            if (flushValue > 0)
+            {
+                flush = true;
+                if (flushValue > playerHandVal)
+                    playerHandVal = flushValue;
+            }
 
-        // TODO        //value += 400000 //straight
-        //value + highestrankedcard
+            if (straightValue > 0)
+            {
+                if (flush && (sortedCards[0].getRank() == 14))
+                {
+                    //Royal flush, recalculate handvalue
+                    playerHandVal = ROYALFLUSH;
+                }
+                else if (flush)
+                {
+                    playerHandVal = STRAIGHTFLUSH + sortedCards[0].getRank();
+                }
+                else
+                {
+                    if (straightValue > playerHandVal)
+                    {
+                        playerHandVal = STRAIGHT + sortedCards[0].getRank();
+                    }
+                }
+
+            }
+
+            return playerHandVal;
+        }
 
         private Dictionary<int, int> countOccurencesOfRank(List<Card_entity> combinedCards)
         {
@@ -126,9 +136,11 @@ namespace Poker.Logic_tier
                 {
                     return calculateFourOfAKindValue(combinedCards, rank.Key);
                 }
-                else if (rank.Value == 3 && three_of_a_kind_val != 0)
+                else if (rank.Value == 3)
                 {
-                    three_of_a_kind_val = rank.Key;
+                    if (rank.Key > three_of_a_kind_val) //Overwrite if we find a bigger three of a kind value
+                        three_of_a_kind_val = rank.Key;
+
                     if (pair_val != 0) //FULL HOUSE
                         return calculateFullHouseValue(three_of_a_kind_val, pair_val);
                 }
@@ -199,7 +211,7 @@ namespace Poker.Logic_tier
         }
 
         // Returns if any suit occures 5 times or more.
-        private bool checkFlush(List<Card_entity> combinedCards)
+        private int checkFlush(List<Card_entity> combinedCards)
         {
             int heartCount = 0;
             int spadesCount = 0;
@@ -219,11 +231,18 @@ namespace Poker.Logic_tier
                 else
                     clubCount++;
             }
-
-            return ((heartCount >= 5) || (spadesCount >= 5) || (diamondCount >= 5) || (clubCount >= 5));
+            //value += 500000 //flush
+            //value += highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
+            if ((heartCount >= 5) || (spadesCount >= 5) || (diamondCount >= 5) || (clubCount >= 5))
+            {
+                int val = FLUSH + combinedCards[0].getRank() * 1000 + combinedCards[1].getRank() * 100 + combinedCards[2].getRank() * 10 + combinedCards[3].getRank();
+                return val;
+            }
+            else
+                return 0;
         }
 
-        private bool checkStraight(List<Card_entity> combinedCards)
+        private int checkStraight(List<Card_entity> combinedCards)
         {
             int previousRank = combinedCards[0].getRank();
             int currentStreak = 0; // The cards rank has to increase five times, but we dont know where the straight starts.
@@ -231,14 +250,14 @@ namespace Poker.Logic_tier
             for (int i = 1; i < combinedCards.Count; i++)
             {
                 int currentRank = combinedCards[i].getRank();
-                if ((previousRank + 1) == currentRank)
+                if ((previousRank - 1) == currentRank)
                 {
                     currentStreak++;
                     if (currentStreak == 4)
-                        //TODO: Check if last card is Ace -> Set royal flag
-                        return true; //Here we have found it
-                }
-                else
+                        //value += 400000 //straight
+                        //value + highestrankedcard
+                        return STRAIGHT + combinedCards[0].getRank(); //Here we have found it
+                } else if(previousRank != currentRank) //When we have multiple cards with same rank, like 9,9,8,7,6,5..
                 {
                     currentStreak = 0;
                 }
@@ -246,7 +265,7 @@ namespace Poker.Logic_tier
                 previousRank = currentRank;
 
             }
-            return false;
+            return 0;
         }
     }
 }
