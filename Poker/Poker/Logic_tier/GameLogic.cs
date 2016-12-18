@@ -1,9 +1,12 @@
 ﻿using Poker.Logic_tier;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
+using System.Xml;
 
 namespace Poker
 {
@@ -36,8 +39,22 @@ namespace Poker
             giveStartingChips();
             newHand();
 
-            data.loadData(table_entity);
-            // FIlen kan inte finnas, fel i XML, fel i XML gentemot oss
+            try
+            {
+                data.loadData(table_entity, this);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (XmlException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (XamlParseException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         // Move to rules?
@@ -85,9 +102,17 @@ namespace Poker
             }
         }
 
-        public Player_entity getCurrentPlayer()
+        internal Player_entity CurrentPlayer
         {
-            return currentPlayer;
+            get
+            {
+                return currentPlayer;
+            }
+
+            set
+            {
+                currentPlayer = value;
+            }
         }
 
         public void newHand()
@@ -182,8 +207,7 @@ namespace Poker
             for (int i = 0; i < 5; i++)
                 table_entity.setCM(table_entity.getDeck().draw());
         }
-
-        // function for fold
+        
         public void playerFold()
         {
             currentPlayer.ActedThisRound = true;
@@ -209,7 +233,15 @@ namespace Poker
                 newHand();
             }
 
-            data.saveData(table_entity, this);
+            try
+            {
+                data.saveData(table_entity, this);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
         }
 
         public void giveWinnings(Player_entity player)
@@ -218,8 +250,7 @@ namespace Poker
             player.setStakes(0);
             table_entity.setPot(0);
         }
-
-        // function for call
+        
         public void playerCall()
         {
             currentPlayer.ActedThisRound = true;
@@ -246,10 +277,16 @@ namespace Poker
                 }
             }
 
-            data.saveData(table_entity, this);
+            try
+            {
+                data.saveData(table_entity, this);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
-
-        // function for raise
+        
         public void playerRaise(int raise)
         {
             currentPlayer.ActedThisRound = true;
@@ -267,10 +304,16 @@ namespace Poker
 
             currentPlayer = nextPlayer;
 
-            data.saveData(table_entity, this);
+            try
+            {
+                data.saveData(table_entity, this);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
-
-        // TODO: Move this to a better suited place
+        
         // Find the next player, we have to check a special case if the current active player is in the end of players, then we have to
         // return the first active player found.
         public Player_entity getNextActivePlayer(Player_entity player)

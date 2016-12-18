@@ -32,7 +32,7 @@ namespace Poker.Logic_tier
                         new XElement("indexBigBlind", gameLogic.IndexBigBlind),
                         new XElement("indexSmallBlind", gameLogic.IndexSmallBlind),
                         new XElement("roundCounter", gameLogic.RoundCounter),
-                        new XElement("currentPlayerIndex", table_entity.getPlayers().IndexOf(gameLogic.getCurrentPlayer()))
+                        new XElement("currentPlayerIndex", table_entity.getPlayers().IndexOf(gameLogic.CurrentPlayer))
                     );
 
             var communityCards = data.Element("Table_entity").Element("communityCards");
@@ -83,27 +83,25 @@ namespace Poker.Logic_tier
 
         }
 
-        
-        public void loadData(Table_entity table_entity)
+
+        public void loadData(Table_entity table_entity, GameLogic game_logic)
         {
             XDocument data = XDocument.Load("data.xml");
-            var players = from p in data.Descendants("Table_entity").Descendants("players")
+
+            // Load players
+            var players = from p in data.Descendants("player")
                           select new
                           {
-                              Cards = p.Descendants("cards"),
+                              Cards = p.Descendants("card"),
                               Chips = p.Element("chips"),
                               Stakes = p.Element("stakes"),
                               Active = p.Element("active"),
-                              ActedThisRound = p.Element("ActedThisRound")
+                              ActedThisRound = p.Element("actedThisRound")
                           };
-            foreach (var p in players.Select((value, i) => new { i, value}))
+            foreach (var p in players.Select((value, i) => new { i, value }))
             {
-                /*
-                foreach (var card in p.value.Cards.Select((value2, i2) => new {i2, value2}))
+                foreach (var card in p.value.Cards.Select((value2, i2) => new { i2, value2 }))
                 {
-                    // Remove the cards
-                    table_entity.getPlayers()[p.i].removeCards();
-
                     // Copy rank
                     int rank = Int32.Parse(card.value2.Element("rank").Value);
                     table_entity.getPlayers()[p.i].getCards()[card.i2].setRank(rank);
@@ -112,19 +110,81 @@ namespace Poker.Logic_tier
                     Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value2.Element("suit").Value);
                     table_entity.getPlayers()[p.i].getCards()[card.i2].setSuit(suit);
                 }
-                */
+
+
                 int chips = Int32.Parse(p.value.Chips.Value);
                 table_entity.getPlayers()[p.i].setChips(chips);
 
                 int stakes = Int32.Parse(p.value.Stakes.Value);
                 table_entity.getPlayers()[p.i].setStakes(stakes);
-
+                
                 bool active = Convert.ToBoolean(p.value.Active.Value);
                 table_entity.getPlayers()[p.i].Active = active;
 
                 bool actedThisRound = Convert.ToBoolean(p.value.ActedThisRound.Value);
-                table_entity.getPlayers()[p.i].Active = actedThisRound;
+                table_entity.getPlayers()[p.i].ActedThisRound = actedThisRound;
             }
-        }             
+
+            // Load game logic variables
+            var gameLogic = from logic in data.Descendants("gameLogic")
+                            select new
+                            {
+                                LastRaise = logic.Element("lastRaise"),
+                                MinRaise = logic.Element("minRaise"),
+                                IndexBigBlind = logic.Element("indexBigBlind"),
+                                IndexSmallBlind = logic.Element("indexSmallBlind"),
+                                RoundCounter = logic.Element("roundCounter"),
+                                CurrentPlayerIndex = logic.Element("currentPlayerIndex"),
+                            };
+            foreach (var logic in gameLogic)
+            {
+                game_logic.LastRaise = Int32.Parse(logic.LastRaise.Value);
+                game_logic.MinRaise = Int32.Parse(logic.MinRaise.Value);
+                game_logic.IndexSmallBlind = Int32.Parse(logic.IndexSmallBlind.Value);
+                game_logic.IndexBigBlind = Int32.Parse(logic.IndexBigBlind.Value);
+                game_logic.RoundCounter = Int32.Parse(logic.RoundCounter.Value);
+                game_logic.CurrentPlayer = table_entity.getPlayers()[Int32.Parse(logic.CurrentPlayerIndex.Value)];
+            }
+
+            // Load community cards
+            var communityCards = from communityCard in data.Descendants("communityCard")
+                                 select new
+                                 {
+                                     Suit = communityCard.Element("suit"),
+                                     Rank = communityCard.Element("rank")
+                                 };
+            foreach (var card in communityCards.Select((value, i) => new {i, value}))
+            {
+                // Copy rank
+                table_entity.getCommunityCards()[card.i].setRank(Int32.Parse(card.value.Rank.Value));
+
+                // Copy suit
+                Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value.Suit.Value);
+                table_entity.getCommunityCards()[card.i].setSuit(suit);
+            }
+
+            // Load deck
+            var deck_cards = from deck in data.Descendants("deck").Descendants("card")
+                                 select new
+                                 {
+                                     Suit = deck.Element("suit"),
+                                     Rank = deck.Element("rank")
+                                 };
+            foreach (var card in deck_cards.Select((value, i) => new { i, value }))
+            {
+                // Copy rank
+                table_entity.getDeck().Deck_entity.getCards()[card.i].setRank(Int32.Parse(card.value.Rank.Value));
+
+                // Copy suit
+                Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value.Suit.Value);
+                table_entity.getDeck().Deck_entity.getCards()[card.i].setSuit(suit);
+            }
+
+            // Load pot
+            foreach (XElement element in data.Element("Table_entity").Descendants("pot"))
+            {
+                table_entity.setPot(Int32.Parse(element.Value));
+            }
+        }
     }
 }

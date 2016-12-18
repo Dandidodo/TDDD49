@@ -21,20 +21,12 @@ namespace Poker
             InitializeComponent();
             table_entity = new Table_entity();
             gameLogic = new GameLogic(table_entity);
-            
-
-            displayChips();
-            setPlayerCards();
-            setCommunityCards();
-            hideCommunityCards();
-            displayStakes();
-            setSliderValue();
-            highlightCurrentPlayerYellow();
+            updateGraphics();
         }
 
         private void highlightCurrentPlayerYellow()
         {
-            Player_entity currentPlayer = gameLogic.getCurrentPlayer();
+            Player_entity currentPlayer = gameLogic.CurrentPlayer;
 
             //Reset colors
             player1.Fill = new SolidColorBrush(Colors.White);
@@ -57,20 +49,20 @@ namespace Poker
 
         private void setCommunityCards()
         {
-            cm_card1_suit.Text = table_entity.getCM1().getSuit().ToString();
-            cm_card1_rank.Text = table_entity.getCM1().getRank().ToString();
+            cm_card1_suit.Text = table_entity.getCommunityCards()[0].getSuit().ToString();
+            cm_card1_rank.Text = table_entity.getCommunityCards()[0].getRank().ToString();
 
-            cm_card2_suit.Text = table_entity.getCM2().getSuit().ToString();
-            cm_card2_rank.Text = table_entity.getCM2().getRank().ToString();
+            cm_card2_suit.Text = table_entity.getCommunityCards()[1].getSuit().ToString();
+            cm_card2_rank.Text = table_entity.getCommunityCards()[1].getRank().ToString();
 
-            cm_card3_suit.Text = table_entity.getCM3().getSuit().ToString();
-            cm_card3_rank.Text = table_entity.getCM3().getRank().ToString();
+            cm_card3_suit.Text = table_entity.getCommunityCards()[2].getSuit().ToString();
+            cm_card3_rank.Text = table_entity.getCommunityCards()[2].getRank().ToString();
 
-            cm_card4_suit.Text = table_entity.getCM4().getSuit().ToString();
-            cm_card4_rank.Text = table_entity.getCM4().getRank().ToString();
+            cm_card4_suit.Text = table_entity.getCommunityCards()[3].getSuit().ToString();
+            cm_card4_rank.Text = table_entity.getCommunityCards()[3].getRank().ToString();
 
-            cm_card5_suit.Text = table_entity.getCM5().getSuit().ToString();
-            cm_card5_rank.Text = table_entity.getCM5().getRank().ToString();
+            cm_card5_suit.Text = table_entity.getCommunityCards()[4].getSuit().ToString();
+            cm_card5_rank.Text = table_entity.getCommunityCards()[4].getRank().ToString();
         }
 
         private void hideCommunityCards()
@@ -98,6 +90,7 @@ namespace Poker
 
         private void updateCommunityCards()
         {
+            Console.WriteLine("Round counter:" + gameLogic.RoundCounter);
             if (gameLogic.RoundCounter == 0)
             {
                 hideCommunityCards();
@@ -114,15 +107,45 @@ namespace Poker
                 cm_card3_suit.Visibility = Visibility.Visible;
                 cm_card3_rank.Visibility = Visibility.Visible;
                 cm_card3_bg.Visibility = Visibility.Visible;
+                cm_card4_suit.Visibility = Visibility.Hidden;
+                cm_card4_rank.Visibility = Visibility.Hidden;
+                cm_card4_bg.Visibility = Visibility.Hidden;
+                cm_card5_suit.Visibility = Visibility.Hidden;
+                cm_card5_rank.Visibility = Visibility.Hidden;
+                cm_card5_bg.Visibility = Visibility.Hidden;
             }
             else if (gameLogic.RoundCounter == 2)
             {
+                cm_card1_suit.Visibility = Visibility.Visible;
+                cm_card1_rank.Visibility = Visibility.Visible;
+                cm_card1_bg.Visibility = Visibility.Visible;
+                cm_card2_suit.Visibility = Visibility.Visible;
+                cm_card2_rank.Visibility = Visibility.Visible;
+                cm_card2_bg.Visibility = Visibility.Visible;
+                cm_card3_suit.Visibility = Visibility.Visible;
+                cm_card3_rank.Visibility = Visibility.Visible;
+                cm_card3_bg.Visibility = Visibility.Visible;
                 cm_card4_suit.Visibility = Visibility.Visible;
                 cm_card4_rank.Visibility = Visibility.Visible;
                 cm_card4_bg.Visibility = Visibility.Visible;
+                cm_card5_suit.Visibility = Visibility.Hidden;
+                cm_card5_rank.Visibility = Visibility.Hidden;
+                cm_card5_bg.Visibility = Visibility.Hidden;
             }
             else if (gameLogic.RoundCounter == 3)
             {
+                cm_card1_suit.Visibility = Visibility.Visible;
+                cm_card1_rank.Visibility = Visibility.Visible;
+                cm_card1_bg.Visibility = Visibility.Visible;
+                cm_card2_suit.Visibility = Visibility.Visible;
+                cm_card2_rank.Visibility = Visibility.Visible;
+                cm_card2_bg.Visibility = Visibility.Visible;
+                cm_card3_suit.Visibility = Visibility.Visible;
+                cm_card3_rank.Visibility = Visibility.Visible;
+                cm_card3_bg.Visibility = Visibility.Visible;
+                cm_card4_suit.Visibility = Visibility.Visible;
+                cm_card4_rank.Visibility = Visibility.Visible;
+                cm_card4_bg.Visibility = Visibility.Visible;
                 cm_card5_suit.Visibility = Visibility.Visible;
                 cm_card5_rank.Visibility = Visibility.Visible;
                 cm_card5_bg.Visibility = Visibility.Visible;
@@ -157,6 +180,12 @@ namespace Poker
 
         private void updateGraphics()
         {
+            Console.WriteLine(table_entity.getPlayer1().Active);
+            Console.WriteLine(table_entity.getPlayer2().Active);
+            Console.WriteLine(table_entity.getPlayer3().Active);
+            Console.WriteLine(table_entity.getPlayer4().Active);
+            Console.WriteLine(table_entity.getPlayer5().Active);
+
             Visibility player1_visibility = table_entity.getPlayer1().Active ? Visibility.Visible : Visibility.Hidden;
             player1_card1_rank.Visibility = player1_visibility;
             player1_card1_suit.Visibility = player1_visibility;
@@ -212,7 +241,7 @@ namespace Poker
         {
             try
             {
-                gameLogic.playerRaise(calcSliderValue() + gameLogic.getCurrentPlayer().getStakes());
+                gameLogic.playerRaise(calcSliderValue() + gameLogic.CurrentPlayer.getStakes());
                 // Visa passande av data via entiteter
 
                 displayStakes();
@@ -229,7 +258,7 @@ namespace Poker
 
         private void updateCheckCallButton()
         {
-            if (gameLogic.LastRaise == gameLogic.getCurrentPlayer().getStakes())
+            if (gameLogic.LastRaise == gameLogic.CurrentPlayer.getStakes())
             {
                 setCallButtonToCheck();
             }
@@ -251,20 +280,20 @@ namespace Poker
 
         private void setSliderValue()
         {
-            chipsValue.Text = (gameLogic.MinRaise - gameLogic.getCurrentPlayer().getStakes()).ToString();
+            chipsValue.Text = (gameLogic.MinRaise - gameLogic.CurrentPlayer.getStakes()).ToString();
             slider.Value = 0;
         }
 
         private int calcSliderValue()
         {
-            Player_entity currPlayer = gameLogic.getCurrentPlayer();
+            Player_entity currPlayer = gameLogic.CurrentPlayer;
             double chips = currPlayer.getChips();
             double calcChips = ((slider.Value * 0.1) * chips); // Slider has bool value in range 0.0-10.0, hence * 0.1, then we multiply this with chips.
             int roundUp = ((int)Math.Round(calcChips / 10.0)) * 10; // Rounds it up to nearest 10.
 
-            if (roundUp < gameLogic.MinRaise - gameLogic.getCurrentPlayer().getStakes())
+            if (roundUp < gameLogic.MinRaise - gameLogic.CurrentPlayer.getStakes())
             {
-                roundUp = gameLogic.MinRaise - gameLogic.getCurrentPlayer().getStakes();
+                roundUp = gameLogic.MinRaise - gameLogic.CurrentPlayer.getStakes();
             }
             return roundUp;
         }
