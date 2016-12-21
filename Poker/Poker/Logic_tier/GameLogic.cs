@@ -25,6 +25,7 @@ namespace Poker
         private Player_entity currentPlayer;
         private TexasHoldemRules rules;
         private Data data;
+        private string foldWinner = "";
 
         public GameLogic(Table_entity table_entity)
         {
@@ -57,7 +58,6 @@ namespace Poker
             }
         }
 
-        // Move to rules?
         public int MinRaise
         {
             get { return minRaise; }
@@ -113,6 +113,50 @@ namespace Poker
             {
                 currentPlayer = value;
             }
+        }
+
+        public string FoldWinner
+        {
+            get
+            {
+                return foldWinner;
+            }
+
+            set
+            {
+                foldWinner = value;
+            }
+        }
+
+        //Winner wins by fold or best hand
+        public string getWiningMessage()
+        {
+            if(foldWinner != "")
+            {
+                string tmpMessage = foldWinner;
+                foldWinner = ""; //Reset once it has been used
+                return tmpMessage;
+            } else
+            {
+                return rules.getWiningMessage();
+            }
+        }
+
+        //Loops over all players to find correct index of winner
+        private void setFoldWinner(Player_entity currentPlayer)
+        {
+            int playerIndex = 0;
+            int winner = 0;
+            foreach (Player_entity p in table_entity.getPlayers())
+            {
+                ++playerIndex;
+                if (p == currentPlayer)
+                {
+                    winner = playerIndex;
+                }
+
+            }
+            foldWinner = "Player " + winner.ToString() + " wins";
         }
 
         public void newHand()
@@ -249,6 +293,7 @@ namespace Poker
             if (handIsFinished()) // Check if the hand is finished (if there's only 1 active player left)
             {
                 giveWinnings(currentPlayer);
+                setFoldWinner(currentPlayer);
                 newHand();
             }
 

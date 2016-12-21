@@ -180,12 +180,6 @@ namespace Poker
 
         private void updateGraphics()
         {
-            Console.WriteLine(table_entity.getPlayer1().Active);
-            Console.WriteLine(table_entity.getPlayer2().Active);
-            Console.WriteLine(table_entity.getPlayer3().Active);
-            Console.WriteLine(table_entity.getPlayer4().Active);
-            Console.WriteLine(table_entity.getPlayer5().Active);
-
             Visibility player1_visibility = table_entity.getPlayer1().Active ? Visibility.Visible : Visibility.Hidden;
             player1_card1_rank.Visibility = player1_visibility;
             player1_card1_suit.Visibility = player1_visibility;
@@ -225,6 +219,15 @@ namespace Poker
             player5_card2_rank.Visibility = player5_visibility;
             player5_card2_suit.Visibility = player5_visibility;
             player5_card2_bg.Visibility = player5_visibility;
+
+            if (gameLogic.RoundCounter == 0)
+            {
+                infoText.Text = gameLogic.getWiningMessage();
+                infoText.Visibility = Visibility.Visible;
+            } else
+            {
+                infoText.Visibility = Visibility.Hidden;
+            }
 
             displayStakes();
             displayChips();

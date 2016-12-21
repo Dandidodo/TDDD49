@@ -17,10 +17,16 @@ namespace Poker.Logic_tier
         private const int THREEOFAKIND  = 300000;
         private const int TWOPAIR       = 200000;
         private const int PAIR          = 100000;
+        private string winingMessage = "";
 
         public TexasHoldemRules()
         {      
 
+        }
+
+        public string getWiningMessage()
+        {
+            return winingMessage;
         }
 
 
@@ -30,9 +36,15 @@ namespace Poker.Logic_tier
         {
             int bestHandVal = 0;
             int playerHandVal = 0;
+
+            int playerIndex = 0;
+            int bestPlayerIndex = 0;
+
             Player_entity bestPlayer = new Player_entity();
             foreach (Player_entity player in players)
             {
+                ++playerIndex;
+
                 if (player.Active)
                 {
                     List<Card_entity> allCards = new List<Card_entity>(table.getCommunityCards());
@@ -49,9 +61,34 @@ namespace Poker.Logic_tier
                     {
                         bestHandVal = playerHandVal;
                         bestPlayer = player;
+                        bestPlayerIndex = playerIndex;
                     }
                 }
             }
+
+            winingMessage = "Player " + bestPlayerIndex.ToString() + " wins with ";
+
+            if (bestHandVal >= ROYALFLUSH)
+                winingMessage += "Royal Flush";
+            else if (bestHandVal >= STRAIGHTFLUSH)
+                winingMessage += "Straight Flush";
+            else if (bestHandVal >= FOUROFAKIND)
+                winingMessage += "Four of a Kind";
+            else if (bestHandVal >= FULLHOUSE)
+                winingMessage += "Full House";
+            else if (bestHandVal >= FLUSH)
+                winingMessage += "Flush";
+            else if (bestHandVal >= STRAIGHT)
+                winingMessage += "Straight";
+            else if (bestHandVal >= THREEOFAKIND)
+                winingMessage += "Three of a Kind";
+            else if (bestHandVal >= TWOPAIR)
+                winingMessage += "Two Pair";
+            else if (bestHandVal >= PAIR)
+                winingMessage += "Pair";
+            else if (bestHandVal >= 0)
+                winingMessage += "Highest card";
+
             return bestPlayer;
         }
 

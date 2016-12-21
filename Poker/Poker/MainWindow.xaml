@@ -86,6 +86,7 @@
         <Ellipse x:Name="pot_bg" Fill="#FF081772" Margin="823.366,521.526,844.634,457.996" Stroke="Black"/>
         <TextBlock x:Name="pot" Height="38.658" Margin="887.926,0,914.801,483.735" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="29.333" Foreground="White" HorizontalAlignment="Center"><Run Text="0"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="chipsValue" HorizontalAlignment="Left" Height="15.857" Margin="345.255,0,0,55.557" TextWrapping="Wrap" Text="Slider value" VerticalAlignment="Bottom" Width="121.408"/>
+        <TextBlock x:Name="infoText" Height="61.237" Margin="760.576,81.368,860.342,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" FontSize="18" HorizontalAlignment="Center"/>
 
     </Grid>
 </Window>
