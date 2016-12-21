@@ -5,11 +5,11 @@
       <cards>
         <card>
           <suit>Heart</suit>
-          <rank>10</rank>
+          <rank>5</rank>
         </card>
         <card>
-          <suit>Club</suit>
-          <rank>2</rank>
+          <suit>Diamond</suit>
+          <rank>10</rank>
         </card>
       </cards>
       <chips>500</chips>
@@ -21,11 +21,11 @@
       <cards>
         <card>
           <suit>Club</suit>
-          <rank>6</rank>
+          <rank>4</rank>
         </card>
         <card>
-          <suit>Diamond</suit>
-          <rank>6</rank>
+          <suit>Club</suit>
+          <rank>5</rank>
         </card>
       </cards>
       <chips>830</chips>
@@ -36,8 +36,8 @@
     <player>
       <cards>
         <card>
-          <suit>Club</suit>
-          <rank>10</rank>
+          <suit>Heart</suit>
+          <rank>7</rank>
         </card>
         <card>
           <suit>Heart</suit>
@@ -53,11 +53,11 @@
       <cards>
         <card>
           <suit>Heart</suit>
-          <rank>4</rank>
+          <rank>2</rank>
         </card>
         <card>
           <suit>Diamond</suit>
-          <rank>14</rank>
+          <rank>5</rank>
         </card>
       </cards>
       <chips>380</chips>
@@ -68,12 +68,12 @@
     <player>
       <cards>
         <card>
-          <suit>Spade</suit>
-          <rank>12</rank>
+          <suit>Club</suit>
+          <rank>3</rank>
         </card>
         <card>
-          <suit>Diamond</suit>
-          <rank>8</rank>
+          <suit>Club</suit>
+          <rank>13</rank>
         </card>
       </cards>
       <chips>2570</chips>
@@ -92,102 +92,122 @@
   </gameLogic>
   <communityCards>
     <communityCard>
+      <suit>Diamond</suit>
+      <rank>7</rank>
+    </communityCard>
+    <communityCard>
       <suit>Spade</suit>
-      <rank>5</rank>
+      <rank>7</rank>
     </communityCard>
     <communityCard>
       <suit>Club</suit>
-      <rank>5</rank>
+      <rank>10</rank>
     </communityCard>
     <communityCard>
-      <suit>Spade</suit>
+      <suit>Heart</suit>
       <rank>6</rank>
     </communityCard>
     <communityCard>
-      <suit>Club</suit>
-      <rank>12</rank>
-    </communityCard>
-    <communityCard>
       <suit>Spade</suit>
-      <rank>8</rank>
+      <rank>14</rank>
     </communityCard>
   </communityCards>
   <deck>
     <card>
       <suit>Heart</suit>
+      <rank>3</rank>
+    </card>
+    <card>
+      <suit>Heart</suit>
+      <rank>8</rank>
+    </card>
+    <card>
+      <suit>Heart</suit>
+      <rank>13</rank>
+    </card>
+    <card>
+      <suit>Diamond</suit>
+      <rank>4</rank>
+    </card>
+    <card>
+      <suit>Spade</suit>
+      <rank>10</rank>
+    </card>
+    <card>
+      <suit>Spade</suit>
+      <rank>3</rank>
+    </card>
+    <card>
+      <suit>Heart</suit>
+      <rank>12</rank>
+    </card>
+    <card>
+      <suit>Diamond</suit>
+      <rank>6</rank>
+    </card>
+    <card>
+      <suit>Club</suit>
+      <rank>2</rank>
+    </card>
+    <card>
+      <suit>Club</suit>
+      <rank>7</rank>
+    </card>
+    <card>
+      <suit>Diamond</suit>
+      <rank>2</rank>
+    </card>
+    <card>
+      <suit>Heart</suit>
       <rank>14</rank>
     </card>
     <card>
       <suit>Diamond</suit>
-      <rank>9</rank>
-    </card>
-    <card>
-      <suit>Heart</suit>
-      <rank>2</rank>
-    </card>
-    <card>
-      <suit>Spade</suit>
-      <rank>13</rank>
-    </card>
-    <card>
-      <suit>Diamond</suit>
-      <rank>7</rank>
+      <rank>3</rank>
     </card>
     <card>
       <suit>Club</suit>
+      <rank>8</rank>
+    </card>
+    <card>
+      <suit>Heart</suit>
       <rank>4</rank>
     </card>
     <card>
       <suit>Club</suit>
+      <rank>14</rank>
+    </card>
+    <card>
+      <suit>Spade</suit>
       <rank>11</rank>
     </card>
     <card>
-      <suit>Heart</suit>
-      <rank>13</rank>
+      <suit>Club</suit>
+      <rank>6</rank>
     </card>
     <card>
-      <suit>Heart</suit>
+      <suit>Spade</suit>
       <rank>6</rank>
     </card>
     <card>
       <suit>Diamond</suit>
-      <rank>5</rank>
-    </card>
-    <card>
-      <suit>Diamond</suit>
-      <rank>11</rank>
-    </card>
-    <card>
-      <suit>Spade</suit>
-      <rank>2</rank>
+      <rank>8</rank>
     </card>
     <card>
       <suit>Heart</suit>
-      <rank>3</rank>
+      <rank>10</rank>
     </card>
     <card>
-      <suit>Diamond</suit>
-      <rank>4</rank>
-    </card>
-    <card>
-      <suit>Diamond</suit>
+      <suit>Club</suit>
       <rank>12</rank>
     </card>
     <card>
-      <suit>Heart</suit>
+      <suit>Diamond</suit>
+      <rank>14</rank>
+    </card>
+    <card>
+      <suit>Club</suit>
       <rank>9</rank>
-    </card>
-    <card>
-      <suit>Club</suit>
-      <rank>3</rank>
-    </card>
-    <card>
-      <suit>Club</suit>
-      <rank>7</rank>
-    </card>
-    <card>
-      <suit>Spade</suit>
-      <rank>10</rank>
     </card>
     <card>
       <suit>Diamond</suit>
@@ -195,71 +215,51 @@
     </card>
     <card>
       <suit>Spade</suit>
-      <rank>3</rank>
+      <rank>9</rank>
+    </card>
+    <card>
+      <suit>Spade</suit>
+      <rank>12</rank>
+    </card>
+    <card>
+      <suit>Spade</suit>
+      <rank>13</rank>
+    </card>
+    <card>
+      <suit>Spade</suit>
+      <rank>8</rank>
     </card>
     <card>
       <suit>Diamond</suit>
-      <rank>2</rank>
-    </card>
-    <card>
-      <suit>Club</suit>
-      <rank>13</rank>
+      <rank>12</rank>
     </card>
     <card>
       <suit>Spade</suit>
       <rank>4</rank>
     </card>
     <card>
-      <suit>Heart</suit>
-      <rank>12</rank>
+      <suit>Spade</suit>
+      <rank>2</rank>
     </card>
     <card>
       <suit>Spade</suit>
-      <rank>7</rank>
-    </card>
-    <card>
-      <suit>Heart</suit>
       <rank>5</rank>
     </card>
     <card>
-      <suit>Club</suit>
-      <rank>8</rank>
-    </card>
-    <card>
       <suit>Diamond</suit>
-      <rank>10</rank>
-    </card>
-    <card>
-      <suit>Diamond</suit>
-      <rank>3</rank>
-    </card>
-    <card>
-      <suit>Spade</suit>
       <rank>9</rank>
     </card>
     <card>
-      <suit>Club</suit>
-      <rank>14</rank>
-    </card>
-    <card>
-      <suit>Spade</suit>
+      <suit>Diamond</suit>
       <rank>11</rank>
     </card>
     <card>
       <suit>Heart</suit>
-      <rank>8</rank>
-    </card>
-    <card>
-      <suit>Club</suit>
       <rank>9</rank>
     </card>
     <card>
-      <suit>Heart</suit>
-      <rank>7</rank>
-    </card>
-    <card>
-      <suit>Spade</suit>
-      <rank>14</rank>
+      <suit>Club</suit>
+      <rank>11</rank>
     </card>
   </deck>
   <pot>0</pot>
