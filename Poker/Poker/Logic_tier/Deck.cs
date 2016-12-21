@@ -34,7 +34,6 @@ namespace Poker
                 for (int i = 2; i < 15; i++)
                 {
                     temp_cards.Add(new Card_entity(suit, i));
-                    //Console.WriteLine(temp_cards.Last().getRank().ToString() + temp_cards.Last().getSuit());
                 }
             }
             deck_entity.setCards(Shuffle(temp_cards));
@@ -58,7 +57,6 @@ namespace Poker
 
         public Card_entity draw()
         {
-            // Perhaps check if there are cards left in the deck_entity before we do this?
             Card_entity card = deck_entity.getCards()[0];
             deck_entity.getCards().RemoveAt(0);
             return card;

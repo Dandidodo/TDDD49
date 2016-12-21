@@ -103,8 +103,6 @@ namespace Poker
             communityCards.Clear();
         }
 
-
-        //TODO: Dessa fem kke passar bättre i TexasHoldemRules
         public Card_entity getCM1()
         {
             return communityCards[0];

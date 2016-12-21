@@ -44,6 +44,7 @@ namespace Poker.Logic_tier
 
                     playerHandVal = setPlayerHand(sortedCards);
 
+                    // Keep track of best player
                     if (playerHandVal > bestHandVal)
                     {
                         bestHandVal = playerHandVal;
@@ -54,6 +55,9 @@ namespace Poker.Logic_tier
             return bestPlayer;
         }
 
+        // Will check for same rank, flush and straight. And use 
+        // these together to find straight flush, royal flush etc.
+        // straightValue and flushValue will be set to 0 if none could be found.
         private int setPlayerHand(List<Card_entity> sortedCards)
         {
             int playerHandVal = checkSameRank(sortedCards);
@@ -64,6 +68,7 @@ namespace Poker.Logic_tier
             if (flushValue > 0)
             {
                 flush = true;
+                // Only set flushValue if its better, four of a kind could also be possible here and is better than flush
                 if (flushValue > playerHandVal)
                     playerHandVal = flushValue;
             }
@@ -124,6 +129,7 @@ namespace Poker.Logic_tier
             return occourencesOfRank;
         }
 
+        // Finds cards with same rank, and sets appropriate value.
         private int checkSameRank(List<Card_entity> combinedCards)
         {
             Dictionary<int, int> occourencesOfRank = countOccurencesOfRank(combinedCards);
@@ -231,8 +237,7 @@ namespace Poker.Logic_tier
                 else
                     clubCount++;
             }
-            //value += 500000 //flush
-            //value += highestcard1*10 000 + highestcard2*1000 + highestcard3*100  + highestcard4*10 + highestcard5
+
             if ((heartCount >= 5) || (spadesCount >= 5) || (diamondCount >= 5) || (clubCount >= 5))
             {
                 int val = FLUSH + combinedCards[0].getRank() * 1000 + combinedCards[1].getRank() * 100 + combinedCards[2].getRank() * 10 + combinedCards[3].getRank();
@@ -254,8 +259,6 @@ namespace Poker.Logic_tier
                 {
                     currentStreak++;
                     if (currentStreak == 4)
-                        //value += 400000 //straight
-                        //value + highestrankedcard
                         return STRAIGHT + combinedCards[0].getRank(); //Here we have found it
                 } else if(previousRank != currentRank) //When we have multiple cards with same rank, like 9,9,8,7,6,5..
                 {

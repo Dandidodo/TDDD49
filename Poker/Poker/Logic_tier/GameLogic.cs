@@ -165,8 +165,17 @@ namespace Poker
             foreach (Player_entity player in table_entity.getPlayers())
             {
                 player.removeCards();
-                player.receiveCard(table_entity.getDeck().draw());
-                player.receiveCard(table_entity.getDeck().draw());
+
+                //Try to draw new card, deck could be empty
+                try
+                {
+                    player.receiveCard(table_entity.getDeck().draw());
+                    player.receiveCard(table_entity.getDeck().draw());
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 
@@ -205,7 +214,17 @@ namespace Poker
         {
             table_entity.removeCards();
             for (int i = 0; i < 5; i++)
-                table_entity.setCM(table_entity.getDeck().draw());
+            {
+                //Could draw from empty deck.
+                try
+                {
+                    table_entity.setCM(table_entity.getDeck().draw());
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
         }
         
         public void playerFold()

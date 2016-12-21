@@ -32,7 +32,6 @@ namespace Poker
 
         public void setRank(int rank)
         {
-            //TODO: Validera att rank är korrekt, 2<=rank<=14
             this.rank = rank;
         }
 

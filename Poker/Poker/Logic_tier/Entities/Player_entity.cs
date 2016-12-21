@@ -25,27 +25,14 @@ namespace Poker
 
         public bool Active
         {
-            get
-            {
-                return active;
-            }
-            set
-            {
-                active = value;
-            }
+            get { return active; }
+            set { active = value; }
         }
 
         public bool ActedThisRound
         {
-            get
-            {
-                return actedThisRound;
-            }
-
-            set
-            {
-                actedThisRound = value;
-            }
+            get { return actedThisRound; }
+            set { actedThisRound = value; }
         }
 
         public List<Card_entity> getCards()
@@ -86,7 +73,6 @@ namespace Poker
         public Player_entity Clone()
         {
             var clone = (Player_entity)this.MemberwiseClone();
-            //HandleCloned(clone);
             return clone;
         }
 
