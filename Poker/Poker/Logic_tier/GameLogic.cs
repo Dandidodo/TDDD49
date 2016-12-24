@@ -16,6 +16,8 @@ namespace Poker
         private const int COMMUNITYCARDS = 5;
         private const int STARTINGCHIPS = 1000;
         private const int BIGBLIND = 20;
+        
+        // Allt det här måste flyttas till table_entity
         private int lastRaise;
         private int minRaise; // minimum allowed raise
         private Table_entity table_entity;
@@ -40,23 +42,52 @@ namespace Poker
             giveStartingChips();
             newHand();
 
+            // Spara all data här på något sätt (efter att allt från gameLogic förts över till data_entity)
+            // Så att det kan laddas in om inladdningen av datan går fel halvvägs in
+            
             try
             {
                 data.loadData(table_entity, this);
             }
+            // Filen saknas
             catch (FileNotFoundException e)
             {
                 Console.WriteLine(e.Message);
             }
+            // Ogiltig XML
             catch (XmlException e)
             {
                 Console.WriteLine(e.Message);
             }
+            // Ta bort I suppose
             catch (XamlParseException e)
             {
                 Console.WriteLine(e.Message);
             }
+            // Giltig XML men inte på väntat format (antar att man gör så här)
+            catch (WrongFormat e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
+        
+        public class WrongFormat: Exception
+{
+    public WrongFormat()
+    {
+        // Nån smart check som kollar att det är rätt format bör vara här antar jag
+    }
+
+    public WrongFormat(string message)
+        : base(message)
+    {
+    }
+
+    public WrongFormat(string message, Exception inner)
+        : base(message, inner)
+    {
+    }
+}
 
         public int MinRaise
         {
