@@ -7,7 +7,10 @@
         xmlns:pc="http://schemas.microsoft.com/prototyping/2010/controls" x:Class="Poker.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="1079" Width="1920">
-    <Grid Margin="-15.668,-0.026,7.667,-30.975" Height="1080" Width="1920">
+    <Grid Margin="-15.668,-0.026,7.667,-30.975" Width="1920" Height="1060">
+        <Grid.LayoutTransform>
+            <ScaleTransform ScaleX="0.7" ScaleY="0.7" CenterX=".5" CenterY=".5" />
+        </Grid.LayoutTransform>
         <pc:SketchCircleUC Margin="368.555,211.548,369.718,212.033" Background="#FF077A0C" OpacityMask="Black"/>
         <Ellipse x:Name="player1" Fill="#FFF4F4F5" Height="80" Margin="913.001,0,926.999,125.337" Stroke="Black" VerticalAlignment="Bottom" StrokeThickness="5"/>
         <Rectangle x:Name="player1_card2_bg" Fill="#FFF4F4F5" HorizontalAlignment="Right" Margin="0,0,900.504,36.626" Stroke="Black" Width="53.333" Height="82.964" VerticalAlignment="Bottom" Panel.ZIndex="1" MouseEnter="mouseEnter" MouseLeave="mouseLeave"/>

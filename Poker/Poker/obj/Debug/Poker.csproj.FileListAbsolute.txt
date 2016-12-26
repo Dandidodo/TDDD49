@@ -83,3 +83,20 @@ Z:\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\MainWindow
 Z:\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.g.resources
 Z:\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
 Z:\Documents\Visual Studio 2015\Projects\TDDD49\Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\Poker.exe.config
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker.exe
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker.pdb
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\Poker.exe
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\Poker.pdb
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\Microsoft.Expression.Prototyping.SketchControls.dll
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker.csprojResolveAssemblyReference.cache
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Simple Styles.baml
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\MainWindow.g.cs
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\App.g.cs
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.cache
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker_MarkupCompile.lref
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\App.baml
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\MainWindow.baml
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker.g.resources
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
