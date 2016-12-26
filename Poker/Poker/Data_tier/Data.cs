@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Poker.Logic_tier
+namespace Poker.Data_tier
 {
     class Data
     {
@@ -14,7 +14,7 @@ namespace Poker.Logic_tier
 
         }
 
-        public void saveData(Table_entity table_entity, GameLogic gameLogic)
+        public void saveData(Data_tier.Table_entity table_entity, GameLogic gameLogic)
         {
             XDocument data = new XDocument(
                         new XElement("Table_entity",
@@ -36,7 +36,7 @@ namespace Poker.Logic_tier
                     );
 
             var communityCards = data.Element("Table_entity").Element("communityCards");
-            foreach (Card_entity communityCard in table_entity.getCommunityCards())
+            foreach (Data_tier.Card_entity communityCard in table_entity.getCommunityCards())
             {
                 communityCards.Add(
                     new XElement("communityCard",
@@ -46,7 +46,7 @@ namespace Poker.Logic_tier
                 );
             }
             var players = data.Element("Table_entity").Element("players");
-            foreach (Player_entity player in table_entity.getPlayers())
+            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
             {
                 players.Add(
                     new XElement("player",
@@ -69,7 +69,7 @@ namespace Poker.Logic_tier
             }
 
             var deck = data.Element("Table_entity").Element("deck");
-            foreach (Card_entity card in table_entity.getDeck().Deck_entity.getCards())
+            foreach (Data_tier.Card_entity card in table_entity.getDeck().Deck_entity.getCards())
             {
                 deck.Add(
                     new XElement("card",
@@ -84,7 +84,7 @@ namespace Poker.Logic_tier
         }
 
 
-        public void loadData(Table_entity table_entity, GameLogic game_logic)
+        public void loadData(Data_tier.Table_entity table_entity, GameLogic game_logic)
         {
             XDocument data = XDocument.Load("data.xml");
 
@@ -107,7 +107,7 @@ namespace Poker.Logic_tier
                     table_entity.getPlayers()[p.i].getCards()[card.i2].setRank(rank);
 
                     // Copy suit
-                    Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value2.Element("suit").Value);
+                    Data_tier.Card_entity.Suit suit = (Data_tier.Card_entity.Suit)Enum.Parse(typeof(Data_tier.Card_entity.Suit), card.value2.Element("suit").Value);
                     table_entity.getPlayers()[p.i].getCards()[card.i2].setSuit(suit);
                 }
 
@@ -159,7 +159,7 @@ namespace Poker.Logic_tier
                 table_entity.getCommunityCards()[card.i].setRank(Int32.Parse(card.value.Rank.Value));
 
                 // Copy suit
-                Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value.Suit.Value);
+                Data_tier.Card_entity.Suit suit = (Data_tier.Card_entity.Suit)Enum.Parse(typeof(Data_tier.Card_entity.Suit), card.value.Suit.Value);
                 table_entity.getCommunityCards()[card.i].setSuit(suit);
             }
 
@@ -176,7 +176,7 @@ namespace Poker.Logic_tier
                 table_entity.getDeck().Deck_entity.getCards()[card.i].setRank(Int32.Parse(card.value.Rank.Value));
 
                 // Copy suit
-                Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value.Suit.Value);
+                Data_tier.Card_entity.Suit suit = (Data_tier.Card_entity.Suit)Enum.Parse(typeof(Data_tier.Card_entity.Suit), card.value.Suit.Value);
                 table_entity.getDeck().Deck_entity.getCards()[card.i].setSuit(suit);
             }
 

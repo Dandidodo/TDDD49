@@ -20,20 +20,20 @@ namespace Poker
         // Allt det här måste flyttas till table_entity
         private int lastRaise;
         private int minRaise; // minimum allowed raise
-        private Table_entity table_entity;
+        private Data_tier.Table_entity table_entity;
         private int indexBigBlind;
         private int indexSmallBlind;
         private int roundCounter;
-        private Player_entity currentPlayer;
+        private Data_tier.Player_entity currentPlayer;
         private TexasHoldemRules rules;
-        private Data data;
+        private Data_tier.Data data;
         private string foldWinner = "";
 
-        public GameLogic(Table_entity table_entity)
+        public GameLogic(Data_tier.Table_entity table_entity)
         {
             this.table_entity = table_entity;
             rules = new TexasHoldemRules();
-            data = new Data();
+            data = new Data_tier.Data();
 
             indexBigBlind = 1;
             indexSmallBlind = 0;
@@ -133,7 +133,7 @@ namespace Poker
             }
         }
 
-        internal Player_entity CurrentPlayer
+        internal Data_tier.Player_entity CurrentPlayer
         {
             get
             {
@@ -174,11 +174,11 @@ namespace Poker
         }
 
         //Loops over all players to find correct index of winner
-        private void setFoldWinner(Player_entity currentPlayer)
+        private void setFoldWinner(Data_tier.Player_entity currentPlayer)
         {
             int playerIndex = 0;
             int winner = 0;
-            foreach (Player_entity p in table_entity.getPlayers())
+            foreach (Data_tier.Player_entity p in table_entity.getPlayers())
             {
                 ++playerIndex;
                 if (p == currentPlayer)
@@ -194,7 +194,7 @@ namespace Poker
         {
             roundCounter = 0;
 
-            foreach (Player_entity player in table_entity.getPlayers())
+            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
             {
                 player.Active = true;
                 player.ActedThisRound = false;
@@ -229,7 +229,7 @@ namespace Poker
 
         public void giveStartingChips()
         {
-            foreach (Player_entity player in table_entity.getPlayers())
+            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
             {
                 player.setChips(STARTINGCHIPS);
             }
@@ -237,7 +237,7 @@ namespace Poker
 
         public void dealCards()
         {
-            foreach (Player_entity player in table_entity.getPlayers())
+            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
             {
                 player.removeCards();
 
@@ -254,7 +254,7 @@ namespace Poker
             }
         }
 
-        public void insertPlayerChips(Player_entity player, int chips)
+        public void insertPlayerChips(Data_tier.Player_entity player, int chips)
         {
             if (player.getChips() < chips)
             {
@@ -277,7 +277,7 @@ namespace Poker
         public bool handIsFinished()
         {
             int activePlayers = 0;
-            foreach (Player_entity player in table_entity.getPlayers())
+            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
             {
                 if (player.Active == true)
                     activePlayers++;
@@ -310,7 +310,7 @@ namespace Poker
             currentPlayer.setStakes(0);
 
             // Get next player
-            Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
+            Data_tier.Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
 
             // Remove player from active players
             currentPlayer.Active = false;
@@ -339,7 +339,7 @@ namespace Poker
             
         }
 
-        public void giveWinnings(Player_entity player)
+        public void giveWinnings(Data_tier.Player_entity player)
         {
             player.setChips(player.getChips() + table_entity.getPot() + player.getStakes());
             player.setStakes(0);
@@ -355,7 +355,7 @@ namespace Poker
             // Check if player is out of chips
             // NextPlayer
             // Get next player
-            Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
+            Data_tier.Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
 
             currentPlayer = nextPlayer;
 
@@ -366,7 +366,7 @@ namespace Poker
                 if (roundCounter == 4)
                 {
                     // Calculate who has the best hand
-                    Player_entity player = rules.findWinner(table_entity, table_entity.getPlayers());
+                    Data_tier.Player_entity player = rules.findWinner(table_entity, table_entity.getPlayers());
                     giveWinnings(player);
                     newHand();
                 }
@@ -395,7 +395,7 @@ namespace Poker
             // TODO: Check if player is out of chips
 
             // NextPlayer
-            Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
+            Data_tier.Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
 
             currentPlayer = nextPlayer;
 
@@ -411,13 +411,13 @@ namespace Poker
         
         // Find the next player, we have to check a special case if the current active player is in the end of players, then we have to
         // return the first active player found.
-        public Player_entity getNextActivePlayer(Player_entity player)
+        public Data_tier.Player_entity getNextActivePlayer(Data_tier.Player_entity player)
         {
-            Player_entity nextPlayer = new Player_entity();
+            Data_tier.Player_entity nextPlayer = new Data_tier.Player_entity();
             bool playerFound = false;
             bool firstActivePlayerFound = false;
 
-            foreach (Player_entity p in table_entity.getPlayers())
+            foreach (Data_tier.Player_entity p in table_entity.getPlayers())
             {
                 if (p == player)
                 {
@@ -438,13 +438,13 @@ namespace Poker
 
         public void endRound()
         {
-            foreach (Player_entity player in table_entity.getPlayers())
+            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
             {
                 player.ActedThisRound = false;
                 table_entity.setPot(table_entity.getPot() + player.getStakes());
                 player.setStakes(0);
             }
-            List<Player_entity> players = table_entity.getPlayers();
+            List<Data_tier.Player_entity> players = table_entity.getPlayers();
             currentPlayer = indexSmallBlind != 0 ? getNextActivePlayer(players[indexSmallBlind - 1]) : getNextActivePlayer(players[players.Count() - 1]);
             lastRaise = 0;
             minRaise = BIGBLIND;

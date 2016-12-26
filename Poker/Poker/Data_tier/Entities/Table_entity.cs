@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Poker
+namespace Poker.Data_tier
 {
     class Table_entity
     {        
         private Deck deck = new Deck();
         private int pot;
-        private List<Card_entity> communityCards;
+        private List<Data_tier.Card_entity> communityCards;
         private List<Player_entity> players = new List<Player_entity>();
         private Player_entity player1;
         private Player_entity player2;

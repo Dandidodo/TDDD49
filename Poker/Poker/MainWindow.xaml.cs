@@ -14,19 +14,19 @@ namespace Poker
     public partial class MainWindow : Window
     {
         private GameLogic gameLogic;
-        private Table_entity table_entity;
+        private Data_tier.Table_entity table_entity;
 
         public MainWindow()
         {
             InitializeComponent();
-            table_entity = new Table_entity();
+            table_entity = new Data_tier.Table_entity();
             gameLogic = new GameLogic(table_entity);
             updateGraphics();
         }
 
         private void highlightCurrentPlayerYellow()
         {
-            Player_entity currentPlayer = gameLogic.CurrentPlayer;
+            Data_tier.Player_entity currentPlayer = gameLogic.CurrentPlayer;
 
             //Reset colors
             player1.Fill = new SolidColorBrush(Colors.White);
@@ -289,7 +289,7 @@ namespace Poker
 
         private int calcSliderValue()
         {
-            Player_entity currPlayer = gameLogic.CurrentPlayer;
+            Data_tier.Player_entity currPlayer = gameLogic.CurrentPlayer;
             double chips = currPlayer.getChips();
             double calcChips = ((slider.Value * 0.1) * chips); // Slider has bool value in range 0.0-10.0, hence * 0.1, then we multiply this with chips.
             int roundUp = ((int)Math.Round(calcChips / 10.0)) * 10; // Rounds it up to nearest 10.

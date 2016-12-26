@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Poker.Logic_tier.Entities
+namespace Poker.Data_tier
 {
     class Deck_entity
     {

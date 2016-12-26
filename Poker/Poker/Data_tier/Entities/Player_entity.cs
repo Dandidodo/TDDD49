@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Poker
+namespace Poker.Data_tier
 {
     class Player_entity : ICloneable
     {
