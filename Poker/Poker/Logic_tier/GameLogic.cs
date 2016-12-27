@@ -12,32 +12,16 @@ namespace Poker
 {
     class GameLogic
     {
-        private const int PLAYERCARDS = 2;
-        private const int COMMUNITYCARDS = 5;
-        private const int STARTINGCHIPS = 1000;
-        private const int BIGBLIND = 20;
-        
-        // Allt det här måste flyttas till table_entity
-        private int lastRaise;
-        private int minRaise; // minimum allowed raise
+
         private Data_tier.Table_entity table_entity;
-        private int indexBigBlind;
-        private int indexSmallBlind;
-        private int roundCounter;
-        private Data_tier.Player_entity currentPlayer;
         private TexasHoldemRules rules;
         private Data_tier.Data data;
-        private string foldWinner = "";
 
         public GameLogic(Data_tier.Table_entity table_entity, TexasHoldemRules rules, Data_tier.Data data)
         {
             this.table_entity = table_entity;
             this.rules = rules;
             this.data = data;
-
-            indexBigBlind = 1;
-            indexSmallBlind = 0;
-            roundCounter = 0;
                         
             giveStartingChips();
             newHand();
@@ -89,83 +73,14 @@ namespace Poker
     }
 }
 
-        public int MinRaise
-        {
-            get { return minRaise; }
-            set { minRaise = value; }
-        }
-
-        public int LastRaise
-        {
-            get { return lastRaise; }
-            set { lastRaise = value; }
-        }
-
-        public int RoundCounter
-        {
-            get { return roundCounter; }
-            set { roundCounter = value; }
-        }
-
-        public int IndexBigBlind
-        {
-            get
-            {
-                return indexBigBlind;
-            }
-
-            set
-            {
-                indexBigBlind = value;
-            }
-        }
-
-        public int IndexSmallBlind
-        {
-            get
-            {
-                return indexSmallBlind;
-            }
-
-            set
-            {
-                indexSmallBlind = value;
-            }
-        }
-
-        internal Data_tier.Player_entity CurrentPlayer
-        {
-            get
-            {
-                return currentPlayer;
-            }
-
-            set
-            {
-                currentPlayer = value;
-            }
-        }
-
-        public string FoldWinner
-        {
-            get
-            {
-                return foldWinner;
-            }
-
-            set
-            {
-                foldWinner = value;
-            }
-        }
 
         //Winner wins by fold or best hand
         public string getWiningMessage()
         {
-            if(foldWinner != "")
+            if(table_entity.FoldWinner != "")
             {
-                string tmpMessage = foldWinner;
-                foldWinner = ""; //Reset once it has been used
+                string tmpMessage = table_entity.FoldWinner;
+                table_entity.FoldWinner = ""; //Reset once it has been used
                 return tmpMessage;
             } else
             {
@@ -187,12 +102,12 @@ namespace Poker
                 }
 
             }
-            foldWinner = "Player " + winner.ToString() + " wins";
+            table_entity.FoldWinner = "Player " + winner.ToString() + " wins";
         }
 
         public void newHand()
         {
-            roundCounter = 0;
+            table_entity.RoundCounter = 0;
 
             foreach (Data_tier.Player_entity player in table_entity.getPlayers())
             {
@@ -205,10 +120,10 @@ namespace Poker
             changeBlindIndexes();
             insertBlinds();
 
-            lastRaise = BIGBLIND;
-            minRaise = BIGBLIND * 2;
+            table_entity.LastRaise = Data_tier.Table_entity.BIGBLIND;
+            table_entity.MinRaise = Data_tier.Table_entity.BIGBLIND * 2;
 
-            currentPlayer = (indexBigBlind == table_entity.getPlayers().Count - 1) ? table_entity.getPlayers()[0] : table_entity.getPlayers()[indexBigBlind + 1];
+            table_entity.CurrentPlayer = (table_entity.IndexBigBlind == table_entity.getPlayers().Count - 1) ? table_entity.getPlayers()[0] : table_entity.getPlayers()[table_entity.IndexBigBlind + 1];
 
             setCommunityCards();
             dealCards();
@@ -216,22 +131,25 @@ namespace Poker
 
         public void changeBlindIndexes()
         {
-            indexBigBlind = (indexBigBlind == table_entity.getPlayers().Count - 1) ? indexBigBlind = 0 : ++indexBigBlind;
-            indexSmallBlind = (indexSmallBlind == table_entity.getPlayers().Count - 1) ? indexSmallBlind = 0 : ++indexSmallBlind;
+            int indexBigBlind = table_entity.IndexBigBlind;
+            table_entity.IndexBigBlind = (indexBigBlind == table_entity.getPlayers().Count - 1) ? indexBigBlind = 0 : ++indexBigBlind;
+
+            int indexSmallBlind = table_entity.IndexSmallBlind;
+            table_entity.IndexSmallBlind = (indexSmallBlind == table_entity.getPlayers().Count - 1) ? indexSmallBlind = 0 : ++indexSmallBlind;
         }
 
         public void insertBlinds()
         {
 
-            insertPlayerChips(table_entity.getPlayers()[indexBigBlind], BIGBLIND);
-            insertPlayerChips(table_entity.getPlayers()[indexSmallBlind], BIGBLIND / 2);
+            insertPlayerChips(table_entity.getPlayers()[table_entity.IndexBigBlind], Data_tier.Table_entity.BIGBLIND);
+            insertPlayerChips(table_entity.getPlayers()[table_entity.IndexSmallBlind], Data_tier.Table_entity.BIGBLIND / 2);
         }
 
         public void giveStartingChips()
         {
             foreach (Data_tier.Player_entity player in table_entity.getPlayers())
             {
-                player.setChips(STARTINGCHIPS);
+                player.setChips(Data_tier.Table_entity.STARTINGCHIPS);
             }
         }
 
@@ -271,7 +189,7 @@ namespace Poker
 
         public bool roundIsFinished()
         {
-            return (currentPlayer.getStakes() == lastRaise && currentPlayer.ActedThisRound);
+            return (table_entity.CurrentPlayer.getStakes() == table_entity.LastRaise && table_entity.CurrentPlayer.ActedThisRound);
         }
 
         public bool handIsFinished()
@@ -304,18 +222,18 @@ namespace Poker
         
         public void playerFold()
         {
-            currentPlayer.ActedThisRound = true;
+            table_entity.CurrentPlayer.ActedThisRound = true;
             // Move the players stakes to the pot
-            table_entity.setPot(table_entity.getPot() + currentPlayer.getStakes());
-            currentPlayer.setStakes(0);
+            table_entity.setPot(table_entity.getPot() + table_entity.CurrentPlayer.getStakes());
+            table_entity.CurrentPlayer.setStakes(0);
 
             // Get next player
-            Data_tier.Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
+            Data_tier.Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
 
             // Remove player from active players
-            currentPlayer.Active = false;
+            table_entity.CurrentPlayer.Active = false;
 
-            currentPlayer = nextPlayer;
+            table_entity.CurrentPlayer = nextPlayer;
 
             if (roundIsFinished()) // Everyone has acted at least once and there is no raise
             {
@@ -323,8 +241,8 @@ namespace Poker
             }
             if (handIsFinished()) // Check if the hand is finished (if there's only 1 active player left)
             {
-                giveWinnings(currentPlayer);
-                setFoldWinner(currentPlayer);
+                giveWinnings(table_entity.CurrentPlayer);
+                setFoldWinner(table_entity.CurrentPlayer);
                 newHand();
             }
 
@@ -348,22 +266,22 @@ namespace Poker
         
         public void playerCall()
         {
-            currentPlayer.ActedThisRound = true;
+            table_entity.CurrentPlayer.ActedThisRound = true;
             // Insert chips
-            insertPlayerChips(currentPlayer, lastRaise - currentPlayer.getStakes());
+            insertPlayerChips(table_entity.CurrentPlayer, table_entity.LastRaise - table_entity.CurrentPlayer.getStakes());
 
             // Check if player is out of chips
             // NextPlayer
             // Get next player
-            Data_tier.Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
+            Data_tier.Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
 
-            currentPlayer = nextPlayer;
+            table_entity.CurrentPlayer = nextPlayer;
 
             if (roundIsFinished())
             {
                 endRound();
                 // If River
-                if (roundCounter == 4)
+                if (table_entity.RoundCounter == 4)
                 {
                     // Calculate who has the best hand
                     Data_tier.Player_entity player = rules.findWinner(table_entity, table_entity.getPlayers());
@@ -384,20 +302,20 @@ namespace Poker
         
         public void playerRaise(int raise)
         {
-            currentPlayer.ActedThisRound = true;
+            table_entity.CurrentPlayer.ActedThisRound = true;
 
-            minRaise = raise + (raise - lastRaise);
-            lastRaise = raise;
+            table_entity.MinRaise = raise + (raise - table_entity.LastRaise);
+            table_entity.LastRaise = raise;
 
             // Insert chips
-            insertPlayerChips(currentPlayer, raise - currentPlayer.getStakes());
+            insertPlayerChips(table_entity.CurrentPlayer, raise - table_entity.CurrentPlayer.getStakes());
 
             // TODO: Check if player is out of chips
 
             // NextPlayer
-            Data_tier.Player_entity nextPlayer = getNextActivePlayer(currentPlayer);
+            Data_tier.Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
 
-            currentPlayer = nextPlayer;
+            table_entity.CurrentPlayer = nextPlayer;
 
             try
             {
@@ -445,10 +363,10 @@ namespace Poker
                 player.setStakes(0);
             }
             List<Data_tier.Player_entity> players = table_entity.getPlayers();
-            currentPlayer = indexSmallBlind != 0 ? getNextActivePlayer(players[indexSmallBlind - 1]) : getNextActivePlayer(players[players.Count() - 1]);
-            lastRaise = 0;
-            minRaise = BIGBLIND;
-            roundCounter++;
+            table_entity.CurrentPlayer = table_entity.IndexSmallBlind != 0 ? getNextActivePlayer(players[table_entity.IndexSmallBlind - 1]) : getNextActivePlayer(players[players.Count() - 1]);
+            table_entity.LastRaise = 0;
+            table_entity.MinRaise = Data_tier.Table_entity.BIGBLIND;
+            table_entity.RoundCounter++;
         }
 
         

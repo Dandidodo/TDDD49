@@ -27,12 +27,12 @@ namespace Poker.Data_tier
                     );
             var gameLogic_node = data.Element("Table_entity").Element("gameLogic");
             gameLogic_node.Add(
-                        new XElement("lastRaise", gameLogic.LastRaise),
-                        new XElement("minRaise", gameLogic.MinRaise),
-                        new XElement("indexBigBlind", gameLogic.IndexBigBlind),
-                        new XElement("indexSmallBlind", gameLogic.IndexSmallBlind),
-                        new XElement("roundCounter", gameLogic.RoundCounter),
-                        new XElement("currentPlayerIndex", table_entity.getPlayers().IndexOf(gameLogic.CurrentPlayer))
+                        new XElement("lastRaise", table_entity.LastRaise),
+                        new XElement("minRaise", table_entity.MinRaise),
+                        new XElement("indexBigBlind", table_entity.IndexBigBlind),
+                        new XElement("indexSmallBlind", table_entity.IndexSmallBlind),
+                        new XElement("roundCounter", table_entity.RoundCounter),
+                        new XElement("currentPlayerIndex", table_entity.getPlayers().IndexOf(table_entity.CurrentPlayer))
                     );
 
             var communityCards = data.Element("Table_entity").Element("communityCards");
@@ -138,12 +138,12 @@ namespace Poker.Data_tier
                             };
             foreach (var logic in gameLogic)
             {
-                game_logic.LastRaise = Int32.Parse(logic.LastRaise.Value);
-                game_logic.MinRaise = Int32.Parse(logic.MinRaise.Value);
-                game_logic.IndexSmallBlind = Int32.Parse(logic.IndexSmallBlind.Value);
-                game_logic.IndexBigBlind = Int32.Parse(logic.IndexBigBlind.Value);
-                game_logic.RoundCounter = Int32.Parse(logic.RoundCounter.Value);
-                game_logic.CurrentPlayer = table_entity.getPlayers()[Int32.Parse(logic.CurrentPlayerIndex.Value)];
+                table_entity.LastRaise = Int32.Parse(logic.LastRaise.Value);
+                table_entity.MinRaise = Int32.Parse(logic.MinRaise.Value);
+                table_entity.IndexSmallBlind = Int32.Parse(logic.IndexSmallBlind.Value);
+                table_entity.IndexBigBlind = Int32.Parse(logic.IndexBigBlind.Value);
+                table_entity.RoundCounter = Int32.Parse(logic.RoundCounter.Value);
+                table_entity.CurrentPlayer = table_entity.getPlayers()[Int32.Parse(logic.CurrentPlayerIndex.Value)];
             }
 
             // Load community cards

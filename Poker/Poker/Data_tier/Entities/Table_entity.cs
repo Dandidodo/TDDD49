@@ -10,13 +10,28 @@ namespace Poker.Data_tier
     {
         private Deck deck;
         private int pot;
-        private List<Data_tier.Card_entity> communityCards;
+        private List<Card_entity> communityCards;
         private List<Player_entity> players = new List<Player_entity>();
         private Player_entity player1;
         private Player_entity player2;
         private Player_entity player3;
         private Player_entity player4;
         private Player_entity player5;
+
+        private Player_entity currentPlayer;
+
+        public const int PLAYERCARDS = 2;
+        public const int COMMUNITYCARDS = 5;
+        public const int STARTINGCHIPS = 1000;
+        public const int BIGBLIND = 20;
+
+        // Allt det här måste flyttas till table_entity
+        private int lastRaise;
+        private int minRaise; // minimum allowed raise
+        private int indexBigBlind;
+        private int indexSmallBlind;
+        private int roundCounter;
+        private string foldWinner = "";
 
         public Table_entity(List<Player_entity> players, List<Data_tier.Card_entity> communityCards, Deck deck)
         {
@@ -32,6 +47,80 @@ namespace Poker.Data_tier
             this.communityCards = communityCards;
 
             pot = 0;
+
+            indexBigBlind = 1;
+            indexSmallBlind = 0;
+            roundCounter = 0;
+        }
+
+        internal Data_tier.Player_entity CurrentPlayer
+        {
+            get
+            {
+                return currentPlayer;
+            }
+
+            set
+            {
+                currentPlayer = value;
+            }
+        }
+
+        public int MinRaise
+        {
+            get { return minRaise; }
+            set { minRaise = value; }
+        }
+
+        public int LastRaise
+        {
+            get { return lastRaise; }
+            set { lastRaise = value; }
+        }
+
+        public int RoundCounter
+        {
+            get { return roundCounter; }
+            set { roundCounter = value; }
+        }
+
+        public int IndexBigBlind
+        {
+            get
+            {
+                return indexBigBlind;
+            }
+
+            set
+            {
+                indexBigBlind = value;
+            }
+        }
+
+        public int IndexSmallBlind
+        {
+            get
+            {
+                return indexSmallBlind;
+            }
+
+            set
+            {
+                indexSmallBlind = value;
+            }
+        }
+
+        public string FoldWinner
+        {
+            get
+            {
+                return foldWinner;
+            }
+
+            set
+            {
+                foldWinner = value;
+            }
         }
 
         public List<Card_entity> getCommunityCards()

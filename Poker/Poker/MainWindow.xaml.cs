@@ -50,7 +50,7 @@ namespace Poker
 
         private void highlightCurrentPlayerYellow()
         {
-            Data_tier.Player_entity currentPlayer = gameLogic.CurrentPlayer;
+            Data_tier.Player_entity currentPlayer = table_entity.CurrentPlayer;
 
             //Reset colors
             player1.Fill = new SolidColorBrush(Colors.White);
@@ -114,13 +114,13 @@ namespace Poker
 
         private void updateCommunityCards()
         {
-            Console.WriteLine("Round counter:" + gameLogic.RoundCounter);
-            if (gameLogic.RoundCounter == 0)
+            Console.WriteLine("Round counter:" + table_entity.RoundCounter);
+            if (table_entity.RoundCounter == 0)
             {
                 hideCommunityCards();
             }
 
-            else if (gameLogic.RoundCounter == 1)
+            else if (table_entity.RoundCounter == 1)
             {
                 cm_card1_suit.Visibility = Visibility.Visible;
                 cm_card1_rank.Visibility = Visibility.Visible;
@@ -138,7 +138,7 @@ namespace Poker
                 cm_card5_rank.Visibility = Visibility.Hidden;
                 cm_card5_bg.Visibility = Visibility.Hidden;
             }
-            else if (gameLogic.RoundCounter == 2)
+            else if (table_entity.RoundCounter == 2)
             {
                 cm_card1_suit.Visibility = Visibility.Visible;
                 cm_card1_rank.Visibility = Visibility.Visible;
@@ -156,7 +156,7 @@ namespace Poker
                 cm_card5_rank.Visibility = Visibility.Hidden;
                 cm_card5_bg.Visibility = Visibility.Hidden;
             }
-            else if (gameLogic.RoundCounter == 3)
+            else if (table_entity.RoundCounter == 3)
             {
                 cm_card1_suit.Visibility = Visibility.Visible;
                 cm_card1_rank.Visibility = Visibility.Visible;
@@ -244,7 +244,7 @@ namespace Poker
             player5_card2_suit.Visibility = player5_visibility;
             player5_card2_bg.Visibility = player5_visibility;
 
-            if (gameLogic.RoundCounter == 0)
+            if (table_entity.RoundCounter == 0)
             {
                 infoText.Text = gameLogic.getWiningMessage();
                 infoText.Visibility = Visibility.Visible;
@@ -268,7 +268,7 @@ namespace Poker
         {
             try
             {
-                gameLogic.playerRaise(calcSliderValue() + gameLogic.CurrentPlayer.getStakes());
+                gameLogic.playerRaise(calcSliderValue() + table_entity.CurrentPlayer.getStakes());
                 // Visa passande av data via entiteter
 
                 displayStakes();
@@ -285,7 +285,7 @@ namespace Poker
 
         private void updateCheckCallButton()
         {
-            if (gameLogic.LastRaise == gameLogic.CurrentPlayer.getStakes())
+            if (table_entity.LastRaise == table_entity.CurrentPlayer.getStakes())
             {
                 setCallButtonToCheck();
             }
@@ -307,20 +307,20 @@ namespace Poker
 
         private void setSliderValue()
         {
-            chipsValue.Text = (gameLogic.MinRaise - gameLogic.CurrentPlayer.getStakes()).ToString();
+            chipsValue.Text = (table_entity.MinRaise - table_entity.CurrentPlayer.getStakes()).ToString();
             slider.Value = 0;
         }
 
         private int calcSliderValue()
         {
-            Data_tier.Player_entity currPlayer = gameLogic.CurrentPlayer;
+            Data_tier.Player_entity currPlayer = table_entity.CurrentPlayer;
             double chips = currPlayer.getChips();
             double calcChips = ((slider.Value * 0.1) * chips); // Slider has bool value in range 0.0-10.0, hence * 0.1, then we multiply this with chips.
             int roundUp = ((int)Math.Round(calcChips / 10.0)) * 10; // Rounds it up to nearest 10.
 
-            if (roundUp < gameLogic.MinRaise - gameLogic.CurrentPlayer.getStakes())
+            if (roundUp < table_entity.MinRaise - table_entity.CurrentPlayer.getStakes())
             {
-                roundUp = gameLogic.MinRaise - gameLogic.CurrentPlayer.getStakes();
+                roundUp = table_entity.MinRaise - table_entity.CurrentPlayer.getStakes();
             }
             return roundUp;
         }
