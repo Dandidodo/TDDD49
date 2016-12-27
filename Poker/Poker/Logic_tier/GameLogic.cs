@@ -29,11 +29,11 @@ namespace Poker
         private Data_tier.Data data;
         private string foldWinner = "";
 
-        public GameLogic(Data_tier.Table_entity table_entity)
+        public GameLogic(Data_tier.Table_entity table_entity, TexasHoldemRules rules, Data_tier.Data data)
         {
             this.table_entity = table_entity;
-            rules = new TexasHoldemRules();
-            data = new Data_tier.Data();
+            this.rules = rules;
+            this.data = data;
 
             indexBigBlind = 1;
             indexSmallBlind = 0;
@@ -200,7 +200,7 @@ namespace Poker
                 player.ActedThisRound = false;
             }
 
-            table_entity.getDeck().initDeck();
+            table_entity.getDeck();
 
             changeBlindIndexes();
             insertBlinds();

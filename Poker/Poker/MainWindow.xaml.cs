@@ -5,6 +5,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.IO;
+using Poker.Data_tier;
+using System.Collections.Generic;
 
 namespace Poker
 {
@@ -19,8 +21,30 @@ namespace Poker
         public MainWindow()
         {
             InitializeComponent();
-            table_entity = new Data_tier.Table_entity();
-            gameLogic = new GameLogic(table_entity);
+            List<Player_entity> players = new List<Player_entity>();
+            players.Add(new Player_entity());
+            players.Add(new Player_entity());
+            players.Add(new Player_entity());
+            players.Add(new Player_entity());
+            players.Add(new Player_entity());
+
+            List<Card_entity> communityCards = new List<Card_entity>();
+
+            List<Data_tier.Card_entity> deck_of_cards = new List<Data_tier.Card_entity>();
+            var suits = Enum.GetValues(typeof(Data_tier.Card_entity.Suit));
+
+            foreach (Data_tier.Card_entity.Suit suit in suits)
+            {
+                for (int i = 2; i < 15; i++)
+                {
+                    deck_of_cards.Add(new Data_tier.Card_entity(suit, i));
+                }
+            }
+
+            Deck deck = new Deck(deck_of_cards, new Deck_entity());
+
+            table_entity = new Table_entity(players, communityCards, deck);
+            gameLogic = new GameLogic(table_entity, new Logic_tier.TexasHoldemRules(), new Data());
             updateGraphics();
         }
 

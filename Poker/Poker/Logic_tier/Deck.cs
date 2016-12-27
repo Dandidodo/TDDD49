@@ -10,7 +10,7 @@ namespace Poker
     class Deck
     {
         //TODO: Dependency inject new Deck_entity()
-        Deck_entity deck_entity = new Deck_entity();
+        Deck_entity deck_entity;
 
         internal Deck_entity Deck_entity
         {
@@ -20,31 +20,17 @@ namespace Poker
             }
         }
 
-        public Deck()
+        public Deck(List<Data_tier.Card_entity> deck_of_cards, Deck_entity deck_entity)
         {
-            initDeck();         
+            this.deck_entity = deck_entity;
+            deck_entity.setCards(Shuffle(deck_of_cards));        
         }
-
-        public void initDeck()
-        {
-            List<Data_tier.Card_entity> temp_cards = new List<Data_tier.Card_entity>();
-            var suits = Enum.GetValues(typeof(Data_tier.Card_entity.Suit));
-
-            foreach (Data_tier.Card_entity.Suit suit in suits)
-            {
-                for (int i = 2; i < 15; i++)
-                {
-                    temp_cards.Add(new Data_tier.Card_entity(suit, i));
-                }
-            }
-            deck_entity.setCards(Shuffle(temp_cards));
-        }
-
+       
         // Fisher-Yates shuffle
         // Loop through the entire deck_entity and swap the place of two cards each time
         public List<Data_tier.Card_entity> Shuffle(List<Data_tier.Card_entity> cards)
         {
-            Random r = new Random(); // Does not work apperently
+            Random r = new Random();
 
             for (int n = cards.Count - 1; n > 0; --n)
             {

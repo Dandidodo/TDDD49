@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace Poker.Data_tier
 {
     class Table_entity
-    {        
-        private Deck deck = new Deck();
+    {
+        private Deck deck;
         private int pot;
         private List<Data_tier.Card_entity> communityCards;
         private List<Player_entity> players = new List<Player_entity>();
@@ -18,23 +18,20 @@ namespace Poker.Data_tier
         private Player_entity player4;
         private Player_entity player5;
 
-        public Table_entity()
+        public Table_entity(List<Player_entity> players, List<Data_tier.Card_entity> communityCards, Deck deck)
         {
-            player1 = new Player_entity();
-            player2 = new Player_entity();
-            player3 = new Player_entity();
-            player4 = new Player_entity();
-            player5 = new Player_entity();
+            this.players = players;
 
-            players.Add(player1);
-            players.Add(player2);
-            players.Add(player3);
-            players.Add(player4);
-            players.Add(player5);
+            this.player1 = players[0];
+            this.player2 = players[1];
+            this.player3 = players[2];
+            this.player4 = players[3];
+            this.player5 = players[4];
+
+            this.deck = deck;
+            this.communityCards = communityCards;
 
             pot = 0;
-            communityCards = new List<Card_entity>();
-            setPlayers(players);
         }
 
         public List<Card_entity> getCommunityCards()
@@ -65,11 +62,6 @@ namespace Poker.Data_tier
         public Player_entity getPlayer5()
         {
             return player5;
-        }
-
-        public void setPlayers(List<Player_entity> players)
-        {
-            this.players = players;
         }
 
         public List<Player_entity> getPlayers()

@@ -56,7 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Logic_tier\Data.cs" />
+    <Compile Include="Data_tier\Data.cs" />
     <Compile Include="Data_tier\Entities\Card_entity.cs" />
     <Compile Include="Data_tier\Entities\Deck_entity.cs" />
     <Compile Include="Data_tier\Entities\Player_entity.cs" />
@@ -107,6 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Presentation_tier\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
