@@ -248,7 +248,7 @@ namespace Poker
 
             try
             {
-                data.saveData(table_entity, this);
+                data.saveData(table_entity);
             }
             catch (UnauthorizedAccessException e)
             {
@@ -292,7 +292,7 @@ namespace Poker
 
             try
             {
-                data.saveData(table_entity, this);
+                data.saveData(table_entity);
             }
             catch (UnauthorizedAccessException e)
             {
@@ -319,7 +319,7 @@ namespace Poker
 
             try
             {
-                data.saveData(table_entity, this);
+                data.saveData(table_entity);
             }
             catch (UnauthorizedAccessException e)
             {

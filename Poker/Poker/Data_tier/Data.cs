@@ -14,19 +14,19 @@ namespace Poker.Data_tier
 
         }
 
-        public void saveData(Data_tier.Table_entity table_entity, GameLogic gameLogic)
+        public void saveData(Data_tier.Table_entity table_entity)
         {
             XDocument data = new XDocument(
                         new XElement("Table_entity",
                             new XElement("players"),
-                            new XElement("gameLogic"),
+                            new XElement("tableEntity"),
                             new XElement("communityCards"),
                             new XElement("deck"),
                             new XElement("pot", table_entity.getPot())
                         )
                     );
-            var gameLogic_node = data.Element("Table_entity").Element("gameLogic");
-            gameLogic_node.Add(
+            var tableEntity_node = data.Element("Table_entity").Element("tableEntity");
+            tableEntity_node.Add(
                         new XElement("lastRaise", table_entity.LastRaise),
                         new XElement("minRaise", table_entity.MinRaise),
                         new XElement("indexBigBlind", table_entity.IndexBigBlind),
@@ -125,8 +125,8 @@ namespace Poker.Data_tier
                 table_entity.getPlayers()[p.i].ActedThisRound = actedThisRound;
             }
 
-            // Load game logic variables
-            var gameLogic = from logic in data.Descendants("gameLogic")
+            // Load table entity variables
+            var tableEntity = from logic in data.Descendants("tableEntity")
                             select new
                             {
                                 LastRaise = logic.Element("lastRaise"),
@@ -136,7 +136,7 @@ namespace Poker.Data_tier
                                 RoundCounter = logic.Element("roundCounter"),
                                 CurrentPlayerIndex = logic.Element("currentPlayerIndex"),
                             };
-            foreach (var logic in gameLogic)
+            foreach (var logic in tableEntity)
             {
                 table_entity.LastRaise = Int32.Parse(logic.LastRaise.Value);
                 table_entity.MinRaise = Int32.Parse(logic.MinRaise.Value);
