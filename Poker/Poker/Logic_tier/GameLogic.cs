@@ -90,6 +90,23 @@ namespace Poker
             }
         }
 
+        private int getCurrentPlayerIndex()
+        {
+            int playerIndex = 0;
+            Data_tier.Player_entity currentPlayer = table_entity.CurrentPlayer;
+            foreach (Data_tier.Player_entity p in table_entity.getPlayers())
+            {
+                ++playerIndex;
+                if (p == currentPlayer)
+                {
+                    break;
+                }
+
+            }
+
+            return playerIndex;
+        }
+
         //Loops over all players to find correct index of winner
         private void setFoldWinner(Data_tier.Player_entity currentPlayer)
         {
@@ -222,18 +239,30 @@ namespace Poker
             }
         }
 
-        public void playerAction(Data_tier.Entities.DataIn_entity dataIn)
+        public MoveRespons_entity playerAction(Data_tier.Entities.PlayerMove_entity dataIn)
         {
-            DataIn_entity.action playerAction = dataIn.PlayerAction;
+            PlayerMove_entity.action playerAction = dataIn.PlayerAction;
 
-            if (playerAction == DataIn_entity.action.fold)
+            if (playerAction == PlayerMove_entity.action.fold)
                 playerFold();
-            else if (playerAction == DataIn_entity.action.raise)
+            else if (playerAction == PlayerMove_entity.action.raise)
                 playerRaise(dataIn.Bet);
             else
                 playerCall();
 
-            DataOut_entity dataOut = new DataOut_entity();
+            MoveRespons_entity response = new MoveRespons_entity();
+
+            try
+            {
+                data.saveData(table_entity);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e.Message);
+
+                response.MoveStatus = MoveRespons_entity.status.FAILED_TO_SAVE;
+                return response;
+            }
         }
         
         private void playerFold()
@@ -260,15 +289,6 @@ namespace Poker
                 giveWinnings(table_entity.CurrentPlayer);
                 setFoldWinner(table_entity.CurrentPlayer);
                 newHand();
-            }
-
-            try
-            {
-                data.saveData(table_entity);
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                Console.WriteLine(e.Message);
             }
             
         }
@@ -305,15 +325,6 @@ namespace Poker
                     newHand();
                 }
             }
-
-            try
-            {
-                data.saveData(table_entity);
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
 
         private void playerRaise(int raise)
@@ -332,15 +343,6 @@ namespace Poker
             Data_tier.Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
 
             table_entity.CurrentPlayer = nextPlayer;
-
-            try
-            {
-                data.saveData(table_entity);
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
         
         // Find the next player, we have to check a special case if the current active player is in the end of players, then we have to

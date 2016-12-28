@@ -187,7 +187,7 @@ namespace Poker
         {
             try
             {
-                DataIn_entity dataIn = new DataIn_entity(0, DataIn_entity.action.fold);
+                PlayerMove_entity dataIn = new PlayerMove_entity(0, PlayerMove_entity.action.fold);
                 gameLogic.playerAction(dataIn);
                 updateGraphics();                
             }
@@ -201,7 +201,7 @@ namespace Poker
         {
             try
             {
-                DataIn_entity dataIn = new DataIn_entity(0, DataIn_entity.action.call);
+                PlayerMove_entity dataIn = new PlayerMove_entity(0, PlayerMove_entity.action.call);
                 gameLogic.playerAction(dataIn);
                 updateGraphics();
             }
@@ -216,7 +216,7 @@ namespace Poker
             try
             {
                 int bet = calcSliderValue() + table_entity.CurrentPlayer.getStakes();
-                DataIn_entity dataIn = new DataIn_entity(bet, DataIn_entity.action.raise);
+                PlayerMove_entity dataIn = new PlayerMove_entity(bet, PlayerMove_entity.action.raise);
                 gameLogic.playerAction(dataIn);
 
                 displayStakes();

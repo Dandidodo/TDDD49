@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace Poker.Data_tier.Entities
 {
     //Better name: playerAction_entity
-    class DataIn_entity
+    class PlayerMove_entity
     {
         public enum action { fold,  raise, call};
 
         private int bet;
         private action playerAction;
 
-        public DataIn_entity(int bet, action playerAction)
+        public PlayerMove_entity(int bet, action playerAction)
         {
             this.Bet = bet;
             this.PlayerAction = playerAction;

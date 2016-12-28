@@ -66,8 +66,8 @@
     </ApplicationDefinition>
     <Compile Include="Data_tier\Data.cs" />
     <Compile Include="Data_tier\Entities\Card_entity.cs" />
-    <Compile Include="Data_tier\Entities\DataIn_entity.cs" />
-    <Compile Include="Data_tier\Entities\DataOut_entity.cs" />
+    <Compile Include="Data_tier\Entities\MoveRespons_entity.cs" />
+    <Compile Include="Data_tier\Entities\PlayerMove_entity.cs" />
     <Compile Include="Data_tier\Entities\Deck_entity.cs" />
     <Compile Include="Data_tier\Entities\Player_entity.cs" />
     <Compile Include="Data_tier\Entities\Table_entity.cs" />
