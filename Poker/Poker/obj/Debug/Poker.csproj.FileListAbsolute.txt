@@ -100,3 +100,7 @@ C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\MainWindow.baml
 C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker.g.resources
 C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
 C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\System.Net.Http.Formatting.xml

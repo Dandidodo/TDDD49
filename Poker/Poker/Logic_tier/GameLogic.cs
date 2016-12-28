@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
 using System.Xml;
+using Poker.Data_tier.Entities;
 
 namespace Poker
 {
@@ -56,22 +57,23 @@ namespace Poker
         }
         
         public class WrongFormat: Exception
-{
-    public WrongFormat()
-    {
-        // Nån smart check som kollar att det är rätt format bör vara här antar jag
-    }
+        {
+            public WrongFormat()
+            {
+                // Nån smart check som kollar att det är rätt format bör vara här antar jag
+            }
 
-    public WrongFormat(string message)
-        : base(message)
-    {
-    }
+            public WrongFormat(string message)
+                : base(message)
+            {
+            }
 
-    public WrongFormat(string message, Exception inner)
-        : base(message, inner)
-    {
-    }
-}
+            public WrongFormat(string message, Exception inner)
+                : base(message, inner)
+            {
+            }
+        }
+
 
 
         //Winner wins by fold or best hand
@@ -219,8 +221,22 @@ namespace Poker
                 }
             }
         }
+
+        public void playerAction(Data_tier.Entities.DataIn_entity dataIn)
+        {
+            DataIn_entity.action playerAction = dataIn.PlayerAction;
+
+            if (playerAction == DataIn_entity.action.fold)
+                playerFold();
+            else if (playerAction == DataIn_entity.action.raise)
+                playerRaise(dataIn.Bet);
+            else
+                playerCall();
+
+            DataOut_entity dataOut = new DataOut_entity();
+        }
         
-        public void playerFold()
+        private void playerFold()
         {
             table_entity.CurrentPlayer.ActedThisRound = true;
             // Move the players stakes to the pot
@@ -263,8 +279,8 @@ namespace Poker
             player.setStakes(0);
             table_entity.setPot(0);
         }
-        
-        public void playerCall()
+
+        private void playerCall()
         {
             table_entity.CurrentPlayer.ActedThisRound = true;
             // Insert chips
@@ -299,8 +315,8 @@ namespace Poker
                 Console.WriteLine(e.Message);
             }
         }
-        
-        public void playerRaise(int raise)
+
+        private void playerRaise(int raise)
         {
             table_entity.CurrentPlayer.ActedThisRound = true;
 

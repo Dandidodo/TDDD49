@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.IO;
 using Poker.Data_tier;
+using Poker.Data_tier.Entities;
 using System.Collections.Generic;
 
 namespace Poker
@@ -21,6 +22,12 @@ namespace Poker
         public MainWindow()
         {
             InitializeComponent();
+            initGame();
+            updateGraphics();
+        }
+
+        private void initGame()
+        {
             List<Player_entity> players = new List<Player_entity>();
             players.Add(new Player_entity());
             players.Add(new Player_entity());
@@ -45,11 +52,11 @@ namespace Poker
 
             table_entity = new Table_entity(players, communityCards, deck);
             gameLogic = new GameLogic(table_entity, new Logic_tier.TexasHoldemRules(), new Data());
-            updateGraphics();
         }
 
         private void highlightCurrentPlayerYellow()
         {
+            // TODO: Use current player index instead of expensive method calls
             Data_tier.Player_entity currentPlayer = table_entity.CurrentPlayer;
 
             //Reset colors
@@ -179,8 +186,9 @@ namespace Poker
         private void fold_button_Click(object sender, RoutedEventArgs e)
         {
             try
-            {                
-                gameLogic.playerFold();
+            {
+                DataIn_entity dataIn = new DataIn_entity(0, DataIn_entity.action.fold);
+                gameLogic.playerAction(dataIn);
                 updateGraphics();                
             }
             catch (Exception error)
@@ -193,8 +201,29 @@ namespace Poker
         {
             try
             {
-                gameLogic.playerCall();
+                DataIn_entity dataIn = new DataIn_entity(0, DataIn_entity.action.call);
+                gameLogic.playerAction(dataIn);
                 updateGraphics();
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("{0} Exception caught.", error);
+            }
+        }
+
+        private void raise_button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int bet = calcSliderValue() + table_entity.CurrentPlayer.getStakes();
+                DataIn_entity dataIn = new DataIn_entity(bet, DataIn_entity.action.raise);
+                gameLogic.playerAction(dataIn);
+
+                displayStakes();
+                displayChips();
+                setSliderValue();
+                highlightCurrentPlayerYellow();
+                updateCheckCallButton();
             }
             catch (Exception error)
             {
@@ -263,25 +292,6 @@ namespace Poker
             pot.Text = table_entity.getPot().ToString();
         }
 
-
-        private void raise_button_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                gameLogic.playerRaise(calcSliderValue() + table_entity.CurrentPlayer.getStakes());
-                // Visa passande av data via entiteter
-
-                displayStakes();
-                displayChips();
-                setSliderValue();
-                highlightCurrentPlayerYellow();
-                updateCheckCallButton();
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine("{0} Exception caught.", error);
-            }
-        }
 
         private void updateCheckCallButton()
         {
