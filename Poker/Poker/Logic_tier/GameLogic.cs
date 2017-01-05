@@ -26,8 +26,13 @@ namespace Poker
                         
             giveStartingChips();
             newHand();
-           
-            
+          
+        }
+
+        public MoveResponse_entity loadPreviousGame()
+        {
+            MoveResponse_entity moveResponse = new MoveResponse_entity();
+            moveResponse.MoveStatus = MoveResponse_entity.status.LOAD_SUCCESSFUL;
             try
             {
                 data.loadData(table_entity, this);
@@ -36,21 +41,27 @@ namespace Poker
             catch (FileNotFoundException e)
             {
                 Console.WriteLine(e.Message);
+                moveResponse.MoveStatus = MoveResponse_entity.status.FAILED_TO_LOAD_GAME;
             }
             // Invalid XML
             catch (XmlException e)
             {
                 Console.WriteLine(e.Message);
+                moveResponse.MoveStatus = MoveResponse_entity.status.FAILED_TO_LOAD_GAME;
             }
             catch (XamlParseException e)
             {
                 Console.WriteLine(e.Message);
+                moveResponse.MoveStatus = MoveResponse_entity.status.FAILED_TO_LOAD_GAME;
             }
             // Giltig XML men inte på väntat format (antar att man gör så här)
             catch (WrongFormat e)
             {
                 Console.WriteLine(e.Message);
+                moveResponse.MoveStatus = MoveResponse_entity.status.FAILED_TO_LOAD_GAME;
             }
+
+            return moveResponse;
         }
 
         //Winner wins by fold or best hand
@@ -221,7 +232,7 @@ namespace Poker
             PlayerMove_entity.action playerAction = dataIn.PlayerAction;
 
             MoveResponse_entity response = new MoveResponse_entity();
-            response.MoveStatus = MoveResponse_entity.status.OK; //Overwrite if failure occurs
+            response.MoveStatus = MoveResponse_entity.status.SAVE_SUCCESSFUL; //Overwrite if failure occurs
 
             try
             {
@@ -239,32 +250,27 @@ namespace Poker
                 Console.WriteLine(e.Message);
 
                 response.MoveStatus = MoveResponse_entity.status.FAILED_TO_SAVE;
-                return response;
             }
             catch (FileNotFoundException e)
             {
                 Console.WriteLine(e.Message);
 
                 response.MoveStatus = MoveResponse_entity.status.FAILED_TO_SAVE;
-                return response;
             }
             catch (XmlException e)
             {
                 Console.WriteLine(e.Message);
 
                 response.MoveStatus = MoveResponse_entity.status.FAILED_TO_SAVE;
-                return response;
             }
             catch (EmptyDeckException e)
             {
                 Console.WriteLine(e.Message);
 
                 response.MoveStatus = MoveResponse_entity.status.GAME_FAILURE;
-                return response;
             }
             finally
             {
-                response.MoveStatus = MoveResponse_entity.status.GAME_FAILURE;
             }
 
             return response;

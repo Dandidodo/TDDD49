@@ -8,7 +8,7 @@ namespace Poker.Data_tier.Entities
 {
     class MoveResponse_entity
     {
-        public enum status { OK, GAME_FAILURE, FAILED_TO_SAVE, FAILED_TO_LOAD_GAME }
+        public enum status { SAVE_SUCCESSFUL, LOAD_SUCCESSFUL, GAME_FAILURE, FAILED_TO_SAVE, FAILED_TO_LOAD_GAME }
 
         public status moveStatus;
 

@@ -52,6 +52,10 @@ namespace Poker
 
             table_entity = new Table_entity(players, communityCards, deck);
             gameLogic = new GameLogic(table_entity, new Logic_tier.TexasHoldemRules(), new Data());
+
+            //Load previous game if it exists and tell user if the load was successful or failed.
+            MoveResponse_entity moveResponse = gameLogic.loadPreviousGame();
+            handleStatusInformation(moveResponse);
         }
 
         private void highlightCurrentPlayerYellow()
@@ -185,19 +189,16 @@ namespace Poker
 
         private void handleStatusInformation(MoveResponse_entity moveResponse)
         {
-            if(moveResponse.MoveStatus == MoveResponse_entity.status.OK)
-            {
+            if(moveResponse.MoveStatus == MoveResponse_entity.status.SAVE_SUCCESSFUL)
                 statusInformation.Text = "Game saved";
-            } else if (moveResponse.MoveStatus == MoveResponse_entity.status.FAILED_TO_SAVE)
-            {
+            else if (moveResponse.MoveStatus == MoveResponse_entity.status.LOAD_SUCCESSFUL)
+                statusInformation.Text = "Loaded previous game";
+            else if (moveResponse.MoveStatus == MoveResponse_entity.status.FAILED_TO_SAVE)
                 statusInformation.Text = "Failed to save game";
-            } else if (moveResponse.MoveStatus == MoveResponse_entity.status.FAILED_TO_LOAD_GAME)
-            {
+            else if (moveResponse.MoveStatus == MoveResponse_entity.status.FAILED_TO_LOAD_GAME)
                 statusInformation.Text = "Failed to load saved game";
-            } else if (moveResponse.MoveStatus == MoveResponse_entity.status.GAME_FAILURE)
-            {
+            else if (moveResponse.MoveStatus == MoveResponse_entity.status.GAME_FAILURE)
                 statusInformation.Text = "Game failure, please restart the game.";
-            }
         }
 
         private void fold_button_Click(object sender, RoutedEventArgs e)
