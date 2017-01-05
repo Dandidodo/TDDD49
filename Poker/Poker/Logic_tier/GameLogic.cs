@@ -114,6 +114,8 @@ namespace Poker
 
         public void newHand()
         {
+            table_entity.getDeck().generateNewDeck(); //Generate new deck during each hand, otherwise the deck will become empty.
+
             table_entity.RoundCounter = 0;
 
             foreach (Data_tier.Player_entity player in table_entity.getPlayers())
