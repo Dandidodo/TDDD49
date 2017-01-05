@@ -10,7 +10,7 @@ namespace Poker.Logic_tier
     {
         public EmptyDeckException()
         {
-            // Nån smart check som kollar att det är rätt format bör vara här antar jag
+
         }
 
         public EmptyDeckException(string message)
@@ -23,30 +23,12 @@ namespace Poker.Logic_tier
         {
         }
     }
-
-    public class SaveToXMLException : Exception
-    {
-        public SaveToXMLException()
-        {
-            // Nån smart check som kollar att det är rätt format bör vara här antar jag
-        }
-
-        public SaveToXMLException(string message)
-            : base(message)
-        {
-        }
-
-        public SaveToXMLException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
-    }
+    
 
     public class WrongFormat : Exception
     {
         public WrongFormat()
         {
-            // Nån smart check som kollar att det är rätt format bör vara här antar jag
         }
 
         public WrongFormat(string message)

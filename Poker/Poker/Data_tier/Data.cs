@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Poker.Data_tier.Entities;
 
 namespace Poker.Data_tier
 {
@@ -14,7 +15,7 @@ namespace Poker.Data_tier
 
         }
 
-        public void saveData(Data_tier.Table_entity table_entity)
+        public void saveData(Table_entity table_entity)
         {
             XDocument data = new XDocument(
                         new XElement("Table_entity",
@@ -36,7 +37,7 @@ namespace Poker.Data_tier
                     );
 
             var communityCards = data.Element("Table_entity").Element("communityCards");
-            foreach (Data_tier.Card_entity communityCard in table_entity.getCommunityCards())
+            foreach (Card_entity communityCard in table_entity.getCommunityCards())
             {
                 communityCards.Add(
                     new XElement("communityCard",
@@ -46,7 +47,7 @@ namespace Poker.Data_tier
                 );
             }
             var players = data.Element("Table_entity").Element("players");
-            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 players.Add(
                     new XElement("player",
@@ -69,7 +70,7 @@ namespace Poker.Data_tier
             }
 
             var deck = data.Element("Table_entity").Element("deck");
-            foreach (Data_tier.Card_entity card in table_entity.getDeck().Deck_entity.getCards())
+            foreach (Card_entity card in table_entity.getDeck().Deck_entity.getCards())
             {
                 deck.Add(
                     new XElement("card",
@@ -79,12 +80,10 @@ namespace Poker.Data_tier
                 );
             }
             data.Save("data.xml");
-            // Lägg till exception handling, filrättigheter
-
         }
 
 
-        public void loadData(Data_tier.Table_entity table_entity, GameLogic game_logic)
+        public void loadData(Table_entity table_entity, GameLogic game_logic)
         {
             XDocument data = XDocument.Load("data.xml");
 
@@ -107,7 +106,7 @@ namespace Poker.Data_tier
                     table_entity.getPlayers()[p.i].getCards()[card.i2].setRank(rank);
 
                     // Copy suit
-                    Data_tier.Card_entity.Suit suit = (Data_tier.Card_entity.Suit)Enum.Parse(typeof(Data_tier.Card_entity.Suit), card.value2.Element("suit").Value);
+                    Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value2.Element("suit").Value);
                     table_entity.getPlayers()[p.i].getCards()[card.i2].setSuit(suit);
                 }
 
@@ -159,7 +158,7 @@ namespace Poker.Data_tier
                 table_entity.getCommunityCards()[card.i].setRank(Int32.Parse(card.value.Rank.Value));
 
                 // Copy suit
-                Data_tier.Card_entity.Suit suit = (Data_tier.Card_entity.Suit)Enum.Parse(typeof(Data_tier.Card_entity.Suit), card.value.Suit.Value);
+                Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value.Suit.Value);
                 table_entity.getCommunityCards()[card.i].setSuit(suit);
             }
 
@@ -176,7 +175,7 @@ namespace Poker.Data_tier
                 table_entity.getDeck().Deck_entity.getCards()[card.i].setRank(Int32.Parse(card.value.Rank.Value));
 
                 // Copy suit
-                Data_tier.Card_entity.Suit suit = (Data_tier.Card_entity.Suit)Enum.Parse(typeof(Data_tier.Card_entity.Suit), card.value.Suit.Value);
+                Card_entity.Suit suit = (Card_entity.Suit)Enum.Parse(typeof(Card_entity.Suit), card.value.Suit.Value);
                 table_entity.getDeck().Deck_entity.getCards()[card.i].setSuit(suit);
             }
 

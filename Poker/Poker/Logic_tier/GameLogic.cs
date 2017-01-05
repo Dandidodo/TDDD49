@@ -14,11 +14,11 @@ namespace Poker
     class GameLogic
     {
 
-        private Data_tier.Table_entity table_entity;
+        private Table_entity table_entity;
         private TexasHoldemRules rules;
         private Data_tier.Data data;
 
-        public GameLogic(Data_tier.Table_entity table_entity, TexasHoldemRules rules, Data_tier.Data data)
+        public GameLogic(Table_entity table_entity, TexasHoldemRules rules, Data_tier.Data data)
         {
             this.table_entity = table_entity;
             this.rules = rules;
@@ -43,7 +43,6 @@ namespace Poker
                 Console.WriteLine(e.Message);
                 moveResponse.MoveStatus = MoveResponse_entity.status.FAILED_TO_LOAD_GAME;
             }
-            // Invalid XML
             catch (XmlException e)
             {
                 Console.WriteLine(e.Message);
@@ -54,7 +53,16 @@ namespace Poker
                 Console.WriteLine(e.Message);
                 moveResponse.MoveStatus = MoveResponse_entity.status.FAILED_TO_LOAD_GAME;
             }
-            // Giltig XML men inte på väntat format (antar att man gör så här)
+            catch (FormatException e)
+            {
+                Console.WriteLine(e.Message);
+                moveResponse.MoveStatus = MoveResponse_entity.status.FAILED_TO_LOAD_GAME;
+            }
+            catch (OverflowException e)
+            {
+                Console.WriteLine(e.Message);
+                moveResponse.MoveStatus = MoveResponse_entity.status.FAILED_TO_LOAD_GAME;
+            }
             catch (WrongFormat e)
             {
                 Console.WriteLine(e.Message);
@@ -81,8 +89,8 @@ namespace Poker
         private int getCurrentPlayerIndex()
         {
             int playerIndex = 0;
-            Data_tier.Player_entity currentPlayer = table_entity.CurrentPlayer;
-            foreach (Data_tier.Player_entity p in table_entity.getPlayers())
+            Player_entity currentPlayer = table_entity.CurrentPlayer;
+            foreach (Player_entity p in table_entity.getPlayers())
             {
                 ++playerIndex;
                 if (p == currentPlayer)
@@ -96,11 +104,11 @@ namespace Poker
         }
 
         //Loops over all players to find correct index of winner
-        private void setFoldWinner(Data_tier.Player_entity currentPlayer)
+        private void setFoldWinner(Player_entity currentPlayer)
         {
             int playerIndex = 0;
             int winner = 0;
-            foreach (Data_tier.Player_entity p in table_entity.getPlayers())
+            foreach (Player_entity p in table_entity.getPlayers())
             {
                 ++playerIndex;
                 if (p == currentPlayer)
@@ -118,7 +126,7 @@ namespace Poker
 
             table_entity.RoundCounter = 0;
 
-            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 player.Active = true;
                 player.ActedThisRound = false;
@@ -129,8 +137,8 @@ namespace Poker
             changeBlindIndexes();
             insertBlinds();
 
-            table_entity.LastRaise = Data_tier.Table_entity.BIGBLIND;
-            table_entity.MinRaise = Data_tier.Table_entity.BIGBLIND * 2;
+            table_entity.LastRaise = Table_entity.BIGBLIND;
+            table_entity.MinRaise = Table_entity.BIGBLIND * 2;
 
             table_entity.CurrentPlayer = (table_entity.IndexBigBlind == table_entity.getPlayers().Count - 1) ? table_entity.getPlayers()[0] : table_entity.getPlayers()[table_entity.IndexBigBlind + 1];
 
@@ -150,38 +158,30 @@ namespace Poker
         public void insertBlinds()
         {
 
-            insertPlayerChips(table_entity.getPlayers()[table_entity.IndexBigBlind], Data_tier.Table_entity.BIGBLIND);
-            insertPlayerChips(table_entity.getPlayers()[table_entity.IndexSmallBlind], Data_tier.Table_entity.BIGBLIND / 2);
+            insertPlayerChips(table_entity.getPlayers()[table_entity.IndexBigBlind], Table_entity.BIGBLIND);
+            insertPlayerChips(table_entity.getPlayers()[table_entity.IndexSmallBlind], Table_entity.BIGBLIND / 2);
         }
 
         public void giveStartingChips()
         {
-            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
-                player.setChips(Data_tier.Table_entity.STARTINGCHIPS);
+                player.setChips(Table_entity.STARTINGCHIPS);
             }
         }
 
         public void dealCards()
         {
-            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 player.removeCards();
 
-                //Try to draw new card, deck could be empty
-                try
-                {
-                    player.receiveCard(table_entity.getDeck().draw());
-                    player.receiveCard(table_entity.getDeck().draw());
-                }
-                catch (IndexOutOfRangeException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+                player.receiveCard(table_entity.getDeck().draw());
+                player.receiveCard(table_entity.getDeck().draw());
             }
         }
 
-        public void insertPlayerChips(Data_tier.Player_entity player, int chips)
+        public void insertPlayerChips(Player_entity player, int chips)
         {
             if (player.getChips() < chips)
             {
@@ -204,7 +204,7 @@ namespace Poker
         public bool handIsFinished()
         {
             int activePlayers = 0;
-            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 if (player.Active == true)
                     activePlayers++;
@@ -286,7 +286,7 @@ namespace Poker
             table_entity.CurrentPlayer.setStakes(0);
 
             // Get next player
-            Data_tier.Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
+            Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
 
             // Remove player from active players
             table_entity.CurrentPlayer.Active = false;
@@ -306,7 +306,7 @@ namespace Poker
             
         }
 
-        public void giveWinnings(Data_tier.Player_entity player)
+        public void giveWinnings(Player_entity player)
         {
             player.setChips(player.getChips() + table_entity.getPot() + player.getStakes());
             player.setStakes(0);
@@ -322,7 +322,7 @@ namespace Poker
             // Check if player is out of chips
             // NextPlayer
             // Get next player
-            Data_tier.Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
+            Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
 
             table_entity.CurrentPlayer = nextPlayer;
 
@@ -333,7 +333,7 @@ namespace Poker
                 if (table_entity.RoundCounter == 4)
                 {
                     // Calculate who has the best hand
-                    Data_tier.Player_entity player = rules.findWinner(table_entity, table_entity.getPlayers());
+                    Player_entity player = rules.findWinner(table_entity, table_entity.getPlayers());
                     giveWinnings(player);
                     newHand();
                 }
@@ -350,23 +350,21 @@ namespace Poker
             // Insert chips
             insertPlayerChips(table_entity.CurrentPlayer, raise - table_entity.CurrentPlayer.getStakes());
 
-            // TODO: Check if player is out of chips
-
             // NextPlayer
-            Data_tier.Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
+            Player_entity nextPlayer = getNextActivePlayer(table_entity.CurrentPlayer);
 
             table_entity.CurrentPlayer = nextPlayer;
         }
         
         // Find the next player, we have to check a special case if the current active player is in the end of players, then we have to
         // return the first active player found.
-        public Data_tier.Player_entity getNextActivePlayer(Data_tier.Player_entity player)
+        public Player_entity getNextActivePlayer(Player_entity player)
         {
-            Data_tier.Player_entity nextPlayer = new Data_tier.Player_entity();
+            Player_entity nextPlayer = new Player_entity();
             bool playerFound = false;
             bool firstActivePlayerFound = false;
 
-            foreach (Data_tier.Player_entity p in table_entity.getPlayers())
+            foreach (Player_entity p in table_entity.getPlayers())
             {
                 if (p == player)
                 {
@@ -387,16 +385,16 @@ namespace Poker
 
         public void endRound()
         {
-            foreach (Data_tier.Player_entity player in table_entity.getPlayers())
+            foreach (Player_entity player in table_entity.getPlayers())
             {
                 player.ActedThisRound = false;
                 table_entity.setPot(table_entity.getPot() + player.getStakes());
                 player.setStakes(0);
             }
-            List<Data_tier.Player_entity> players = table_entity.getPlayers();
+            List<Player_entity> players = table_entity.getPlayers();
             table_entity.CurrentPlayer = table_entity.IndexSmallBlind != 0 ? getNextActivePlayer(players[table_entity.IndexSmallBlind - 1]) : getNextActivePlayer(players[players.Count() - 1]);
             table_entity.LastRaise = 0;
-            table_entity.MinRaise = Data_tier.Table_entity.BIGBLIND;
+            table_entity.MinRaise = Table_entity.BIGBLIND;
             table_entity.RoundCounter++;
         }
 

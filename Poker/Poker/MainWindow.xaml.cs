@@ -17,7 +17,7 @@ namespace Poker
     public partial class MainWindow : Window
     {
         private GameLogic gameLogic;
-        private Data_tier.Table_entity table_entity;
+        private Table_entity table_entity;
 
         public MainWindow()
         {
@@ -37,14 +37,14 @@ namespace Poker
 
             List<Card_entity> communityCards = new List<Card_entity>();
 
-            List<Data_tier.Card_entity> deck_of_cards = new List<Data_tier.Card_entity>();
-            var suits = Enum.GetValues(typeof(Data_tier.Card_entity.Suit));
+            List<Card_entity> deck_of_cards = new List<Card_entity>();
+            var suits = Enum.GetValues(typeof(Card_entity.Suit));
 
-            foreach (Data_tier.Card_entity.Suit suit in suits)
+            foreach (Card_entity.Suit suit in suits)
             {
                 for (int i = 2; i < 15; i++)
                 {
-                    deck_of_cards.Add(new Data_tier.Card_entity(suit, i));
+                    deck_of_cards.Add(new Card_entity(suit, i));
                 }
             }
 
@@ -61,7 +61,7 @@ namespace Poker
         private void highlightCurrentPlayerYellow()
         {
             // TODO: Use current player index instead of expensive method calls
-            Data_tier.Player_entity currentPlayer = table_entity.CurrentPlayer;
+            Player_entity currentPlayer = table_entity.CurrentPlayer;
 
             //Reset colors
             player1.Fill = new SolidColorBrush(Colors.White);
@@ -345,7 +345,7 @@ namespace Poker
 
         private int calcSliderValue()
         {
-            Data_tier.Player_entity currPlayer = table_entity.CurrentPlayer;
+            Player_entity currPlayer = table_entity.CurrentPlayer;
             double chips = currPlayer.getChips();
             double calcChips = ((slider.Value * 0.1) * chips); // Slider has bool value in range 0.0-10.0, hence * 0.1, then we multiply this with chips.
             int roundUp = ((int)Math.Round(calcChips / 10.0)) * 10; // Rounds it up to nearest 10.

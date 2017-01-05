@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Poker.Data_tier.Entities;
 
 namespace Poker.Logic_tier
 {
@@ -32,7 +33,7 @@ namespace Poker.Logic_tier
 
         // Rank each hand from 1-10 from best to worst, also rank the strenght of the hand,
         // say two players have a pair, which one is the strongest.
-        public Data_tier.Player_entity findWinner(Data_tier.Table_entity table, List<Data_tier.Player_entity> players)
+        public Player_entity findWinner(Table_entity table, List<Player_entity> players)
         {
             int bestHandVal = 0;
             int playerHandVal = 0;
@@ -40,18 +41,18 @@ namespace Poker.Logic_tier
             int playerIndex = 0;
             int bestPlayerIndex = 0;
 
-            Data_tier.Player_entity bestPlayer = new Data_tier.Player_entity();
-            foreach (Data_tier.Player_entity player in players)
+            Player_entity bestPlayer = new Player_entity();
+            foreach (Player_entity player in players)
             {
                 ++playerIndex;
 
                 if (player.Active)
                 {
-                    List<Data_tier.Card_entity> allCards = new List<Data_tier.Card_entity>(table.getCommunityCards());
+                    List<Card_entity> allCards = new List<Card_entity>(table.getCommunityCards());
                     allCards.Add(player.getCards()[0]);
                     allCards.Add(player.getCards()[1]);
 
-                    List<Data_tier.Card_entity> sortedCards = allCards.OrderBy(c => c.getRank()).ToList();
+                    List<Card_entity> sortedCards = allCards.OrderBy(c => c.getRank()).ToList();
                     sortedCards.Reverse();
 
                     playerHandVal = setPlayerHand(sortedCards);
@@ -95,7 +96,7 @@ namespace Poker.Logic_tier
         // Will check for same rank, flush and straight. And use 
         // these together to find straight flush, royal flush etc.
         // straightValue and flushValue will be set to 0 if none could be found.
-        private int setPlayerHand(List<Data_tier.Card_entity> sortedCards)
+        private int setPlayerHand(List<Card_entity> sortedCards)
         {
             int playerHandVal = checkSameRank(sortedCards);
             int flushValue = checkFlush(sortedCards);
@@ -134,7 +135,7 @@ namespace Poker.Logic_tier
             return playerHandVal;
         }
 
-        private Dictionary<int, int> countOccurencesOfRank(List<Data_tier.Card_entity> combinedCards)
+        private Dictionary<int, int> countOccurencesOfRank(List<Card_entity> combinedCards)
         {
             Dictionary<int, int> occourencesOfRank = new Dictionary<int, int>();
 
@@ -147,7 +148,7 @@ namespace Poker.Logic_tier
                 {
                     if (occurenceCounter > 1)
                     {
-                        Data_tier.Card_entity card = combinedCards[card_index - 1];
+                        Card_entity card = combinedCards[card_index - 1];
                         occourencesOfRank.Add(card.getRank(), occurenceCounter);
                         occurenceCounter = 1;
                     }
@@ -159,7 +160,7 @@ namespace Poker.Logic_tier
             }
             if (occurenceCounter > 1)
             {
-                Data_tier.Card_entity card = combinedCards[combinedCards.Count - 1];
+                Card_entity card = combinedCards[combinedCards.Count - 1];
                 occourencesOfRank.Add(card.getRank(), occurenceCounter);
                 occurenceCounter = 1;
             }
@@ -167,7 +168,7 @@ namespace Poker.Logic_tier
         }
 
         // Finds cards with same rank, and sets appropriate value.
-        private int checkSameRank(List<Data_tier.Card_entity> combinedCards)
+        private int checkSameRank(List<Card_entity> combinedCards)
         {
             Dictionary<int, int> occourencesOfRank = countOccurencesOfRank(combinedCards);
             int pair_val = 0;
@@ -211,21 +212,21 @@ namespace Poker.Logic_tier
             return FULLHOUSE + three_of_a_kind_val * 100 + pair_val;
         }
 
-        private int calculateFourOfAKindValue(List<Data_tier.Card_entity> combinedCards, int four_of_a_kind_val)
+        private int calculateFourOfAKindValue(List<Card_entity> combinedCards, int four_of_a_kind_val)
         {
             // Get the highest card that is not part of the four of a kind.
             int highestKicker = combinedCards[0].getRank() == four_of_a_kind_val ? combinedCards[4].getRank() : combinedCards[0].getRank();
             return FOUROFAKIND + four_of_a_kind_val * 100 + highestKicker;
         }
 
-        private int calculateThreeOfAKindValue(List<Data_tier.Card_entity> combinedCards, int three_of_a_kind_val)
+        private int calculateThreeOfAKindValue(List<Card_entity> combinedCards, int three_of_a_kind_val)
         {
             int highestKicker = combinedCards[0].getRank() == three_of_a_kind_val ? combinedCards[3].getRank() : combinedCards[0].getRank();
             int secondHighestKicker = combinedCards[1].getRank() == three_of_a_kind_val ? combinedCards[4].getRank() : combinedCards[1].getRank();
             return THREEOFAKIND + three_of_a_kind_val * 100 + highestKicker * 10 + secondHighestKicker;
         }
 
-        private int calculateTwoPairValuee(List<Data_tier.Card_entity> combinedCards, int pair_val, int pair2_val)
+        private int calculateTwoPairValuee(List<Card_entity> combinedCards, int pair_val, int pair2_val)
         {
             int highestKicker;
 
@@ -240,7 +241,7 @@ namespace Poker.Logic_tier
             return TWOPAIR + pair_val * 1000 + pair2_val * 100 + highestKicker;
         }
 
-        private int calculatePairValue(List<Data_tier.Card_entity> combinedCards, int pair_val)
+        private int calculatePairValue(List<Card_entity> combinedCards, int pair_val)
         {
             int highestKicker = combinedCards[0].getRank() == pair_val ? combinedCards[2].getRank() : combinedCards[0].getRank();
             int secondHighestKicker = combinedCards[1].getRank() == pair_val ? combinedCards[3].getRank() : combinedCards[1].getRank();
@@ -248,13 +249,13 @@ namespace Poker.Logic_tier
             return PAIR + pair_val * 1000 + highestKicker * 100 + secondHighestKicker * 10 + thirdHighestKicker;
         }
 
-        private int calculateHighHandValue(List<Data_tier.Card_entity> combinedCards)
+        private int calculateHighHandValue(List<Card_entity> combinedCards)
         {
             return combinedCards[0].getRank() + combinedCards[1].getRank() + combinedCards[2].getRank() + combinedCards[3].getRank() + combinedCards[4].getRank();
         }
 
         // Returns if any suit occures 5 times or more.
-        private int checkFlush(List<Data_tier.Card_entity> combinedCards)
+        private int checkFlush(List<Card_entity> combinedCards)
         {
             int heartCount = 0;
             int spadesCount = 0;
@@ -263,13 +264,13 @@ namespace Poker.Logic_tier
 
             for (int i = 0; i < combinedCards.Count; i++)
             {
-                Data_tier.Card_entity.Suit currentSuit = combinedCards[i].getSuit();
+                Card_entity.Suit currentSuit = combinedCards[i].getSuit();
 
-                if (currentSuit == Data_tier.Card_entity.Suit.Heart)
+                if (currentSuit == Card_entity.Suit.Heart)
                     heartCount++;
-                else if (currentSuit == Data_tier.Card_entity.Suit.Spade)
+                else if (currentSuit == Card_entity.Suit.Spade)
                     spadesCount++;
-                else if (currentSuit == Data_tier.Card_entity.Suit.Diamond)
+                else if (currentSuit == Card_entity.Suit.Diamond)
                     diamondCount++;
                 else
                     clubCount++;
@@ -284,7 +285,7 @@ namespace Poker.Logic_tier
                 return 0;
         }
 
-        private int checkStraight(List<Data_tier.Card_entity> combinedCards)
+        private int checkStraight(List<Card_entity> combinedCards)
         {
             int previousRank = combinedCards[0].getRank();
             int currentStreak = 0; // The cards rank has to increase five times, but we dont know where the straight starts.

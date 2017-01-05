@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Poker.Data_tier
+namespace Poker.Data_tier.Entities
 {
     class Table_entity
     {
@@ -24,8 +24,7 @@ namespace Poker.Data_tier
         public const int COMMUNITYCARDS = 5;
         public const int STARTINGCHIPS = 1000;
         public const int BIGBLIND = 20;
-
-        // Allt det här måste flyttas till table_entity
+        
         private int lastRaise;
         private int minRaise; // minimum allowed raise
         private int indexBigBlind;
@@ -33,7 +32,7 @@ namespace Poker.Data_tier
         private int roundCounter;
         private string foldWinner = "";
 
-        public Table_entity(List<Player_entity> players, List<Data_tier.Card_entity> communityCards, Deck deck)
+        public Table_entity(List<Player_entity> players, List<Card_entity> communityCards, Deck deck)
         {
             this.players = players;
 
@@ -53,7 +52,7 @@ namespace Poker.Data_tier
             roundCounter = 0;
         }
 
-        internal Data_tier.Player_entity CurrentPlayer
+        internal Player_entity CurrentPlayer
         {
             get
             {

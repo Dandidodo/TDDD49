@@ -8,18 +8,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1079" Width="1920">
     <Grid Margin="-15.668,-0.026,7.667,-30.975" Width="1920" Height="1060">
-        <Grid.LayoutTransform>
-            <ScaleTransform ScaleX="0.7" ScaleY="0.7" CenterX=".5" CenterY=".5" />
-        </Grid.LayoutTransform>
         <pc:SketchCircleUC Margin="368.555,211.548,369.718,212.033" Background="#FF077A0C" OpacityMask="Black"/>
         <Ellipse x:Name="player1" Fill="#FFF4F4F5" Height="80" Margin="913.001,0,926.999,125.337" Stroke="Black" VerticalAlignment="Bottom" StrokeThickness="5"/>
         <Rectangle x:Name="player1_card2_bg" Fill="#FFF4F4F5" HorizontalAlignment="Right" Margin="0,0,900.504,36.626" Stroke="Black" Width="53.333" Height="82.964" VerticalAlignment="Bottom" Panel.ZIndex="1" MouseEnter="mouseEnter" MouseLeave="mouseLeave"/>
         <Ellipse x:Name="player1_chips_bg" Fill="#FFFBE34D" Height="49.013" Margin="0,0,838.25,138.831" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="52"/>
         <TextBlock x:Name="player1_chips" Height="19.158" Margin="0,0,844.634,154.185" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" FontSize="16" HorizontalAlignment="Right" Width="37.809"/>
-        <Button x:Name="call_button" Click="call_button_Click" Content="Call" HorizontalAlignment="Left" Height="77.745" Margin="165.33,0,0,88.245" VerticalAlignment="Bottom" Width="114.76"/>
-        <Button x:Name="raise_button" Click="raise_button_Click" Content="Raise" HorizontalAlignment="Left" Height="77.745" Margin="296.924,0,0,88.245" VerticalAlignment="Bottom" Width="114.758"/>
-        <Button x:Name="fold_button" Click="fold_button_Click" Content="Fold" HorizontalAlignment="Left" Height="77.745" Margin="33.739,0,0,88.245" VerticalAlignment="Bottom" Width="114.76"/>
-        <Slider x:Name="slider" MouseMove="slider_mouse_Leave"  HorizontalAlignment="Left" Height="20.905" Margin="33.739,0,0,50.509" Style="{DynamicResource SimpleSlider}" VerticalAlignment="Bottom" Width="275.145"/>
+        <Button x:Name="call_button" Click="call_button_Click" Content="Call" HorizontalAlignment="Left" Height="77.745" Margin="165.33,0,0,120.282" VerticalAlignment="Bottom" Width="114.76"/>
+        <Button x:Name="raise_button" Click="raise_button_Click" Content="Raise" HorizontalAlignment="Left" Height="77.745" Margin="295.591,0,0,120.282" VerticalAlignment="Bottom" Width="114.758"/>
+        <Button x:Name="fold_button" Click="fold_button_Click" Content="Fold" HorizontalAlignment="Left" Height="77.746" Margin="33.739,0,0,119.418" VerticalAlignment="Bottom" Width="114.76"/>
+        <Slider x:Name="slider" MouseMove="slider_mouse_Leave"  HorizontalAlignment="Left" Height="20.905" Margin="33.739,0,0,87.842" Style="{DynamicResource SimpleSlider}" VerticalAlignment="Bottom" Width="275.145"/>
         <TextBlock x:Name="player1_card2_rank" HorizontalAlignment="Right" Height="18.374" Margin="0,0,914.801,89.836" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="20.016" FontSize="16" RenderTransformOrigin="-0.005,0.117"><Run Text="10"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="player1_card2_suit" HorizontalAlignment="Right" Height="21.093" Margin="0,0,914.801,50.509" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="17.111" FontSize="16" Text="H"/>
         <Ellipse x:Name="player1_stakes_bg" Fill="#FFB22020" Height="54.354" Margin="928.088,0,934.245,243.559" Stroke="Black" VerticalAlignment="Bottom"/>
@@ -88,14 +85,14 @@
         <TextBlock x:Name="cm_card5_suit" Height="21.093" Margin="0,440.843,796.639,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="H" HorizontalAlignment="Right" Width="17.111"/>
         <Ellipse x:Name="pot_bg" Fill="#FF081772" Margin="823.366,521.526,844.634,457.996" Stroke="Black"/>
         <TextBlock x:Name="pot" Height="38.658" Margin="887.926,0,914.801,483.735" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="29.333" Foreground="White" HorizontalAlignment="Center"><Run Text="0"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
-        <TextBlock x:Name="chipsValue" HorizontalAlignment="Left" Height="15.857" Margin="345.255,0,0,55.557" TextWrapping="Wrap" Text="Slider value" VerticalAlignment="Bottom" Width="121.408"/>
+        <TextBlock x:Name="chipsValue" HorizontalAlignment="Left" Height="15.857" Margin="345.255,0,0,92.89" TextWrapping="Wrap" Text="Slider value" VerticalAlignment="Bottom" Width="121.408"/>
         <TextBlock x:Name="infoText" Height="61.237" Margin="760.576,81.368,860.342,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" FontSize="18" HorizontalAlignment="Center"/>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Height="20.022" Margin="861.834,0,0,153.321" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="83.922"><Run Text="Player 1"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Height="20.022" Margin="210.465,0,0,335.871" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="83.922"><Run Text="Player "/><Run Text="2"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Height="20.022" Margin="368.555,144.657,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83.922"><Run Text="Player "/><Run Text="3"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="textBlock_Copy2" HorizontalAlignment="Right" Height="20.022" Margin="0,143.793,519.837,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83.922"><Run Text="Player "/><Run Text="4"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="textBlock_Copy3" HorizontalAlignment="Right" Height="20.022" Margin="0,0,397.99,329.663" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="83.922"><Run Text="Player "/><Run Text="5"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
-        <TextBlock x:Name="statusInformation" HorizontalAlignment="Left" Height="23.999" Margin="33.739,0,0,10" TextWrapping="Wrap" VerticalAlignment="Bottom"/>
+        <TextBlock x:Name="statusInformation" HorizontalAlignment="Left" Height="23.999" Margin="33.739,0,0,67.833" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="70"/>
 
     </Grid>
 </Window>
