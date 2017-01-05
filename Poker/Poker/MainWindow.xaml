@@ -95,6 +95,7 @@
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Height="20.022" Margin="368.555,144.657,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83.922"><Run Text="Player "/><Run Text="3"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="textBlock_Copy2" HorizontalAlignment="Right" Height="20.022" Margin="0,143.793,519.837,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83.922"><Run Text="Player "/><Run Text="4"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="textBlock_Copy3" HorizontalAlignment="Right" Height="20.022" Margin="0,0,397.99,329.663" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="83.922"><Run Text="Player "/><Run Text="5"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="statusInformation" HorizontalAlignment="Left" Height="23.999" Margin="33.739,0,0,10" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Bottom" Width="200.025"/>
 
     </Grid>
 </Window>

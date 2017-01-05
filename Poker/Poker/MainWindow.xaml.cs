@@ -183,12 +183,31 @@ namespace Poker
             }
         }
 
+        private void handleStatusInformation(MoveResponse_entity moveResponse)
+        {
+            if(moveResponse.MoveStatus == MoveResponse_entity.status.OK)
+            {
+                statusInformation.Text = "Game saved";
+            } else if (moveResponse.MoveStatus == MoveResponse_entity.status.FAILED_TO_SAVE)
+            {
+                statusInformation.Text = "Failed to save game";
+            } else if (moveResponse.MoveStatus == MoveResponse_entity.status.FAILED_TO_LOAD_GAME)
+            {
+                statusInformation.Text = "Failed to load saved game";
+            } else if (moveResponse.MoveStatus == MoveResponse_entity.status.GAME_FAILURE)
+            {
+                statusInformation.Text = "Game failure, please restart the game.";
+            }
+        }
+
         private void fold_button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 PlayerMove_entity dataIn = new PlayerMove_entity(0, PlayerMove_entity.action.fold);
-                gameLogic.playerAction(dataIn);
+                MoveResponse_entity moveResponse = gameLogic.playerAction(dataIn);
+                handleStatusInformation(moveResponse);
+
                 updateGraphics();                
             }
             catch (Exception error)
@@ -202,7 +221,8 @@ namespace Poker
             try
             {
                 PlayerMove_entity dataIn = new PlayerMove_entity(0, PlayerMove_entity.action.call);
-                gameLogic.playerAction(dataIn);
+                MoveResponse_entity moveResponse = gameLogic.playerAction(dataIn);
+                handleStatusInformation(moveResponse);
                 updateGraphics();
             }
             catch (Exception error)
@@ -217,7 +237,8 @@ namespace Poker
             {
                 int bet = calcSliderValue() + table_entity.CurrentPlayer.getStakes();
                 PlayerMove_entity dataIn = new PlayerMove_entity(bet, PlayerMove_entity.action.raise);
-                gameLogic.playerAction(dataIn);
+                MoveResponse_entity moveResponse = gameLogic.playerAction(dataIn);
+                handleStatusInformation(moveResponse);
 
                 displayStakes();
                 displayChips();

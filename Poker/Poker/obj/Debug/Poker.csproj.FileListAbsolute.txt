@@ -104,3 +104,7 @@ C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\System.Net.Http.Formatting.dll
 C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Pierre\Desktop\TDDD49\Poker\Poker\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Pierre\TDDD49\Poker\Poker\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Pierre\TDDD49\Poker\Poker\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Pierre\TDDD49\Poker\Poker\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Pierre\TDDD49\Poker\Poker\bin\Debug\System.Net.Http.Formatting.xml

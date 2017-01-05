@@ -26,25 +26,22 @@ namespace Poker
                         
             giveStartingChips();
             newHand();
-
-            // Spara all data här på något sätt (efter att allt från gameLogic förts över till data_entity)
-            // Så att det kan laddas in om inladdningen av datan går fel halvvägs in
+           
             
             try
             {
                 data.loadData(table_entity, this);
             }
-            // Filen saknas
+            // File missing
             catch (FileNotFoundException e)
             {
                 Console.WriteLine(e.Message);
             }
-            // Ogiltig XML
+            // Invalid XML
             catch (XmlException e)
             {
                 Console.WriteLine(e.Message);
             }
-            // Ta bort I suppose
             catch (XamlParseException e)
             {
                 Console.WriteLine(e.Message);
@@ -55,26 +52,6 @@ namespace Poker
                 Console.WriteLine(e.Message);
             }
         }
-        
-        public class WrongFormat: Exception
-        {
-            public WrongFormat()
-            {
-                // Nån smart check som kollar att det är rätt format bör vara här antar jag
-            }
-
-            public WrongFormat(string message)
-                : base(message)
-            {
-            }
-
-            public WrongFormat(string message, Exception inner)
-                : base(message, inner)
-            {
-            }
-        }
-
-
 
         //Winner wins by fold or best hand
         public string getWiningMessage()
@@ -239,30 +216,58 @@ namespace Poker
             }
         }
 
-        public MoveRespons_entity playerAction(Data_tier.Entities.PlayerMove_entity dataIn)
+        public MoveResponse_entity playerAction(Data_tier.Entities.PlayerMove_entity dataIn)
         {
             PlayerMove_entity.action playerAction = dataIn.PlayerAction;
 
-            if (playerAction == PlayerMove_entity.action.fold)
-                playerFold();
-            else if (playerAction == PlayerMove_entity.action.raise)
-                playerRaise(dataIn.Bet);
-            else
-                playerCall();
-
-            MoveRespons_entity response = new MoveRespons_entity();
+            MoveResponse_entity response = new MoveResponse_entity();
+            response.MoveStatus = MoveResponse_entity.status.OK; //Overwrite if failure occurs
 
             try
             {
+                if (playerAction == PlayerMove_entity.action.fold)
+                    playerFold();
+                else if (playerAction == PlayerMove_entity.action.raise)
+                    playerRaise(dataIn.Bet);
+                else
+                    playerCall();
+
                 data.saveData(table_entity);
             }
             catch (UnauthorizedAccessException e)
             {
                 Console.WriteLine(e.Message);
 
-                response.MoveStatus = MoveRespons_entity.status.FAILED_TO_SAVE;
+                response.MoveStatus = MoveResponse_entity.status.FAILED_TO_SAVE;
                 return response;
             }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+
+                response.MoveStatus = MoveResponse_entity.status.FAILED_TO_SAVE;
+                return response;
+            }
+            catch (XmlException e)
+            {
+                Console.WriteLine(e.Message);
+
+                response.MoveStatus = MoveResponse_entity.status.FAILED_TO_SAVE;
+                return response;
+            }
+            catch (EmptyDeckException e)
+            {
+                Console.WriteLine(e.Message);
+
+                response.MoveStatus = MoveResponse_entity.status.GAME_FAILURE;
+                return response;
+            }
+            finally
+            {
+                response.MoveStatus = MoveResponse_entity.status.GAME_FAILURE;
+            }
+
+            return response;
         }
         
         private void playerFold()

@@ -1,4 +1,6 @@
 ﻿using Poker.Data_tier;
+using Poker.Data_tier.Entities;
+using Poker.Logic_tier;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +48,13 @@ namespace Poker
         {
             Data_tier.Card_entity card = deck_entity.getCards()[0];
             deck_entity.getCards().RemoveAt(0);
+
+            if(deck_entity.getCards().Count() == 0)
+            {
+                throw new EmptyDeckException("Deck is empty");
+            }
             return card;
         }
     }
+
 }

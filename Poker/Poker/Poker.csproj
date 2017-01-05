@@ -66,7 +66,8 @@
     </ApplicationDefinition>
     <Compile Include="Data_tier\Data.cs" />
     <Compile Include="Data_tier\Entities\Card_entity.cs" />
-    <Compile Include="Data_tier\Entities\MoveRespons_entity.cs" />
+    <Compile Include="Logic_tier\CustomExceptions.cs" />
+    <Compile Include="Data_tier\Entities\MoveResponse_entity.cs" />
     <Compile Include="Data_tier\Entities\PlayerMove_entity.cs" />
     <Compile Include="Data_tier\Entities\Deck_entity.cs" />
     <Compile Include="Data_tier\Entities\Player_entity.cs" />
